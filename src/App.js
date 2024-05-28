@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import Events from "./components/Events";
 import About from "./components/About";
 import { Route, Routes } from "react-router-dom";
-import Members from "./components/Members";
+// import Members from "./components/Members";
 function App() {
     return (
         <>
@@ -18,7 +18,7 @@ function App() {
                 <Route path="/Admin" element={<Login />} />
                 <Route path="/Events/:EventName" element={<Events />} />
                 <Route path="/About" element={<About />} />
-                <Route path="/Members" element={<Members />} />
+                {/* <Route path="/Members" element={<Members />} /> */}
                 {/* <Route path="/Projects/:projectName" element={<Home />} /> */}
             </Routes>
             <Footer />

@@ -80,13 +80,9 @@ export default function Navbar() {
                                 About Us
                             </Link>
                             <Link
-                                to="/Members"
+                                to="/"
                                 className="items"
-                                id={
-                                    location.pathname === "/Members"
-                                        ? "click"
-                                        : ""
-                                }
+                                id={location.pathname === "/" ? "click" : ""}
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
