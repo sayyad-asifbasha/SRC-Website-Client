@@ -4,7 +4,7 @@ import carousalImg2 from "../assets/images/carousal-2.jpg";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 const images = [carousalImg1, carousalImg2,carousalImg1];
-export default function Carousal() {
+export default function Eventcarousal() {
 
     return (
         <div>
@@ -20,10 +20,10 @@ export default function Carousal() {
                     transitionTime={1000}
                     width="95%"
                 >
-                    {images.map((item) => {
+                    {images.map((item,i) => {
                         return (
-                            <div className="slide-holder"style={{background:`url(${item})`,backgroundRepeat:"no-repeat",backgroundSize:"cover",backgroundPosition:"50% 50%"}} >
-                                <div className="text-container">
+                            <div className="event-slide-holder"style={{background:`url(${item})`,backgroundRepeat:"no-repeat",backgroundSize:"cover",backgroundPosition:"50% 50%"}} key={i} >
+                                <div className="event-text-container">
                                     <h2>Bugatti Chiron Super Sport 300</h2>
                                     <p>
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -36,25 +36,6 @@ export default function Carousal() {
                         );
                     })}
                 </Carousel>
-                <div className="carousal-content">
-                    <h2>Welcome to SRC</h2>
-                    <h4>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Quasi reiciendis veritatis iure, aperiam vitae
-                        obcaecati consequatur at. Praesentium, asperiores
-                        facere ad repellendus voluptatibus consequatur nisi
-                        commodi a? Incidunt odio magnam veritatis! Tempora
-                        consectetur excepturi ipsam in! Nisi exercitationem,
-                        vel autem ratione iusto fugiat esse labore! Enim
-                        earum vel accusamus hic ipsum debitis aperiam
-                        praesentium eos necessitatibus facilis laudantium
-                        quasi odit, deserunt cumque quas quae exercitationem
-                        soluta, cum doloremque id! Dignissimos animi, id
-                        maxime autem provident quos consequatur rerum fugiat
-                        qui repellendus quam aliquid sequi dolores sed
-                        placeat ea distinctio quasi?......
-                    </h4>
-                </div>
             </center>
         </div>
     );

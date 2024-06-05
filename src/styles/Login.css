@@ -1,306 +1,306 @@
 #background {
-    position: fixed;
-    top: -75vh;
-    left: -75vh;
-    width: 100vh;
-    height: 100vh;
-    border-radius: 47% 53% 61% 39%/ 45% 51% 49% 55%;
-    background: #f2f2f2;
+  position: fixed;
+  top: -75vh;
+  left: -75vh;
+  width: 100vh;
+  height: 100vh;
+  border-radius: 47% 53% 61% 39%/ 45% 51% 49% 55%;
+  background: #f2f2f2;
 }
 
 #card {
-    width: fit-content;
-    border-radius: 24px;
-    background: #ffffff;
-    text-align: center;
-    box-shadow: var(--shadow-elevation-medium);
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 7rem;
-    align-items: center;
-    max-width: 100%;
-    max-height: 100%;
-    margin: auto;
-    margin-top: 5vh;
+  width: fit-content;
+  border-radius: 24px;
+  background: #ffffff;
+  text-align: center;
+  box-shadow: var(--shadow-elevation-medium);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 7rem;
+  align-items: center;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  margin-top: 5vh;
 }
 
 #background::after {
-    content: "";
-    position: inherit;
-    right: -75vh;
-    bottom: -75vh;
-    width: inherit;
-    height: inherit;
-    border-radius: inherit;
-    background: #f2f2f2;
+  content: "";
+  position: inherit;
+  right: -75vh;
+  bottom: -75vh;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  background: #f2f2f2;
 }
 
 #loginLogo {
-    width: 59px;
-    height: 59px;
-    border-radius: 50%;
+  width: 59px;
+  height: 59px;
+  border-radius: 50%;
 }
 
 #card > h2 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 0;
-    margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 0;
+  margin-top: 1rem;
 }
 
 #loginForm {
-    margin-top: 1.9rem;
-    display: flex;
-    flex-direction: column;
-    gap: 3vh;
-    padding: 3vh;
+  margin-top: 1.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  padding: 3vh;
 }
 
 .inputBox {
-    position: relative;
+  position: relative;
 }
 
 .inputBox > input {
-    position: relative;
-    width: 300px;
-    height: 40px;
-    border-radius: 20px;
-    margin: 10px;
-    border: 0;
-    padding: 3px 24px;
-    color: #222222;
-    background: #f2f2f2;
-    font-size: 16px;
-    outline: none;
-    transition: all 0.01s ease-in;
-    border: 0.1px solid rgb(182, 178, 178);
+  position: relative;
+  width: 300px;
+  height: 40px;
+  border-radius: 20px;
+  margin: 10px;
+  border: 0;
+  padding: 3px 24px;
+  color: #222222;
+  background: #f2f2f2;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.01s ease-in;
+  border: 0.1px solid rgb(182, 178, 178);
 }
 
 #loginForm > button {
-    border: none;
-    color: black;
-    background: #f2f2f2;
-    padding: 0.59rem;
-    font-size: 19px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 20px;
-    place-items: center;
-    text-align: center;
-    transition: 0.31s;
+  border: none;
+  color: black;
+  background: #f2f2f2;
+  padding: 0.59rem;
+  font-size: 19px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 20px;
+  place-items: center;
+  text-align: center;
+  transition: 0.31s;
 }
 #loginForm > button:hover {
-    color: white;
-    background-color: #022368;
+  color: white;
+  background-color: var(--hover-color);
 }
 
 #loginForm > a {
-    width: fit-content;
-    text-align: right;
-    color: rgb(0 0 0 / 60%);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: bold;
-    margin-left: 11.7rem;
+  width: fit-content;
+  text-align: right;
+  color: rgb(0 0 0 / 60%);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin-left: 11.7rem;
 }
 
 #loginForm > a:hover {
-    color: #022368;
+  color: var(--hover-color);
 }
 
 .labels {
-    position: absolute;
-    top: -14px;
-    left: 16%;
-    font-size: 15px;
-    transition: all 0.25s ease-in;
-    background: white;
+  position: absolute;
+  top: -14px;
+  left: 16%;
+  font-size: 15px;
+  transition: all 0.25s ease-in;
+  background: white;
 }
 
 .inputBox > :is(input:focus) {
-    border: 1px solid grey;
-    background: transparent;
+  border: 1px solid grey;
+  background: transparent;
 }
 
 .inputBox > :is(input:focus, .filled) ~ label {
-    color: #022468;
-    top: 1px;
-    font-size: 13px;
-    background: #ffffff;
-    z-index: 3;
-    letter-spacing: 1px;
+  color: #022468;
+  top: 1px;
+  font-size: 13px;
+  background: #ffffff;
+  z-index: 3;
+  letter-spacing: 1px;
 }
 .inputBox > :is(input:focus, .filled) ~ .inputBox > svg {
-    background-color: white;
+  background-color: white;
 }
 .inputBox > :is(input:focus) ~ .inputBox > svg {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 .inputBox > svg {
-    position: absolute;
-    height: 1.3rem;
-    right: 11%;
-    bottom: 32%;
-    background-color: #f2f2f2;
-    width: 1.3rem;
+  position: absolute;
+  height: 1.3rem;
+  right: 11%;
+  bottom: 32%;
+  background-color: #f2f2f2;
+  width: 1.3rem;
 }
 @media (min-width: 767px) and (max-width: 1023px) {
-    body {
-        padding: 0;
-    }
+  body {
+    padding: 0;
+  }
 
-    #background {
-        top: -60vh;
-        left: -65vh;
-    }
+  #background {
+    top: -60vh;
+    left: -65vh;
+  }
 
-    #background::after {
-        right: -60vh;
-        bottom: -65vh;
-    }
+  #background::after {
+    right: -60vh;
+    bottom: -65vh;
+  }
 
-    #card::before {
-        top: -900px;
-    }
+  #card::before {
+    top: -900px;
+  }
 
-    #card {
-        margin: 0;
-        width: 400px;
-    }
+  #card {
+    margin: 0;
+    width: 400px;
+  }
 
-    #loginLogo {
-        width: 80px;
-        height: 80px;
-    }
+  #loginLogo {
+    width: 80px;
+    height: 80px;
+  }
 
-    #card > h2 {
-        margin: -30px 0 52px;
-        font-size: 30px;
-        line-height: 0;
-        color: rgb(0 0 0 / 80%);
-    }
+  #card > h2 {
+    margin: -30px 0 52px;
+    font-size: 30px;
+    line-height: 0;
+    color: rgb(0 0 0 / 80%);
+  }
 
-    .inputBox > input {
-        height: 42px;
-        border-radius: 20px;
-    }
+  .inputBox > input {
+    height: 42px;
+    border-radius: 20px;
+  }
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-    #background {
-        display: none;
-    }
+  #background {
+    display: none;
+  }
 
-    #card {
-        width: max-content;
-        padding: 0.9rem 0rem 0.9rem 0rem;
-        margin-bottom: 15vh;
-    }
-    #loginForm {
-        padding: 1vh;
-    }
-    #loginLogo {
-        width: 50px;
-        height: 50px;
-    }
+  #card {
+    width: max-content;
+    padding: 0.9rem 0rem 0.9rem 0rem;
+    margin-bottom: 15vh;
+  }
+  #loginForm {
+    padding: 1vh;
+  }
+  #loginLogo {
+    width: 50px;
+    height: 50px;
+  }
 
-    #card > h2 {
-        font-size: 28px;
-        line-height: 0;
-        color: black;
-    }
+  #card > h2 {
+    font-size: 28px;
+    line-height: 0;
+    color: black;
+  }
 
-    #loginForm > button {
-        width: 300px;
-        margin-left: 0.9rem;
-    }
+  #loginForm > button {
+    width: 300px;
+    margin-left: 0.9rem;
+  }
 
-    .labels {
-        position: absolute;
-        top: -8px;
-        left: 12%;
-        font-size: 14px;
-        transition: all 0.1s ease-in;
-    }
+  .labels {
+    position: absolute;
+    top: -8px;
+    left: 12%;
+    font-size: 14px;
+    transition: all 0.1s ease-in;
+  }
 
-    .inputBox > :is(input:focus) ~ label {
-        top: 1px;
-        font-size: 15px;
-    }
-    .inputBox > svg {
-        height: 20px;
-        right: 7%;
-        bottom: 36%;
-    }
+  .inputBox > :is(input:focus) ~ label {
+    top: 1px;
+    font-size: 15px;
+  }
+  .inputBox > svg {
+    height: 20px;
+    right: 7%;
+    bottom: 36%;
+  }
 }
 
 @media only screen and (min-device-width: 480px) and (max-device-width: 768px) {
-    #background {
-        display: none;
-    }
+  #background {
+    display: none;
+  }
 
-    #card {
-        width: max-content;
-        padding: 0.9rem 0rem 0.9rem 0rem;
-        margin-bottom: 15vh;
-    }
-    #loginForm {
-        padding: 1vh;
-    }
-    #loginLogo {
-        width: 50px;
-        height: 50px;
-    }
+  #card {
+    width: max-content;
+    padding: 0.9rem 0rem 0.9rem 0rem;
+    margin-bottom: 15vh;
+  }
+  #loginForm {
+    padding: 1vh;
+  }
+  #loginLogo {
+    width: 50px;
+    height: 50px;
+  }
 
-    #card > h2 {
-        font-size: 28px;
-        line-height: 0;
-        color: black;
-    }
+  #card > h2 {
+    font-size: 28px;
+    line-height: 0;
+    color: black;
+  }
 
-    #loginForm > button {
-        width: 300px;
-        margin-left: 0.9rem;
-    }
+  #loginForm > button {
+    width: 300px;
+    margin-left: 0.9rem;
+  }
 
-    .labels {
-        position: absolute;
-        top: -8px;
-        left: 12%;
-        font-size: 14px;
-        transition: all 0.1s ease-in;
-    }
+  .labels {
+    position: absolute;
+    top: -8px;
+    left: 12%;
+    font-size: 14px;
+    transition: all 0.1s ease-in;
+  }
 
-    .inputBox > :is(input:focus) ~ label {
-        top: 1px;
-        font-size: 15px;
-    }
-    .inputBox > svg {
-        height: 20px;
-        right: 7%;
-        bottom: 36%;
-    }
+  .inputBox > :is(input:focus) ~ label {
+    top: 1px;
+    font-size: 15px;
+  }
+  .inputBox > svg {
+    height: 20px;
+    right: 7%;
+    bottom: 36%;
+  }
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-    /* Styles */
-    #background {
-        top: -60vh;
-        left: -91vh;
-    }
-    #card {
-        margin-bottom: 9rem;
-    }
-    #background::after {
-        right: -90vh;
-        bottom: -70vh;
-        width: inherit;
-        height: inherit;
-    }
-    #card > h2 {
-        margin-top: 3vh;
-    }
-    #loginForm {
-        margin-top: 0.1vh;
-    }
+  /* Styles */
+  #background {
+    top: -60vh;
+    left: -91vh;
+  }
+  #card {
+    margin-bottom: 9rem;
+  }
+  #background::after {
+    right: -90vh;
+    bottom: -70vh;
+    width: inherit;
+    height: inherit;
+  }
+  #card > h2 {
+    margin-top: 3vh;
+  }
+  #loginForm {
+    margin-top: 0.1vh;
+  }
 }
