@@ -1,0 +1,556 @@
+.events-landing-img {
+  margin: 20px;
+  height: 350px;
+  background: url(https://media.licdn.com/dms/image/D5622AQGceM_VhhQCsA/feedshare-shrink_800/0/1714501312259?e=2147483647&v=beta&t=0H1vrnMsXBt3N5ZTGBKeDM20B2HLx3rziE1gqZC5-pc)
+    no-repeat;
+  background-size: 100% 150%;
+  background-position: 0% 50%;
+  border-image: fill 0.01 linear-gradient(rgba(255, 255, 255, 0.067), black);
+  filter: grayscale(0);
+  display: grid;
+  place-items: center;
+}
+
+.events-landing-img > h1 {
+  color: white;
+  font-size: 50px;
+}
+
+.event-container:nth-child(even) {
+  display: flex;
+  margin: 2.1rem;
+  overflow: hidden;
+  flex-direction: row-reverse;
+}
+
+.event-container:nth-child(odd) {
+  display: flex;
+  margin: 2.1rem;
+  overflow: hidden;
+  flex-direction: row;
+}
+
+.event-container > .event-container-img > img {
+  width: 50vh;
+  height: 100%;
+  transition: 0.3s;
+}
+
+.event-container > .event-container-img > img:hover {
+  scale: 1.05;
+}
+
+.event-details {
+  display: flex;
+  gap: 1.9rem !important;
+  text-align: left;
+  justify-content: center;
+  background-color: aliceblue;
+  padding: 1.3rem;
+}
+.event-date {
+  text-align: center;
+}
+.event-date h1 {
+  font-size: 2.3rem;
+}
+.event-venue-desc {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 1rem;
+}
+
+.event-venue > h2 {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.event-venue > span {
+  margin-right: 20px;
+}
+
+.event-venue > span > svg {
+  height: 20px;
+  top: 4px;
+  position: relative;
+  margin-right: 5px;
+}
+
+.event-description .intro p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  font-size: 1.1rem;
+  line-height: 1.7rem;
+  margin-bottom: 1rem;
+  margin-top: 2.1rem;
+}
+
+.event-description > a > button,
+.events-venue div a button {
+  padding: 0.7rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  background: transparent;
+  transition: all 0.3s ease-in;
+  border-radius: 0.5rem;
+}
+.events-venue div a button {
+  background-color: #f2f2f2;
+}
+.event-description > a > button:hover,
+.events-venue div a button:hover {
+  background-color: var(--hover-color);
+  color: white;
+}
+
+.event-img {
+  margin: 20px;
+  height: 350px;
+  background: url(https://media.licdn.com/dms/image/D5622AQGceM_VhhQCsA/feedshare-shrink_800/0/1714501312259?e=2147483647&v=beta&t=0H1vrnMsXBt3N5ZTGBKeDM20B2HLx3rziE1gqZC5-pc)
+    no-repeat;
+  background-size: 100% 150%;
+  background-position: 0% 50%;
+  border-image: fill 0.01 linear-gradient(rgba(255, 255, 255, 0.067), black);
+  filter: grayscale(0);
+  display: grid;
+  place-items: center;
+}
+
+.event-img > h1 {
+  color: white;
+  font-size: 50px;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .event-container {
+    height: 300px;
+  }
+
+  .event-container > img {
+    width: 50%;
+  }
+
+  .event-date {
+    padding: 10px;
+  }
+
+  .event-date > h1 {
+    font-size: 40px;
+  }
+
+  .event-venue {
+    padding-left: 20px;
+  }
+
+  .event-venue > span {
+    margin-right: 20px;
+    font-size: 10px;
+  }
+
+  .event-venue > span {
+    margin-right: 20px;
+    display: block;
+    font-size: 18px;
+  }
+
+  .event-description .intro {
+    font-size: 17px;
+  }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1100px) {
+  .event-venue > span {
+    margin-right: 20px;
+    display: block;
+    font-size: 18px;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  /* Events page styling */
+  .events-landing-img {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: 0% 0%;
+  }
+
+  .event-container:nth-child(odd) {
+    flex-direction: column;
+    margin: 1rem;
+  }
+
+  .event-container:nth-child(even) {
+    flex-direction: column;
+    margin: 1rem;
+  }
+  .event-details {
+    flex-direction: column;
+  }
+  .event-venue-desc {
+    gap: 0rem;
+  }
+  .event-venue {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .event-venue > span {
+    font-size: 10px;
+  }
+
+  .event-venue > span {
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  .event-description {
+    text-align: left;
+  }
+  .event-description .intro {
+    font-size: 1rem;
+  }
+
+  .event-venue > span > svg {
+    height: 18px;
+    top: 2px;
+    position: relative;
+    margin-right: 5px;
+  }
+  /* Domain styling */
+
+  .prize-details {
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    gap: 1.5rem;
+  }
+  .prize-details > h2 {
+    text-align: left !important;
+  }
+
+  .prize-details > h2 > svg {
+    height: 1.3rem;
+  }
+
+  .prize-details > span > svg {
+    height: 20px;
+    position: relative;
+    top: 5px;
+    margin-left: 6px;
+  }
+
+  .events-venue > .sub-event {
+    text-align: left;
+    display: flex !important;
+    flex-direction: column;
+    gap: 1.5rem;
+    column-gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .events-venue > .sub-event > span {
+    font-size: 1rem;
+    color: gray;
+  }
+
+  .events-venue > .sub-event > div > span > svg {
+    height: 20px;
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+  }
+
+  .intro > p {
+    text-align: left;
+    line-height: 22px;
+    font-weight: 500;
+  }
+}
+
+/* Dynamic Event Styles*/
+
+.event-domain-container {
+  background-color: aliceblue;
+  padding: 1rem;
+  margin: 1.5rem;
+  border-radius: 0.7rem;
+}
+
+.event-details {
+  justify-content: space-evenly;
+  text-align: left;
+  gap: 0rem;
+}
+
+.single-event-desc {
+  padding: 2.5rem;
+}
+
+.single-event-desc > h2 {
+  color: white;
+  font-size: 1.5em;
+}
+
+.single-event-desc > p {
+  font-size: 1.1rem;
+  color: white;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prize-details {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 1.5rem;
+}
+.prize-details > h2 {
+  text-align: left;
+}
+
+.prize-details > h2 > svg {
+  height: 1.3rem;
+}
+
+.prize-details > span > svg {
+  height: 20px;
+  position: relative;
+  top: 5px;
+  margin-left: 6px;
+}
+
+.events-venue > .sub-event {
+  text-align: left;
+  display: grid;
+  column-gap: 0.5rem;
+  margin-top: 1rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.events-venue > .sub-event > span {
+  font-size: 1rem;
+  color: gray;
+}
+
+.events-venue > .sub-event > div > span > svg {
+  height: 20px;
+  position: relative;
+  top: 5px;
+  margin-right: 10px;
+}
+
+.intro > p {
+  text-align: left;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+/* @media only screen and (min-device-width: 200px) and (max-device-width: 768px) {
+  .event-img {
+    height: 250px;
+    background-size: cover;
+    background-position: 0% 0%;
+  }
+
+  .event-prize {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 0;
+  }
+
+  .events-venue > .sub-event > span > svg {
+    top: 3px;
+    height: 17x;
+    margin-right: 5px;
+  }
+
+  .events-venue > .sub-event {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    justify-content: center;
+    margin: 5px;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+  }
+
+  .events-venue > .sub-event > span {
+    font-size: 16px;
+  }
+
+  .prize-details {
+    border: none;
+    border-bottom: 0.5px solid rgba(94, 92, 92, 0.5);
+    padding-bottom: 10px;
+  }
+} */
+
+/* Event Carousal */
+
+.thumbs {
+  display: block;
+}
+
+.carousel .event-slide-holder {
+  width: 100%;
+  height: 450px;
+  transition: all 0.5s ease-in-out;
+  display: grid;
+  place-items: center;
+}
+
+.carousel .event-slide-holder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid white;
+  border-radius: inherit;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+}
+
+.carousel .event-slide-holder:hover {
+  border-image: fill 2 linear-gradient(rgba(255, 255, 255, 0.067), black);
+}
+
+.carousel .event-slide-holder:hover::after {
+  opacity: 1;
+  inset: 20px;
+}
+
+.event-text-container {
+  width: 80%;
+  position: absolute;
+  text-align: center;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+}
+
+.event-text-container > h2 {
+  color: white;
+  font-size: 25px;
+  text-align: center;
+  margin: 10px;
+  /* mix-blend-mode: darken; */
+}
+
+.event-text-container > p {
+  color: rgb(252, 250, 250);
+  font-size: 18px;
+  text-align-last: center;
+  font-weight: bolder;
+}
+
+.carousel .event-slide-holder:hover .event-text-container {
+  opacity: 1;
+}
+
+.control-dots {
+  z-index: 999 !important;
+}
+
+.control-arrow {
+  z-index: 999 !important;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .carousel .event-slide-holder {
+    width: 100%;
+    height: 400px;
+    transition: all 0.5s ease-in-out;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Domain details */
+
+  .event-domain-container {
+    background-color: aliceblue;
+    padding: 1rem;
+  }
+
+  .event-details {
+    justify-content: space-evenly;
+    text-align: left;
+    gap: 0rem;
+  }
+
+  .single-event-desc > h2 {
+    color: white;
+    font-size: 1.5rem;
+  }
+
+  .single-event-desc > p {
+    font-size: 1rem;
+    text-align: justify;
+    color: white;
+  }
+
+  .prize-details {
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 1.5rem;
+  }
+  .prize-details > h2 {
+    text-align: center;
+  }
+
+  .prize-details > h2 > svg {
+    height: 1.3rem;
+  }
+
+  .prize-details > span > svg {
+    height: 20px;
+    position: relative;
+    top: 5px;
+    margin-left: 6px;
+  }
+
+  /* .events-venue > .sub-event {
+    text-align: left;
+    display: grid;
+    column-gap: 0.5rem;
+    margin-top: 1rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  } */
+
+  /* .events-venue > .sub-event > span {
+    font-size: 1rem;
+    color: gray;
+  } */
+
+  /* .events-venue > .sub-event > div > span > svg {
+    height: 20px;
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+  } */
+
+  /* .intro > p {
+    text-align: left;
+    line-height: 22px;
+    font-weight: 500;
+  } */
+}
+.rank {
+  display: flex;
+  column-gap: 100px;
+  border-bottom: 1px solid grey;
+  padding: 15px;
+}
+
+.each-domain {
+  padding: 1.5rem;
+  padding-top: 0;
+}
