@@ -162,7 +162,7 @@ div .images {
 }
 
 .carousel .slide-holder:hover {
-  border-image: fill 0.01 linear-gradient(rgba(255, 255, 255, 0.067), black);
+  border-image: fill 0.01 linear-gradient(rgba(255, 255, 255, 0.068), black);
 }
 
 .carousel .slide-holder:hover::after {
