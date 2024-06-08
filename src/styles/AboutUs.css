@@ -1,0 +1,39 @@
+.Members-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns:repeat(auto-fit,minmax(345px,1fr));
+    column-gap: 20px;
+    row-gap: 50px;
+    padding:0px 20px;
+    place-items: center;
+    justify-content: center;
+    text-align: left;
+    margin: 40px 0px;
+}
+
+.Member-mail>span {
+    font-weight: lighter;
+    color: blue;
+    margin: 0px;
+    margin-top: 3px;
+}
+
+.Member-mail>span:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.Member-link>a>button>svg{
+    fill:grey;
+    height: 2rem;
+    margin: 0px;
+    transition: all 0.3s ease-in;
+}
+.Member-link>a:nth-child(1)>button>svg:hover
+{
+    fill: blue !important;
+}
+.Member-link>a:nth-child(2)>button>svg:hover
+{
+    fill: black !important;
+}
