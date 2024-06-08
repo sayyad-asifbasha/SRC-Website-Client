@@ -162,7 +162,7 @@ div .images {
 }
 
 .carousel .slide-holder:hover {
-  border-image: fill 0.01 linear-gradient(rgba(255, 255, 255, 0.068), black);
+  filter: grayscale(0.4) brightness(0.8);
 }
 
 .carousel .slide-holder:hover::after {
@@ -177,10 +177,11 @@ div .images {
 }
 
 .text-container > h2 {
-  color: white;
+  color: black;
   font-size: 25px;
   text-align: center;
   margin: 10px;
+  mix-blend-mode: darken;
 }
 
 .text-container > p {
