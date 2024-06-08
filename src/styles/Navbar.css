@@ -35,6 +35,10 @@
   display: flex;
 }
 
+#ClubLogo {
+  cursor: pointer;
+}
+
 .header {
   display: flex;
   align-items: center;

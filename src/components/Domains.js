@@ -1,74 +1,15 @@
-import React from "react";
-import app from "../assets/images/ui-ux.avif";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import DomainMembers from "./DomainMembers";
+// import Navbar from "./Navbar";
+import Carousal from "./Carousal";
+import LeaderBoard from "./LeaderBoard";
+
 export default function Domains() {
-  const move = (e) => {
-    const container = document.getElementById("scroll");
-    container.scrollLeft += e.deltaY;
-  };
-  const enableScroll = () => {
-    document.removeEventListener("wheel", preventDefault, false);
-  };
-  const disableScroll = () => {
-    document.addEventListener("wheel", preventDefault, {
-      passive: false,
-    });
-  };
-  const preventDefault = (e) => {
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    e.returnValue = false;
-  };
-  const domains = [
-    { domainId: 1, domainName: "Webdev" },
-    { domainId: 2, domainName: "Appdev" },
-    { domainId: 2, domainName: "Cyber-security" },
-    { domainId: 4, domainName: "AI" },
-    { domainId: 5, domainName: "Competitive" },
-    { domainId: 6, domainName: "DSA" },
-    { domainId: 7, domainName: "UI-UX" },
-  ];
   return (
     <>
-      <div className="domain-container">
-        <div
-          className="domain-head"
-          style={{
-            fontSize: "1.9rem",
-            textAlign: "center",
-            color: "white",
-            fontWeight: "bold",
-          }}
-        >
-          Domains
-        </div>
-        <div
-          id="scroll"
-          onWheel={move}
-          onMouseEnter={disableScroll}
-          onMouseLeave={enableScroll}
-        >
-          {domains.map((ele) => {
-            return (
-              <Link
-                to={`Domain/${ele.domainName}`}
-                onClick={enableScroll}
-                key={ele.domainId}
-              >
-                <div className="domain-element">
-                  <div className="domain-image">
-                    <img src={app} alt="Domain" />
-                  </div>
-                  <div className="domain-name">
-                    <h3>{ele.domainName}</h3>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      {<Carousal />}
+      {<LeaderBoard />}
+      {<DomainMembers />}
     </>
   );
 }

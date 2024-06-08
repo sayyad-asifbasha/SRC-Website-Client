@@ -1,5 +1,5 @@
 import Carousal from "./Carousal";
-import Domain from "./Domains";
+import DomainsList from "./DomainsList";
 import Contact from "./Contact";
 import EventsDemo from "./EventsDemo";
 import News from "./News";
@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <div className="App">
         <Carousal />
-        <Domain />
+        <DomainsList />
         <EventsDemo />
         <News />
         <Contact />
