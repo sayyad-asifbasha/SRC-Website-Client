@@ -10,17 +10,23 @@ import About from "./components/About";
 import Projects from "./components/Projects";
 import { Route, Routes } from "react-router-dom";
 import Domains from "./components/Domains";
+import UserProfile from "./components/UserProfile";
+import UserDetails from "./components/UserDetails";
+import Signin from "./components/SignIn";
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Admin" element={<Login />} />
+        <Route path="/Signin" element={<Signin />} />
+        <Route path="/Details" element={<UserDetails />} />
+        <Route path="/Login" element={<Login />} />
         <Route path="/Projects" element={<Projects />} />
         <Route path="/Events" element={<Events />} />
         <Route path="/Events/:eventName" element={<EventInfo />} />
         <Route path="/Domain/:domainName" element={<Domains />} />
+        <Route path="/Profile/:username" element={<UserProfile />} />
         <Route path="/About" element={<About />} />
       </Routes>
       <Footer />

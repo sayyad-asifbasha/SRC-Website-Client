@@ -4,7 +4,7 @@ import carousalImg2 from "../assets/images/carousal-2.jpg";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useDispatch, useSelector } from "react-redux";
-import { changeIntroText } from "../features/carousel/carousel";
+import { changeIntroText, changeDomainId } from "../features/carousel/carousel";
 import { useLocation, useParams } from "react-router-dom";
 const images = [carousalImg1, carousalImg2, carousalImg1];
 export default function Carousal() {
@@ -40,6 +40,7 @@ export default function Carousal() {
       domains.map((text) => {
         if (text.domainName === domainName) {
           dispatch(changeIntroText(text.domainIntro));
+          dispatch(changeDomainId(text.domainId));
         }
       });
     }
@@ -85,7 +86,7 @@ export default function Carousal() {
         </Carousel>
         <div className="carousal-content">
           <h2>Welcome to SRC</h2>
-          <h4>{useSelector((state) => state.introText)}</h4>
+          <h4>{useSelector((state) => state.introText.introText)}</h4>
         </div>
       </center>
     </div>

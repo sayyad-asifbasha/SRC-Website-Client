@@ -10,7 +10,7 @@
 
 #card {
   width: fit-content;
-  border-radius: 24px;
+  border-radius: 0.5rem;
   background: #ffffff;
   text-align: center;
   box-shadow: var(--shadow-elevation-medium);
@@ -54,6 +54,7 @@
   flex-direction: column;
   gap: 3vh;
   padding: 3vh;
+  align-items: center;
 }
 
 .inputBox {
@@ -64,7 +65,7 @@
   position: relative;
   width: 300px;
   height: 40px;
-  border-radius: 20px;
+  border-radius: 0.3rem;
   margin: 10px;
   border: 0;
   padding: 3px 24px;
@@ -76,19 +77,29 @@
   border: 0.1px solid rgb(182, 178, 178);
 }
 
+.detailsBox > input {
+  width: 500px;
+}
+
 #loginForm > button {
   border: none;
   color: black;
   background: #f2f2f2;
   padding: 0.59rem;
+  width: 300px;
   font-size: 19px;
   font-weight: 500;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 0.3rem;
   place-items: center;
   text-align: center;
   transition: 0.31s;
 }
+
+.details-submit {
+  width: 500px !important;
+}
+
 #loginForm > button:hover {
   color: white;
   background-color: var(--hover-color);
@@ -101,20 +112,32 @@
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: bold;
-  margin-left: 11.7rem;
+  margin-left: 10.5rem;
+}
+
+#sign-account {
+  margin-left: 8rem !important;
+}
+
+#already-account {
+  margin-left: 7rem !important;
 }
 
 #loginForm > a:hover {
   color: var(--hover-color);
 }
 
+.detailsBox .labels {
+  left: 8%;
+}
+
 .labels {
   position: absolute;
-  top: -14px;
-  left: 16%;
-  font-size: 15px;
-  transition: all 0.25s ease-in;
-  background: white;
+  top: 19px;
+  left: 14.5%;
+  font-size: 1rem;
+  z-index: 0;
+  transition: all 0.15s ease-in;
 }
 
 .inputBox > :is(input:focus) {
@@ -123,19 +146,32 @@
 }
 
 .inputBox > :is(input:focus, .filled) ~ label {
-  color: #022468;
-  top: 1px;
+  color: #000000;
+  top: -3px;
+  font-size: 1.01rem !important;
+  left: 9%;
   font-size: 13px;
   background: #ffffff;
-  z-index: 3;
-  letter-spacing: 1px;
+  z-index: 0;
+}
+
+.inputBox > :is(input:focus, .filled) ~ .detail-label {
+  color: #000000;
+  top: -3px;
+  font-size: 1.01rem !important;
+  left: 6%;
+  font-size: 13px;
+  background: #ffffff;
+  z-index: 0;
 }
 .inputBox > :is(input:focus, .filled) ~ .inputBox > svg {
   background-color: white;
 }
+
 .inputBox > :is(input:focus) ~ .inputBox > svg {
   background-color: #f2f2f2;
 }
+
 .inputBox > svg {
   position: absolute;
   height: 1.3rem;
@@ -144,6 +180,7 @@
   background-color: #f2f2f2;
   width: 1.3rem;
 }
+
 @media (min-width: 767px) and (max-width: 1023px) {
   body {
     padding: 0;
@@ -180,9 +217,16 @@
     color: rgb(0 0 0 / 80%);
   }
 
+  .detailsBox > input {
+    width: 40vw !important;
+  }
+  .details-submit {
+    width: 40vw !important;
+  }
+
   .inputBox > input {
     height: 42px;
-    border-radius: 20px;
+    border-radius: 0.3rem;
   }
 }
 
@@ -193,12 +237,15 @@
 
   #card {
     width: max-content;
+    margin: 20px;
     padding: 0.9rem 0rem 0.9rem 0rem;
     margin-bottom: 15vh;
   }
+
   #loginForm {
     padding: 1vh;
   }
+
   #loginLogo {
     width: 50px;
     height: 50px;
@@ -217,16 +264,22 @@
 
   .labels {
     position: absolute;
-    top: -8px;
-    left: 12%;
-    font-size: 14px;
     transition: all 0.1s ease-in;
+  }
+
+  .detailsBox > input {
+    width: 80vw !important;
+  }
+
+  .details-submit {
+    width: 80vw !important;
   }
 
   .inputBox > :is(input:focus) ~ label {
     top: 1px;
     font-size: 15px;
   }
+
   .inputBox > svg {
     height: 20px;
     right: 7%;
@@ -244,9 +297,11 @@
     padding: 0.9rem 0rem 0.9rem 0rem;
     margin-bottom: 15vh;
   }
+
   #loginForm {
     padding: 1vh;
   }
+
   #loginLogo {
     width: 50px;
     height: 50px;
@@ -271,10 +326,15 @@
     transition: all 0.1s ease-in;
   }
 
+  .detailsBox > input {
+    width: 80vw !important;
+  }
+
   .inputBox > :is(input:focus) ~ label {
     top: 1px;
     font-size: 15px;
   }
+
   .inputBox > svg {
     height: 20px;
     right: 7%;
@@ -288,18 +348,22 @@
     top: -60vh;
     left: -91vh;
   }
+
   #card {
     margin-bottom: 9rem;
   }
+
   #background::after {
     right: -90vh;
     bottom: -70vh;
     width: inherit;
     height: inherit;
   }
+
   #card > h2 {
     margin-top: 3vh;
   }
+
   #loginForm {
     margin-top: 0.1vh;
   }

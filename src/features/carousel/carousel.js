@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   introText: "",
+  domainId: "",
 };
 
 export const carousel = createSlice({
@@ -13,8 +14,14 @@ export const carousel = createSlice({
       };
       state.introText = text.introText;
     },
+    changeDomainId: (state, action) => {
+      const dmoain = {
+        domainId: action.payload,
+      };
+      state.domainId = dmoain.domainId;
+    },
   },
 });
 
-export const { changeIntroText } = carousel.actions;
+export const { changeIntroText, changeDomainId } = carousel.actions;
 export default carousel.reducer;

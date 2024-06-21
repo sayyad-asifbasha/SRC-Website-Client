@@ -137,6 +137,14 @@
   padding: 0.3rem;
 }
 
+#searchField[type="search"]::-webkit-search-cancel-button {
+  fill: white !important;
+  height: 10rem !important;
+  width: 1.2em;
+  height: 1.2em;
+  cursor: pointer;
+}
+
 #searchField::placeholder {
   color: white;
   text-align: left;
@@ -170,14 +178,12 @@
   .header {
     flex-direction: column;
     align-items: flex-start;
-    padding: 0.1rem;
-    padding-right: 1.5rem;
+    padding: 0rem;
+    padding-right: 0.5rem;
   }
 
   .Logos img {
     margin-left: 20px;
-    /* height: var(--logo-size-mobile);
-        width: var(--logo-size-mobile); */
   }
 
   .burger {
