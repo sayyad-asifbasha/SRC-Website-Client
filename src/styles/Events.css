@@ -31,7 +31,7 @@
 }
 
 .event-container > .event-container-img > img {
-  width: 50vh;
+  max-width: 50vh;
   height: 100%;
   transition: 0.3s;
 }
@@ -83,7 +83,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.7rem;
   margin-bottom: 1rem;
   margin-top: 2.1rem;

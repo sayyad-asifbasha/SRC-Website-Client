@@ -115,8 +115,7 @@ export default function EventsDemo() {
         <div className="events-demo">
           <div className="events">
             <div className="event-head">Upcoming Events</div>
-            {/* One Event element */}
-            {/* eslint-disable-next-line */}
+
             {eventsList.map((element) => {
               if (element.isUpcoming) {
                 return (

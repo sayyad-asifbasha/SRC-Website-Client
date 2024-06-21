@@ -21,6 +21,7 @@
 .news-element .news-img img {
   height: fit-content;
   width: 35vh;
+  max-width: 35vh;
 }
 
 .sub-news-container {
@@ -32,6 +33,7 @@
 .news-element {
   display: inline-block;
   width: 100%;
+
   border-radius: 0.5rem;
   text-align: left;
   height: fit-content;
@@ -74,6 +76,7 @@
   font-weight: bold;
 }
 .show-more {
+  width: 50%;
   font-size: 1rem;
   font-weight: 500;
   padding: 0.5rem;
@@ -113,7 +116,6 @@
   margin-bottom: 1rem;
 }
 #news-info-dom {
-  /* overflow: scroll; */
   line-height: 1.9rem;
   font-weight: 500;
 }
@@ -138,13 +140,16 @@
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   /* News styles */
+  #modal {
+    width: 50vh !important;
+  }
   .news-element .news-img img {
     height: fit-content;
-    width: 100%;
+    max-width: 100%;
     overflow: hidden;
   }
   #show #modal {
-    width: 95% !important;
+    width: 100% !important;
   }
   .sub-news-container {
     overflow: scroll;
@@ -154,7 +159,7 @@
 @media only screen and (min-device-width: 480px) and (max-device-width: 768px) {
   .news-element .news-img img {
     height: fit-content;
-    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -162,6 +167,6 @@
   /* Styles */
   .news-element .news-img img {
     height: fit-content;
-    width: 100%;
+    max-width: 100%;
   }
 }

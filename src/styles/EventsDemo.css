@@ -9,7 +9,6 @@
 }
 
 .events {
-  /* background-color: white; */ /* checking for alternative */
   color: black;
   border-radius: 0.5rem;
   padding: 1rem;
@@ -17,8 +16,7 @@
 }
 
 .event-image img {
-  height: 30vh;
-  width: 100%;
+  max-width: 100%;
 }
 
 .event-head {
@@ -62,8 +60,6 @@
 }
 .event-element {
   display: flex;
-  height: fit-content;
-  align-items: center;
   border-radius: 0.5rem;
   margin-bottom: 0.9rem;
   margin-top: 1.5rem;
@@ -73,7 +69,7 @@
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  width: 45vh;
+  max-width: 30vh;
 }
 
 .time-venue {
@@ -119,7 +115,7 @@
   .event-info {
     gap: 1rem;
     flex-direction: column;
-    width: 100%;
+    max-width: 100%;
   }
   .event-desc {
     white-space: nowrap;
