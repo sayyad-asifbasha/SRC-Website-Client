@@ -75,14 +75,10 @@ export default function Domaindetails(props) {
                   </div>
                 );
               })}
-              {/* {console.log(props.domain.subEvents)} */}
             </div>
             <div className="intro">
               <p>{props.domain.description}</p>
             </div>
-            {/* <Link to="/">
-              <button>Register Now</button>
-            </Link> */}
           </div>
         </div>
       </div>

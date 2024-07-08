@@ -64,6 +64,39 @@ export default function Projects() {
       Github: "Github link",
       liveDemo: "Live demo",
     },
+    {
+      domain: "1",
+      name: "Nagarjuna",
+      date: "01-01-2025",
+      projectImg: "image link",
+      tags: ["React", "JS", "PHP", "MongoDB", "MongoDB"],
+      projectDescription:
+        "Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes.   Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned,to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves,garlic tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.",
+      Github: "Github link",
+      liveDemo: "Live demo",
+    },
+    {
+      domain: "1",
+      name: "Nagarjuna",
+      date: "01-01-2025",
+      projectImg: "image link",
+      tags: ["React", "JS", "PHP", "MongoDB", "MongoDB"],
+      projectDescription:
+        "Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes.   Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned,to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves,garlic tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.",
+      Github: "Github link",
+      liveDemo: "Live demo",
+    },
+    {
+      domain: "1",
+      name: "Nagarjuna",
+      date: "01-01-2025",
+      projectImg: "image link",
+      tags: ["React", "JS", "PHP", "MongoDB", "MongoDB"],
+      projectDescription:
+        "Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes.   Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned,to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves,garlic tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.",
+      Github: "Github link",
+      liveDemo: "Live demo",
+    },
   ];
 
   const badgeStyle = {
@@ -80,7 +113,12 @@ export default function Projects() {
 
   return (
     <>
-      <div style={{ display: "flex" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+        }}
+      >
         {projects.map((e) => {
           return (
             <div style={{ margin: "2rem" }}>
@@ -111,12 +149,12 @@ export default function Projects() {
                     <div>
                       <ul
                         style={{
-                          display: "flex",
+                          display: "gird",
                           marginLeft: "1rem",
-                          gap: "1.7rem",
+                          gap: "3.42rem",
                           listStyle: "none",
-                          display: "grid",
-                          gridTemplateColumns: "auto auto auto",
+                          gridTemplateColumns:
+                            "repeat(auto-fit, minmax(35px, 1fr))",
                         }}
                       >
                         {e.tags.map((ele) => {
@@ -146,7 +184,7 @@ export default function Projects() {
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                   <CardContent>
-                    <Typography paragraph>Method:</Typography>
+                    <Typography paragraph>Description:</Typography>
 
                     <Typography paragraph>{e.projectDescription}</Typography>
                   </CardContent>

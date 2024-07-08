@@ -74,7 +74,6 @@ export default function Testimonals() {
         {testimonals &&
           testimonals.map((item, index) => {
             if (index === itemLength) {
-              console.log(item);
               return (
                 <>
                   <p className="testimonial">{item.text}</p>
@@ -90,13 +89,6 @@ export default function Testimonals() {
             }
             return null;
           })}
-
-        {/* <div className="progress-dots" id="progress-dots">
-          {initTestimonials &&
-            initTestimonials.map((item) => {
-              return <div className="progress-dot"></div>;
-            })}
-        </div> */}
       </div>
     </>
   );

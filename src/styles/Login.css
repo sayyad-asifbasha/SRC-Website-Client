@@ -1,3 +1,24 @@
+/* Domain-edit-btn */
+
+#domain-edit-btn {
+  background-color: #f2f2f2;
+  color: black;
+  transition: 0.5s all;
+}
+#domain-edit-btn:hover {
+  background-color: var(--hover-color);
+  color: white;
+}
+.contact-head > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.contact-head > div > button {
+  background-color: #f2f2f2;
+  width: fit-content !important;
+  font-size: 1rem !important;
+}
 #background {
   position: fixed;
   top: -75vh;
@@ -61,7 +82,8 @@
   position: relative;
 }
 
-.inputBox > input {
+.inputBox > input,
+.inputBox > textarea {
   position: relative;
   width: 300px;
   height: 40px;
@@ -81,7 +103,9 @@
   width: 500px;
 }
 
-#loginForm > button {
+#loginForm > button,
+.skip-or-submit button,
+.contact-head > div > button {
   border: none;
   color: black;
   background: #f2f2f2;
@@ -95,12 +119,23 @@
   text-align: center;
   transition: 0.31s;
 }
-
+.skip-or-submit {
+  display: flex;
+  gap: 3rem;
+}
+#skip-details {
+  width: 210px !important;
+}
+#submit-details {
+  width: 210px !important;
+}
 .details-submit {
   width: 500px !important;
 }
 
-#loginForm > button:hover {
+#loginForm > button:hover,
+.skip-or-submit button:hover,
+.contact-head > div > button:hover {
   color: white;
   background-color: var(--hover-color);
 }
@@ -233,6 +268,9 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   #background {
     display: none;
+  }
+  .skip-or-submit {
+    flex-direction: column;
   }
 
   #card {

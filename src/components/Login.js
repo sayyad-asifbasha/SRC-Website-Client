@@ -1,11 +1,46 @@
 import { React, useState } from "react";
 import "../styles/Login.css";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, Navigate, json, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { Flip, ToastContainer, toast } from "react-toastify";
+import { Flip, ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { loggedStatus, token } from "../features/user/user";
+import { useDispatch } from "react-redux";
+
 export default function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const showToast = (msg, msgType) => {
+    if (msgType === "warn") {
+      toast.warn(msg, {
+        position: "top-right",
+        autoClose: 3000,
+        height: 100,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+    if (msgType === "success") {
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 3000,
+        height: 100,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+  };
   const [passwordIcon, setPasswordIcon] = useState("keyboard");
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -13,11 +48,13 @@ export default function Login() {
     },
     validate: (values) => {
       let errors = {};
+
       if (values.email !== "") {
         document.getElementById("email").classList.add("filled");
       } else {
         document.getElementById("email").classList.remove("filled");
       }
+
       if (values.password !== "") {
         document.getElementById("password").classList.add("filled");
         setPasswordIcon("eye");
@@ -25,26 +62,54 @@ export default function Login() {
         document.getElementById("password").classList.remove("filled");
         setPasswordIcon("keyboard");
       }
-      if (!/^(r{1,2}[012]\d{5})@rguktrkv\.ac\.in$/i.test(values.email)) {
+
+      if (
+        !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          values.email
+        )
+      ) {
         errors.email = "Please enter the valid email";
+      }
+
+      if (values.password === "") {
+        errors.password = "Password requried";
       }
       return errors;
     },
   });
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formik.errors);
     if (formik.errors.email) {
-      // toast.warn("Please enter the valid email", {
-      //   position: "top-right",
-      //   autoClose: 4000,
-      //   height: 100,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: false,
-      //   draggable: true,
-      //   theme: "light",
-      //   transition: Flip,
-      // });
+      document.getElementById("email").style.border = "0.1px solid red";
+
+      showToast(formik.errors.email, "warn");
+    }
+    if (formik.errors.password) {
+      document.getElementById("password").style.border = "0.1px solid red";
+
+      showToast(formik.errors.password, "warn");
+    }
+    if (!formik.errors.email && !formik.errors.password) {
+      document.getElementById("email").style.border =
+        "0.1px solid rgb(182, 178, 178)";
+      document.getElementById("password").style.border =
+        "0.1px solid rgb(182, 178, 178)";
+      loginUser(formik.values);
+    }
+  };
+  const loginUser = async (e) => {
+    console.log(e);
+    const logInApi = process.env.REACT_APP_LOGIN_IN;
+    try {
+      const res = await axios.post(logInApi, e);
+      console.log(res.data.data);
+      dispatch(loggedStatus({ logged: true, token: res.data.data }));
+      localStorage.setItem("authToken", JSON.stringify(res.data.data));
+      navigate("/");
+    } catch (e) {
+      console.log(e.response);
+      showToast(e.response.data.err.message, "warn");
     }
   };
   const handlePassword = () => {
@@ -123,7 +188,7 @@ export default function Login() {
               </svg>
             )}
           </div>
-          <Link to="/">Forgot password?</Link>
+          <Link to="/forgot/password">Forgot password?</Link>
           <button type="submit" className="password">
             Login
           </button>

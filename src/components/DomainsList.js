@@ -1,19 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import app from "../assets/images/ui-ux.avif";
 import { Link } from "react-router-dom";
+import axios from "axios";
 export default function Domains() {
+  // init of variables
+
+  // useEffect for getting domains
+
+  useEffect(() => {
+    getDomains();
+  }, []);
+
+  // Init of variables
+
+  const getDomainsApi = process.env.REACT_APP_GET_DOMAINS;
+
+  // init React hooks
+
+  const [domains, setDomains] = useState(null);
+
+  // Function for getting domains
+
+  const getDomains = async () => {
+    try {
+      const res = await axios.get(getDomainsApi);
+      console.log(res.data);
+      setDomains(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // Functions for cursor movement
+
+  // Function for horizantal scroll of domains
+
   const move = (e) => {
     const container = document.getElementById("scroll");
     container.scrollLeft += e.deltaY;
   };
+
+  // Function for enable scroll on background
+
   const enableScroll = () => {
     document.removeEventListener("wheel", preventDefault, false);
   };
+
+  // Function for disable scroll
+
   const disableScroll = () => {
     document.addEventListener("wheel", preventDefault, {
       passive: false,
     });
   };
+
+  // Function for prevent default
+
   const preventDefault = (e) => {
     if (e.preventDefault) {
       e.preventDefault();
@@ -21,23 +63,6 @@ export default function Domains() {
     e.returnValue = false;
   };
 
-  const domains = [
-    { domainId: 1, domainName: "Webdev", domainIntro: "Webdev intro text" },
-    { domainId: 2, domainName: "Appdev", domainIntro: "Appdev intro text" },
-    {
-      domainId: 2,
-      domainName: "Cyber-Security",
-      domainIntro: "Cyber-Security intro text",
-    },
-    { domainId: 4, domainName: "AI", domainIntro: "AI intro text" },
-    {
-      domainId: 5,
-      domainName: "Competitive",
-      domainIntro: "Competitive intro text",
-    },
-    { domainId: 6, domainName: "DSA", domainIntro: "DSA intro text" },
-    { domainId: 7, domainName: "UI-UX", domainIntro: "UI-UX intro text" },
-  ];
   return (
     <>
       <div className="domain-container">
@@ -58,24 +83,25 @@ export default function Domains() {
           onMouseEnter={disableScroll}
           onMouseLeave={enableScroll}
         >
-          {domains.map((ele) => {
-            return (
-              <Link
-                to={`Domain/${ele.domainName}`}
-                onClick={enableScroll}
-                key={ele.domainId}
-              >
-                <div className="domain-element">
-                  <div className="domain-image">
-                    <img src={app} alt="Domain" />
+          {domains &&
+            domains.map((ele) => {
+              return (
+                <Link
+                  to={`Domain/${ele.name}`}
+                  onClick={enableScroll}
+                  key={ele._id}
+                >
+                  <div className="domain-element">
+                    <div className="domain-image">
+                      <img src={app} alt="Domain" />
+                    </div>
+                    <div className="domain-name">
+                      <h3>{ele.name}</h3>
+                    </div>
                   </div>
-                  <div className="domain-name">
-                    <h3>{ele.domainName}</h3>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+                </Link>
+              );
+            })}
         </div>
       </div>
     </>
