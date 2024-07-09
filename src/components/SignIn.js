@@ -1,36 +1,61 @@
 import { React, useState } from "react";
 import "../styles/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { ToastContainer, toast, Bounce, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 export default function Signin() {
-  toast.error("yes", {
-    position: "top-right",
-    autoClose: 3000,
-    height: 100,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "light",
-    transition: Bounce,
-  });
-
+  const navigate = useNavigate();
+  const showToast = (msg, msgType) => {
+    if (msgType === "warn") {
+      toast.warn(msg, {
+        position: "top-right",
+        autoClose: 3000,
+        height: 100,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+    if (msgType === "success") {
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 3000,
+        height: 100,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+  };
   const [passwordIcon, setPasswordIcon] = useState("keyboard");
   const formik = useFormik({
     initialValues: {
+      name: "",
       email: "",
       password: "",
     },
     validate: (values) => {
       let errors = {};
+      if (values.name !== "") {
+        document.getElementById("username").classList.add("filled");
+      } else {
+        document.getElementById("username").classList.remove("filled");
+      }
       if (values.email !== "") {
         document.getElementById("email").classList.add("filled");
       } else {
         document.getElementById("email").classList.remove("filled");
       }
+
       if (values.password !== "") {
         document.getElementById("password").classList.add("filled");
         setPasswordIcon("eye");
@@ -38,19 +63,19 @@ export default function Signin() {
         document.getElementById("password").classList.remove("filled");
         setPasswordIcon("keyboard");
       }
-
-      if (!/^(r{1,2}[012]\d{5})@rguktrkv\.ac\.in$/i.test(values.email)) {
+      if (values.nane === "") {
+        errors.username = "Username required";
+      }
+      if (
+        !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          values.email
+        )
+      ) {
         errors.email = "Please enter the valid email";
-      } else {
-        document.getElementById("email").style.border =
-          "0.1px solid rgb(182, 178, 178)";
       }
 
       if (values.password.length < 6) {
         errors.password = "Password should atleast 6 length";
-      } else {
-        document.getElementById("password").style.border =
-          "0.1px solid rgb(182, 178, 178)";
       }
       return errors;
     },
@@ -58,14 +83,52 @@ export default function Signin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (formik.errors.username) {
+      document.getElementById("username").style.border = "0.1px solid red";
 
+      showToast(formik.errors.name, "warn");
+    }
     if (formik.errors.email) {
-      document.getElementById("email").style.border = "1px solid red";
+      document.getElementById("email").style.border = "0.1px solid red";
+
+      showToast(formik.errors.email, "warn");
     }
     if (formik.errors.password) {
-      document.getElementById("password").style.border = "1px solid red";
+      document.getElementById("password").style.border = "0.1px solid red";
+
+      showToast(formik.errors.password, "warn");
+    }
+    if (
+      !formik.errors.email &&
+      !formik.errors.password &&
+      !formik.errors.name
+    ) {
+      document.getElementById("username").style.border =
+        "0.1px solid rgb(182, 178, 178)";
+      document.getElementById("email").style.border =
+        "0.1px solid rgb(182, 178, 178)";
+      document.getElementById("password").style.border =
+        "0.1px solid rgb(182, 178, 178)";
+      signInUser(formik.values);
     }
   };
+
+  const signInUser = async (e) => {
+    console.log(e);
+    const signApi = process.env.REACT_APP_SIGN_UP;
+    try {
+      const res = await axios.post(signApi, e);
+      showToast(res.data.data.message, "success");
+      console.log(res.data.data.message);
+      setTimeout(() => {
+        navigate("/Login");
+      }, 3000);
+    } catch (e) {
+      console.log(e.response.data);
+      showToast(e.response.data.err, "warn");
+    }
+  };
+
   const handlePassword = () => {
     if (passwordIcon === "eyeOn") {
       setPasswordIcon("eyeOff");
@@ -85,6 +148,18 @@ export default function Signin() {
         />
         <h2>Signin</h2>
         <form id="loginForm" onSubmit={handleSubmit}>
+          <div className="inputBox">
+            <input
+              type="text"
+              name="name"
+              id="username"
+              required
+              onChange={formik.handleChange}
+            />
+            <label htmlFor="name" className="labels">
+              Username
+            </label>
+          </div>
           <div className="inputBox">
             <input
               type="email"
@@ -144,6 +219,7 @@ export default function Signin() {
               </svg>
             )}
           </div>
+
           <button type="submit" className="password">
             Signin
           </button>

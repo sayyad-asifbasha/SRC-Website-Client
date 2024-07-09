@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   logged: false,
+  authToken: "",
 };
 
 export const logged = createSlice({
@@ -12,7 +13,8 @@ export const logged = createSlice({
       const status = {
         logStatus: action.payload,
       };
-      state.logged = status.logStatus;
+      state.logged = status.logStatus.logged;
+      state.authToken = status.logStatus.token;
     },
   },
 });

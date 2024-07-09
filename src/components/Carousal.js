@@ -6,45 +6,54 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import { changeIntroText, changeDomainId } from "../features/carousel/carousel";
 import { useLocation, useParams } from "react-router-dom";
+import axios from "axios";
+import DomainInfo from "./DomainMembers";
 const images = [carousalImg1, carousalImg2, carousalImg1];
 export default function Carousal() {
-  const domains = [
-    { domainId: 1, domainName: "Webdev", domainIntro: "Webdev intro text" },
-    { domainId: 2, domainName: "Appdev", domainIntro: "Appdev intro text" },
-    {
-      domainId: 2,
-      domainName: "Cyber-Security",
-      domainIntro: "Cyber-Security intro text",
-    },
-    { domainId: 4, domainName: "AI", domainIntro: "AI intro text" },
-    {
-      domainId: 5,
-      domainName: "Competitive",
-      domainIntro: "Competitive intro text",
-    },
-    { domainId: 6, domainName: "DSA", domainIntro: "DSA intro text" },
-    { domainId: 7, domainName: "UI-UX", domainIntro: "UI-UX intro text" },
-  ];
+  // init of variables
+  // init React hooks
 
   const dispatch = useDispatch();
+  const [domain, setDomain] = useState(null);
+  const location = useLocation();
+  const { domainName } = useParams();
+
+  // useEffect for getting domains
+
+  useEffect(() => {
+    getDomains();
+  }, [location]);
+
+  // Init of variables
+
+  const getDomainsApi = process.env.REACT_APP_GET_DOMAINS;
+
+  // Function for getting domains
+
+  const getDomains = async () => {
+    try {
+      const res = await axios.get(getDomainsApi);
+      setDomain(res.data);
+      if (location.pathname === "/") {
+        dispatch(changeIntroText(introText));
+        dispatch(changeDomainId(""));
+      } else {
+        console.log(domainName);
+        res.data.map((item) => {
+          if (item.name === domainName) {
+            dispatch(changeDomainId(item._id));
+            dispatch(changeIntroText(item.description));
+          }
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const introText =
     "Main Page Component, sit amet consectetur adipisicing elit. Quasi reiciendis veritatis iure, aperiam vitae obcaecati consequatur at.Praesentium, asperiores facere ad repellendus voluptatibusconsequatur nisi commodi a? Incidunt odio magnam veritatis! Temporaconsectetur excepturi ipsam in! Nisi exercitationem, vel autemratione iusto fugiat esse labore! Enim earum vel accusamus hic ipsumdebitis aperiam praesentium eos necessitatibus facilis laudantiumquasi odit, deserunt cumque quas quae exercitationem soluta, cumdoloremque id! Dignissimos animi, id maxime autem provident quo consequatur rerum fugiat qui repellendus quam aliquid sequi doloressed placeat ea distinctio quasi?......";
 
-  const location = useLocation();
-  const { domainName } = useParams();
-  console.log(location);
-  useEffect(() => {
-    if (location.pathname === "/") {
-      dispatch(changeIntroText(introText));
-    } else {
-      domains.map((text) => {
-        if (text.domainName === domainName) {
-          dispatch(changeIntroText(text.domainIntro));
-          dispatch(changeDomainId(text.domainId));
-        }
-      });
-    }
-  }, [location]);
   return (
     <div>
       <center>

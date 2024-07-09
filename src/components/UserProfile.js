@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/Userprofile.css";
 import userImg from "../assets/images/contact-image-3.jpg";
@@ -23,13 +23,28 @@ export default function UserProfile() {
       }
     });
   };
-  const upload = () => {};
+
+  const fileInputRef = useRef(null);
+  const [image, setImage] = useState(null);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const upload = () => {
+    fileInputRef.current.click();
+  };
   return (
     <>
       <div className="profile-container">
         <div className="profile-name-img">
           <div>
-            <img src={userImg} alt="" srcset="" />
+            <img src={image} alt="" srcset="" />
             <div className="edit-profile-pic" onClick={upload}>
               <svg
                 viewBox="0 0 24 24"
@@ -55,6 +70,13 @@ export default function UserProfile() {
           <div className="profile-details-container">
             <div className="profile-details">
               <div className="edit-icon">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
                 <button onClick={edit} id="edit-btn">
                   {icon ? (
                     <svg
