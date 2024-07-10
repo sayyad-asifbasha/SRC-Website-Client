@@ -109,7 +109,7 @@ export default function DomainForm() {
         console.log(res.data);
       });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 
@@ -162,10 +162,10 @@ export default function DomainForm() {
     e.preventDefault();
     console.log(carItem);
     if (
-      nameRef.current.value != "" &&
-      nameRef.current.value != "undefined" &&
-      descRef.current.value != "" &&
-      descRef.current.value != "undefined"
+      nameRef.current.value !== "" &&
+      nameRef.current.value !== "undefined" &&
+      descRef.current.value !== "" &&
+      descRef.current.value !== "undefined"
     ) {
       try {
         const update = {
