@@ -18,6 +18,7 @@ import DomainForm from "./DomainForm";
 import "../../styles/AdminPage.css";
 import { Domain } from "@mui/icons-material";
 import NewsForm from "./NewsForm";
+import UpcomingEventForm from "./UpcomingEventForm";
 
 export default function NestedList() {
   const [expanded, setExpanded] = React.useState("panel1");
@@ -346,6 +347,8 @@ export default function NestedList() {
             <DomainForm />
           ) : selectedIndex === 3 ? (
             <NewsForm />
+          ) :selectedIndex === 6 ? (
+            <UpcomingEventForm />
           ) : (
             <NewsForm />
           )}

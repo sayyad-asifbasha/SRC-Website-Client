@@ -91,8 +91,8 @@ export default function CarouselForm() {
   };
   const handleEditSubmission = (e) => {
     e.preventDefault();
-    console.log(editCarousalFormik.values);
     setEdit(!edit);
+    handleClose();
     toast.success("Updated Carousel Successfully", {
       position: "top-right",
       autoClose: 3000,
@@ -104,6 +104,7 @@ export default function CarouselForm() {
       theme: "dark",
       transition: Bounce,
     });
+
   }
 
   const handleAddCarousel = (e) => {
@@ -203,7 +204,7 @@ export default function CarouselForm() {
                       />
 
                       <textarea
-                        style={{ resize: "none" }}
+                        style={!edit?{border:"0.5px solid black",backgroundColor:"white",resize: "none"}:{resize: "none"}}
                         placeholder="Description about Domain"
                         name="description"
                         id="carousel-desc"
@@ -215,7 +216,6 @@ export default function CarouselForm() {
                         defaultValue={carItem && carItem.description}
                         onChange={editCarousalFormik.handleChange}
                         // eslint-disable-next-line
-                        style={!edit?{border:"0.5px solid black",backgroundColor:"white"}:{}}
                       ></textarea>
                       {edit ? (
                         <button className="submit-message" onClick={handleEdit}>

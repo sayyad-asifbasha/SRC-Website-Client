@@ -61,6 +61,15 @@
   font-size: 1.2rem;
   padding: 0.7rem;
 }
+
+/* upcoming event form */
+.upcoming-event-date,.upcoming-event-time
+{
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+  gap: 2rem;
+  /* grid-template-rows: repeat(minmax(200px,1fr)) !important; */
+}
 @media only screen and (min-device-width: 200px) and (max-device-width: 580px) {
   .admin-container {
     display: flex;
