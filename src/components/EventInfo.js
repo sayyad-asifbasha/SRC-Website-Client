@@ -9,7 +9,7 @@ export default function Eventname() {
   const event = {
     id: 1,
     name: "Aadhya",
-    isUpcoming: false,
+    isUpcoming: true,
     domains: [
       {
         id: 1,
