@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import app from "../assets/images/ui-ux.avif";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -11,6 +11,31 @@ export default function Domains() {
     getDomains();
   }, []);
 
+  useEffect(() => {
+    const container = containerRef.current;
+
+    const disableScroll = () => {
+      document.addEventListener("wheel", preventDefault, { passive: false });
+    };
+
+    const enableScroll = () => {
+      document.removeEventListener("wheel", preventDefault, false);
+    };
+
+    if (container) {
+      container.addEventListener("mouseenter", disableScroll);
+      container.addEventListener("mouseleave", enableScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener("mouseenter", disableScroll);
+        container.removeEventListener("mouseleave", enableScroll);
+      }
+      enableScroll();
+    };
+  }, []);
+
   // Init of variables
 
   const getDomainsApi = process.env.REACT_APP_GET_DOMAINS;
@@ -18,6 +43,7 @@ export default function Domains() {
   // init React hooks
 
   const [domains, setDomains] = useState(null);
+  const containerRef = useRef(null);
 
   // Function for getting domains
 
@@ -35,9 +61,10 @@ export default function Domains() {
 
   // Function for horizantal scroll of domains
 
-  const move = (e) => {
-    const container = document.getElementById("scroll");
-    container.scrollLeft += e.deltaY;
+  const move = (event) => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += event.deltaY;
+    }
   };
 
   // Function for enable scroll on background
@@ -57,9 +84,7 @@ export default function Domains() {
   // Function for prevent default
 
   const preventDefault = (e) => {
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
+    e.preventDefault();
     e.returnValue = false;
   };
 
@@ -80,8 +105,9 @@ export default function Domains() {
         <div
           id="scroll"
           onWheel={move}
-          onMouseEnter={disableScroll}
-          onMouseLeave={enableScroll}
+          ref={containerRef}
+          // onMouseEnter={disableScroll}
+          // onMouseLeave={enableScroll}
         >
           {domains &&
             domains.map((ele) => {

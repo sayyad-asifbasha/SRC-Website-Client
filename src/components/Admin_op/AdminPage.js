@@ -16,9 +16,10 @@ import Button from "@mui/material/Button";
 import CarouselForm from "./CarouselForm";
 import DomainForm from "./DomainForm";
 import "../../styles/AdminPage.css";
-import { Domain } from "@mui/icons-material";
 import NewsForm from "./NewsForm";
-
+import Officials from "./Officials";
+import ContactForum from "./ContactForum";
+import CompletedEventForum from "./CompletedEventForum";
 export default function NestedList() {
   const [expanded, setExpanded] = React.useState("panel1");
 
@@ -90,12 +91,7 @@ export default function NestedList() {
                 >
                   <ListItemText primary="Domain" />
                 </ListItemButton>
-                {/* <ListItemButton
-                  selected={selectedIndex === 3}
-                  onClick={(event) => handleListItemClick(event, 3)}
-                >
-                  <ListItemText primary="Events" />
-                </ListItemButton> */}
+
                 <ListItemButton
                   selected={selectedIndex === 3}
                   onClick={(event) => handleListItemClick(event, 3)}
@@ -179,6 +175,29 @@ export default function NestedList() {
                   onClick={(event) => handleListItemClick(event, 7)}
                 >
                   <ListItemText primary="Projects" />
+                </ListItemButton>
+              </AccordionDetails>
+            </Accordion>
+
+            {/* Contact Forum Dashboard */}
+            <Accordion
+              expanded={expanded === "panel5"}
+              onChange={handleChange("panel5")}
+              sx={{ borderRadius: "0.5rem !important", marginBottom: "4px" }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <ListItemText primary="Contact Forum" />
+              </AccordionSummary>
+              <AccordionDetails>
+                <ListItemButton
+                  selected={selectedIndex === 9}
+                  onClick={(event) => handleListItemClick(event, 9)}
+                >
+                  <ListItemText primary="Contact Forum" />
                 </ListItemButton>
               </AccordionDetails>
             </Accordion>
@@ -341,8 +360,14 @@ export default function NestedList() {
             <DomainForm />
           ) : selectedIndex === 3 ? (
             <NewsForm />
+          ) : selectedIndex === 4 ? (
+            <Officials />
+          ) : selectedIndex === 5 ? (
+            <CompletedEventForum />
+          ) : selectedIndex === 9 ? (
+            <ContactForum />
           ) : (
-            <NewsForm />
+            <ContactForum />
           )}
         </div>
       </div>

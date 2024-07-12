@@ -151,7 +151,7 @@ export default function Projects() {
                         style={{
                           display: "gird",
                           marginLeft: "1rem",
-                          gap: "3.42rem",
+                          gap: "3rem",
                           listStyle: "none",
                           gridTemplateColumns:
                             "repeat(auto-fit, minmax(35px, 1fr))",
