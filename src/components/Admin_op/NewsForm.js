@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -14,76 +14,140 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import CardContent from "@mui/material/CardContent";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
+import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import "../../styles/Login.css";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setSnackBar } from "../../features/snackbar/snackbar";
 export default function NewsForm() {
-  const news = {
-    0: {
-      title: "Web Development",
-      content:
-        "this this this this this this this this thisthis this thisthis this this this this this this this this this this this this this thisthis this thisthis this this this this this this this this this this this this this thisthis this thisthis this this this this this this this this this this this this this thisthis this thisthis this this this this this",
-      date: "12-12-2025",
-      link: "link for this image",
-      URL: "URL of image",
-    },
-    1: {
-      title: "Web Development",
-      content:
-        "this this this this this this this this thisthis this thisthis this this this this this",
-      date: "12-12-2025",
-      link: "link for this image",
-      URL: "URL of image",
-    },
-    2: {
-      title: "Web Development",
-      content:
-        "this this this this this this this this thisthis this thisthis this this this this this",
-      date: "12-12-2025",
-      link: "link for this image",
-      URL: "URL of image",
-    },
-    3: {
-      title: "Web Development",
-      content:
-        "this this this this this this this this thisthis this thisthis this this this this this",
-      date: "12-12-2025",
-      link: "link for this image",
-      URL: "URL of image",
-    },
-    4: {
-      title: "Web Development",
-      content:
-        "this this this this this this this this thisthis this thisthis this this this this this",
-      date: "12-12-2025",
-      link: "link for this image",
-      URL: "URL of image",
-    },
-    5: {
-      title: "Web Development",
-      content:
-        "this this this this this this this this thisthis this thisthis this this this this this",
-      date: "12-12-2025",
-      link: "link for this image",
-      URL: "URL of image",
-    },
-  };
+  // env variables
 
   // Calling getNews from API
 
-  // useEffect(() => {
-  //   getNews();
-  // });
-
-  // variables init
-
-  // const getNewsApi = process.env.
+  const getNewsApi = process.env.REACT_APP_GET_NEWS;
+  const createNewsApi = process.env.REACT_APP_CREATE_NEWS;
+  const deleteNewsApi = process.env.REACT_APP_DELETE_NEWS;
+  const updateNewsApi = process.env.REACT_APP_UPDATE_NEWS;
+  useEffect(() => {
+    getNews();
+  }, []);
 
   // React hooks
 
+  const [news, setNews] = useState([]);
+  const titleRef = useRef();
+  const linkRef = useRef();
+  const contentRef = useRef();
+  const dispatch = useDispatch();
+
+  // Function to clear input fields
+
+  const clearInputFields = () => {
+    titleRef.current.value = "";
+    linkRef.current.value = "";
+    contentRef.current.value = "";
+  };
+
+  // Function for setting input fields
+
+  const setInputFields = () => {
+    console.log(carItem.link);
+    titleRef.current.value = carItem.title;
+    linkRef.current.value =
+      typeof carItem.image === "undefined" ? "" : carItem.image;
+    contentRef.current.value = carItem.content;
+  };
+
   //  Function for CRUD operations
 
-  // const getNews = (e) => {};
+  const getNews = async (e) => {
+    try {
+      const res = await axios.get(getNewsApi);
+      setNews(res.data);
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const upodateNews = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.put(updateNewsApi + carItem._id, formik.values, {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      });
+      clearInputFields();
+      getNews();
+      dispatch(
+        setSnackBar({ message: "Update News successfully", variant: "success" })
+      );
+    } catch (e) {
+      console.log(e);
+      dispatch(
+        setSnackBar({ message: "Error in updating news", variant: "error" })
+      );
+    }
+  };
+
+  const createNews = async (e) => {
+    console.log(
+      `Bearer ${localStorage
+        .getItem("authToken")
+        .slice(1, localStorage.getItem("authToken").length - 1)}`
+    );
+    try {
+      const res = await axios.post(createNewsApi, e, {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      });
+      clearInputFields();
+      getNews();
+      dispatch(
+        setSnackBar({ message: "News Added Successsfully", variant: "success" })
+      );
+    } catch (e) {
+      console.log(e);
+      dispatch(
+        setSnackBar({ message: "Error adding in news", variant: "error" })
+      );
+    }
+  };
+
+  const deleteNews = async (e) => {
+    try {
+      const res = await axios.delete(deleteNewsApi + e._id, {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      });
+      dispatch(
+        setSnackBar({
+          message: "Deleted Domain successfully",
+          variant: "success",
+        })
+      );
+      getNews();
+    } catch (e) {
+      console.log(e);
+      dispatch(
+        setSnackBar({
+          message: "Erorr in deleting domain",
+          variant: "error",
+        })
+      );
+    }
+  };
 
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -95,6 +159,7 @@ export default function NewsForm() {
   };
   const [open, setOpen] = React.useState(false);
   const [carItem, setCarItem] = React.useState({});
+  const [update, setUpdate] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -111,35 +176,37 @@ export default function NewsForm() {
 
   const formik = useFormik({
     initialValues: {
-      newsHeading: "",
-      newsLinks: "",
-      newsDescription: "",
+      title: "",
+      image: "",
+      content: "",
     },
     validate: (values) => {
       let errors = {};
 
-      if (values.newsHeading === "") {
-        errors.newsHeading = "Heading Required";
+      if (values.title === "") {
+        errors.title = "Heading Required";
       }
 
-      if (values.newsDescription === "") {
-        errors.newsDescription = "Description requried";
+      if (values.content === "") {
+        errors.content = "Description requried";
       }
       return errors;
     },
   });
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formik.errors.newsHeading) {
+    if (formik.errors.title) {
       document.getElementById("news-heading").style.border = "1px solid red";
     }
-    if (formik.errors.newsDescription) {
+    if (formik.errors.content) {
       document.getElementById("news-desc").style.border = "1px solid red";
     }
-    if (!formik.errors.newsHeading && !formik.errors.newsDescription) {
+    if (!formik.errors.title && !formik.errors.content) {
       document.getElementById("news-heading").style.border = "none";
       document.getElementById("news-desc").style.border = "none";
+      createNews(formik.values);
     }
   };
   const ellipsisStyle = {
@@ -187,6 +254,17 @@ export default function NewsForm() {
                   </div>
                   <div style={{ marginTop: "1rem" }}>{carItem.content}</div>
                 </CardContent>
+                <Button
+                  id="domain-edit-btn"
+                  size="small"
+                  onClick={() => {
+                    setUpdate(true);
+                    setInputFields();
+                    handleClose(false);
+                  }}
+                >
+                  Edit
+                </Button>
               </Box>
             </Fade>
           </Modal>
@@ -211,14 +289,19 @@ export default function NewsForm() {
                             edge="end"
                             aria-label="edit"
                             sx={{ marginRight: "0.5rem" }}
+                            onClick={() => {
+                              editCarousal(item[1]);
+                            }}
                           >
-                            <EditNoteRoundedIcon
-                              onClick={() => {
-                                editCarousal(item[1]);
-                              }}
-                            />
+                            <EditNoteRoundedIcon />
                           </IconButton>
-                          <IconButton edge="end" aria-label="delete">
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() => {
+                              deleteNews(item[1]);
+                            }}
+                          >
                             <DeleteIcon />
                           </IconButton>
                         </>
@@ -251,21 +334,36 @@ export default function NewsForm() {
 
         <div className="sub-contact-container" style={{ margin: ".5rem" }}>
           <div className="contact-head">
-            <h3>Add News</h3>
+            <div>
+              <h3>{update ? "Update News" : "Add News"}</h3>
+              {update && (
+                <button
+                  onClick={() => {
+                    setUpdate(false);
+                    clearInputFields();
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
           </div>
           <div className="contact-fields">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={update ? upodateNews : handleSubmit}>
               <input
                 type="text"
                 id="news-heading"
-                name="newsHeading"
+                ref={titleRef}
+                name="title"
+                required
                 placeholder="News Heading"
                 onChange={formik.handleChange}
               />
               <input
                 type="text"
                 id="news-links"
-                name="newsLinks"
+                name="image"
+                ref={linkRef}
                 placeholder="Any Links"
                 onChange={formik.handleChange}
               />
@@ -273,13 +371,17 @@ export default function NewsForm() {
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Description about News"
-                name="newsDescription"
+                name="content"
                 id="news-desc"
                 cols={30}
                 rows={7}
+                required
+                ref={contentRef}
                 onChange={formik.handleChange}
               ></textarea>
-              <button className="submit-message">Add News</button>
+              <button className="submit-message">
+                {update ? "Update News" : "Add News"}
+              </button>
             </form>
           </div>
         </div>

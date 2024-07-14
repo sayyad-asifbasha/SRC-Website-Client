@@ -5,7 +5,7 @@ const initialState = {
   variant: "",
 };
 
-export const Snackbar = createSlice({
+export const snackbarSlice = createSlice({
   name: "snackbar",
   initialState,
   reducers: {
@@ -20,5 +20,5 @@ export const Snackbar = createSlice({
   },
 });
 
-export const { setSnackBar, resetSnackbar } = Snackbar.actions;
-export default Snackbar.reducer;
+export const { setSnackBar, resetSnackbar } = snackbarSlice.actions;
+export default snackbarSlice.reducer;

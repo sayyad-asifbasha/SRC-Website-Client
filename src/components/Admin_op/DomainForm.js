@@ -17,10 +17,11 @@ import { useFormik } from "formik";
 import "../../styles/Login.css";
 import { toast, Bounce } from "react-toastify";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import snackbar, { setSnackBar } from "../../features/snackbar/snackbar";
 export default function DomainForm() {
   // Calling getAllDomains in useEffect
-
+  const dispatch = useDispatch();
   useEffect(() => {
     try {
       getAllDomains();
@@ -36,37 +37,6 @@ export default function DomainForm() {
   const deleteDomainApi = process.env.REACT_APP_DELETE_DOMAIN_BY_ID;
 
   const updateDomainApi = process.env.REACT_APP_UPDATE_DOMAIN_BY_ID;
-
-  //  Function to show Toast
-
-  const showToast = (msg, msgType) => {
-    if (msgType === "warn") {
-      toast.warn(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-    if (msgType === "success") {
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-  };
 
   // init of React Hooks
 
@@ -136,23 +106,37 @@ export default function DomainForm() {
   // Function for Adding Domain
 
   const addDomain = async (e) => {
+    console.log(
+      `Bearer ${localStorage
+        .getItem("authToken")
+        .slice(1, localStorage.getItem("authToken").length - 1)}`
+    );
     console.log(e);
     try {
       const res = await axios.post(addDomainApi, e, {
         headers: {
-          key: "Authorization",
-          value: JSON.stringify(localStorage.getItem("authToken")),
-          type: "text",
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      showToast("Domain Created Successfully", "success");
       clearInputFields();
-
+      dispatch(
+        setSnackBar({
+          message: "Domain Created Successfully",
+          variant: "success",
+        })
+      );
       formik.resetForm();
       getAllDomains();
     } catch (e) {
       console.log(e);
-      showToast("Error in creating Domain", "warn");
+      dispatch(
+        setSnackBar({
+          message: "Error Creating in domain",
+          variant: "error",
+        })
+      );
     }
   };
 
@@ -174,19 +158,38 @@ export default function DomainForm() {
         console.log(update);
         const res = await axios.put(updateDomainApi + carItem._id, update, {
           headers: {
-            key: "Authorization",
-            value: JSON.stringify(localStorage.getItem("authToken")),
-            type: "text",
+            Authorization: `Bearer ${localStorage
+              .getItem("authToken")
+              .slice(1, localStorage.getItem("authToken").length - 1)}`,
           },
         });
+        dispatch(
+          setSnackBar({
+            message: "Domain Updated Successfully",
+            variant: "success",
+          })
+        );
         getAllDomains();
+        clearInputFields();
         setUpdate(false);
         clearInputFields();
       } catch (e) {
         console.log(e);
+        dispatch(
+          setSnackBar({
+            message: "Error updating in domain",
+            variant: "error",
+          })
+        );
       }
     } else {
-      showToast("Requried fields", "warn");
+      // showToast("Requried fields", "warn");
+      dispatch(
+        setSnackBar({
+          message: "Fields required",
+          variant: "error",
+        })
+      );
     }
   };
 
@@ -197,16 +200,27 @@ export default function DomainForm() {
     try {
       const res = await axios.delete(deleteDomainApi + e._id, {
         headers: {
-          key: "Authorization",
-          value: JSON.stringify(localStorage.getItem("authToken")),
-          type: "text",
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      showToast("Domain Deleted Successfully", "success");
+      // showToast("Domain Deleted Successfully", "success");
+      dispatch(
+        setSnackBar({
+          message: "Domain Deleted Successfully",
+          variant: "success",
+        })
+      );
       getAllDomains();
     } catch (e) {
       console.log(e);
-      showToast("Error in Deleting Domain", "warn");
+      dispatch(
+        setSnackBar({
+          message: "Error in Deleting Domain",
+          variant: "error",
+        })
+      );
     }
   };
 

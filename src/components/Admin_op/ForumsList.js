@@ -4,13 +4,21 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Button, Icon, IconButton } from "@mui/material";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setSnackBar } from "../../features/snackbar/snackbar";
 
 export default function ControlledAccordions(props) {
-  const { list } = props;
+  const dispatch = useDispatch();
+  const { list, deleteContactForum } = props;
   const [expanded, setExpanded] = React.useState(false);
   console.log(list);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+  const deleteContactForumHandle = (e) => {
+    deleteContactForum(e);
   };
 
   return (
@@ -30,10 +38,20 @@ export default function ControlledAccordions(props) {
                 <Typography sx={{ width: "33%", flexShrink: 0 }}>
                   {ele.email}
                 </Typography>
-                <Typography sx={{ color: "text.secondary" }}>
+                <Typography sx={{ color: "text.secondary", width: "30rem" }}>
                   {ele.name}
                 </Typography>
-              </AccordionSummary>
+                <IconButton
+                  sx={{ marginLeft: "5rem" }}
+                  onClick={() => {
+                    deleteContactForumHandle(ele._id);
+                  }}
+                >
+                  <Button id="domain-edit-btn" size="small">
+                    Delete
+                  </Button>
+                </IconButton>
+              </AccordionSummary>{" "}
               <AccordionDetails>
                 <Typography>{ele.message}</Typography>
               </AccordionDetails>

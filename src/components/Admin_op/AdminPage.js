@@ -380,6 +380,8 @@ export default function NestedList() {
             <NewsForm />
           ) : selectedIndex === 6 ? (
             <UpcomingEventForm />
+          ) : selectedIndex === 9 ? (
+            <ContactForum />
           ) : (
             <NewsForm />
           )}

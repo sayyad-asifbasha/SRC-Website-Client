@@ -102,13 +102,7 @@ export default function Domains() {
         >
           Domains
         </div>
-        <div
-          id="scroll"
-          onWheel={move}
-          ref={containerRef}
-          // onMouseEnter={disableScroll}
-          // onMouseLeave={enableScroll}
-        >
+        <div id="scroll" onWheel={move} ref={containerRef}>
           {domains &&
             domains.map((ele) => {
               return (

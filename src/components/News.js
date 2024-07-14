@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import icon from "../assets/images/contact-image-3.jpg";
 
 import "react-vertical-timeline-component/style.min.css";
 import Modal from "react-modal";
 import "../styles/News.css";
+import axios from "axios";
 export default function EventsDemo() {
   const customStyles = {
     content: {
@@ -19,6 +20,31 @@ export default function EventsDemo() {
       paddingTop: "0",
     },
   };
+  const containerRef = useRef();
+  useEffect(() => {
+    const container = containerRef.current;
+
+    const disableScroll = () => {
+      document.addEventListener("wheel", preventDefault, { passive: false });
+    };
+
+    const enableScroll = () => {
+      document.removeEventListener("wheel", preventDefault, false);
+    };
+
+    if (container) {
+      container.addEventListener("mouseenter", disableScroll);
+      container.addEventListener("mouseleave", enableScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener("mouseenter", disableScroll);
+        container.removeEventListener("mouseleave", enableScroll);
+      }
+      enableScroll();
+    };
+  }, []);
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -27,11 +53,8 @@ export default function EventsDemo() {
     setIsOpen(true);
     const news = e.target.previousElementSibling;
     const headline = news.previousElementSibling;
-    const short = headline.previousElementSibling;
 
     setTimeout(() => {
-      document.getElementById("short").innerText = short.innerText;
-
       document.getElementById("headline-dom").innerText = headline.innerText;
       document.getElementById("news-info-dom").innerText = news.innerText;
     }, 10);
@@ -47,48 +70,7 @@ export default function EventsDemo() {
     setIsOpen(false);
   }
   Modal.setAppElement("#root  ");
-  const newsList = [
-    {
-      id: 1,
-      date: "24-07-july",
-      short: "Calling for cordinators",
-      headline:
-        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos officia voluptatem obcaecati architecto expedita",
-      news: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim! Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora enim!",
-    },
-    {
-      id: 2,
-      date: "24-07-july",
-      short: "Hackathon do's and dont's",
-      headline:
-        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos officia voluptatem obcaecati architecto expedita",
-      news: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi tempora",
-    },
-    {
-      id: 3,
-      date: "24-07-july",
-      short: "Aadhya winners announced",
-      headline:
-        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos officia voluptatem obcaecati architecto expedita",
-      news: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt a animi",
-    },
-    {
-      id: 4,
-      date: "24-07-july",
-      short: "Event Announced",
-      headline:
-        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos officia voluptatem obcaecati architecto expedita",
-      news: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt",
-    },
-    {
-      id: 5,
-      date: "24-07-july",
-      short: "Registration for Event",
-      headline:
-        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos officia voluptatem obcaecati architecto expedita",
-      news: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eosofficia voluptatem obcaecati architecto expedita repellendus corrupti quis provident numquam rem nobis, dolor, libero error molestias? Deserunt",
-    },
-  ];
+
   const jump = (e) => {
     const container = document.getElementById("jump");
     container.scrollLeft += e.deltaY;
@@ -106,6 +88,31 @@ export default function EventsDemo() {
       e.preventDefault();
     }
     e.returnValue = false;
+  };
+
+  const getNewsApi = process.env.REACT_APP_GET_NEWS;
+  const [news, setNews] = useState(null);
+  useEffect(() => {
+    getNews();
+  }, []);
+
+  const getNews = async () => {
+    try {
+      const res = await axios.get(getNewsApi);
+      setNews(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    timeZone: "Asia/Kolkata",
+    timeZoneName: "short",
   };
 
   return (
@@ -139,36 +146,39 @@ export default function EventsDemo() {
             className="sub-news-container"
             id="jump"
             onWheel={jump}
-            onMouseEnter={disableScroll}
-            onMouseLeave={enableScroll}
+            ref={containerRef}
           >
-            {newsList.map((item) => {
-              return (
-                <div className="news-element" key={item.id}>
-                  {/* <div> */}
-                  <div className="news-img">
-                    <img src={icon} alt="icon" />
-                  </div>
-                  <div className="news-details">
-                    <div className="admin-date">
-                      <div className="admin">Admin</div>
-                      <div className="date">{item.date}</div>
+            {news &&
+              news.map((item) => {
+                return (
+                  <div className="news-element" key={item._id}>
+                    <div className="news-img">
+                      <img src={icon} alt="icon" />
                     </div>
-                    <div className="news-update" id="news-update">
-                      <div className="news-short">{item.short}</div>
-                      <div className="news-headline">
-                        <h5>{item.headline}</h5>
+                    <div className="news-details">
+                      <div className="admin-date">
+                        <div className="admin">Admin</div>
+                        <div className="date">
+                          {new Date(item.date).toLocaleDateString(
+                            "en-IN",
+                            options
+                          )}
+                        </div>
                       </div>
-                      <div className="news-info-brief">{item.news}</div>
-                      <button className="show-more" onClick={openModal}>
-                        Read More
-                      </button>
+                      <div className="news-update" id="news-update">
+                        {/* <div className="news-short">{item.title}</div> */}
+                        <div className="news-headline">
+                          <h5>{item.title}</h5>
+                        </div>
+                        <div className="news-info-brief">{item.content}</div>
+                        <button className="show-more" onClick={openModal}>
+                          Read More
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  {/* </div> */}
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </section>

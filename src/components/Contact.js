@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import { useFormik } from "formik";
 import { toast, Bounce, warn, success, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setSnackBar } from "../features/snackbar/snackbar";
 // import contactImage from "../assets/images/contact-image-4.jpg";
 export default function Contact() {
   // Getting Environment Variables
@@ -11,6 +13,7 @@ export default function Contact() {
   const name = useRef();
   const email = useRef();
   const message = useRef();
+  const dispatch = useDispatch();
 
   //  Function to show Toast
 
@@ -20,35 +23,6 @@ export default function Contact() {
     name.current.value = "";
     email.current.value = "";
     message.current.value = "";
-  };
-
-  const showToast = (msg, msgType) => {
-    if (msgType === "warn") {
-      toast.warn(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-    if (msgType === "success") {
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
   };
 
   const formik = useFormik({
@@ -85,13 +59,15 @@ export default function Contact() {
     console.log(formik.values);
     console.log(formik.errors);
     if (formik.errors.email) {
-      showToast("Enter valid email", "warn");
+      dispatch(setSnackBar({ message: "Enter valid main", variant: "error" }));
     }
     if (formik.errors.message) {
-      showToast("Enter valid Message", "warn");
+      dispatch(
+        setSnackBar({ message: "Enter valid message", variant: "error" })
+      );
     }
     if (formik.errors.name) {
-      showToast("Enter valid Name", "warn");
+      dispatch(setSnackBar({ message: "Enter valid name", variant: "error" }));
     }
     if (!formik.errors.email && !formik.errors.message && !formik.errors.name) {
       clearInputFields();
@@ -104,13 +80,22 @@ export default function Contact() {
   const postContactForum = async (e) => {
     try {
       const res = await axios.post(psotContactForum, formik.values);
-      if (res.status === 201) {
-        showToast("Successfully sent Message", "success");
-      }
+      console.log(res);
+      dispatch(
+        setSnackBar({
+          message: "Successfully sent Message",
+          variant: "success",
+        })
+      );
+
+      clearInputFields();
     } catch (e) {
-      showToast("Error in Sending Message");
+      dispatch(
+        setSnackBar({ message: "Error in sending message", variant: "error" })
+      );
     }
   };
+
   return (
     <>
       <ToastContainer />

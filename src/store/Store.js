@@ -5,7 +5,7 @@ import introTextReducer from "../features/carousel/carousel";
 import storage from "redux-persist/lib/storage";
 import logStatus from "../features/user/user";
 import { combineReducers } from "@reduxjs/toolkit";
-import { setSnackBar } from "../features/snackbar/snackbar";
+import snackbarSlice from "../features/snackbar/snackbar";
 const persistConfig = {
   version: 1,
   key: "root",
@@ -14,7 +14,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   introText: introTextReducer,
   logStatus: logStatus,
-  setSnackBar: setSnackBar,
+  setSnackBar: snackbarSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
