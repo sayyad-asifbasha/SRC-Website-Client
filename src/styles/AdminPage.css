@@ -28,6 +28,48 @@
   background-color: var(--hover-color) !important;
   color: white !important;
 }
+/* edit Carousel */
+.carousel-fields >form
+{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.carousel-fields >form>input
+{
+  font-size:1.5rem;
+}
+.carousel-fields >form>input:disabled,.carousel-fields >form>textarea:disabled
+{
+  color: black;
+  cursor:no-drop;
+}
+.carousel-fields >form>textarea
+{
+  font-size:1rem;
+  line-height: 1.8rem;
+  text-indent: 10rem;
+}
+.carousel-fields >form>button{
+  font-size: 1.3rem;
+}
+
+
+/* Add carousel  */
+.add-carousel-item>form> input,.add-carousel-item>form>textarea
+{
+  font-size: 1.2rem;
+  padding: 0.7rem;
+}
+
+/* upcoming event form */
+.upcoming-event-date,.upcoming-event-time
+{
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+  gap: 2rem;
+  /* grid-template-rows: repeat(minmax(200px,1fr)) !important; */
+}
 @media only screen and (min-device-width: 200px) and (max-device-width: 580px) {
   .admin-container {
     display: flex;

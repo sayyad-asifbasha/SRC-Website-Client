@@ -1,0 +1,2268 @@
+{
+	"info": {
+		"_postman_id": "8d74e8cd-0239-4cf2-94ca-7c1b27a96b12",
+		"name": "SRC_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32444472"
+	},
+	"item": [
+		{
+			"name": "User Model",
+			"item": [
+				{
+					"name": "signup ,emial verification link",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Srinu",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "srinubandlamudi55@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/signup"
+					},
+					"response": [
+						{
+							"name": "signup ,emial verification link",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Srinu",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "srinubandlamudi55@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/signup"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "127"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7f-opE+WNgTr5ewNcKURPBOa4yLk6s\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:19:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"message\": \"Verification link sent to your email\"\n    },\n    \"message\": \"Successfully created a new user\",\n    \"err\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "Email Verification Route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3001/api/v1/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdjMDc2MWNmNGJhYTlmMWNiNjlkNjMiLCJlbWFpbCI6InNyaW51YmFuZGxhbXVkaTU1QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE5NDA0Mzg1LCJleHAiOjE3MTk0MDc5ODV9.N9EIaRz2RCdQ_1x1y1U_NJaFGr1omsoA61QUmTPNjJk"
+					},
+					"response": [
+						{
+							"name": "Email Verification Route",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:3001/api/v1/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdjMDc2MWNmNGJhYTlmMWNiNjlkNjMiLCJlbWFpbCI6InNyaW51YmFuZGxhbXVkaTU1QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE5NDA0Mzg1LCJleHAiOjE3MTk0MDc5ODV9.N9EIaRz2RCdQ_1x1y1U_NJaFGr1omsoA61QUmTPNjJk"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "353"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"161-N3+rqV1EKtI4gzTWA9ixzzVCe14\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:20:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"err\": {},\n    \"data\": {\n        \"_id\": \"667c0761cf4baa9f1cb69d63\",\n        \"email\": \"srinubandlamudi55@gmail.com\",\n        \"password\": \"$2b$09$FUMnZndO8CAW.Q2huERfduQ8OsY6rBS1l8yCF2CQZre0/NS06xcW.\",\n        \"name\": \"Srinu\",\n        \"role\": \"user\",\n        \"isVerified\": true,\n        \"createdAt\": \"2024-06-26T12:19:45.107Z\",\n        \"updatedAt\": \"2024-06-26T12:20:41.006Z\",\n        \"__v\": 0\n    },\n    \"message\": \"Successfully created Account\"\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "r191005@rguktrkv.ac.in",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/login"
+					},
+					"response": [
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "r191005@rguktrkv.ac.in",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/login"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "306"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"132-TKZCPWJh1IHNbmhnGOCQBAzn+uY\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:07:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA\",\n    \"message\": \"Successfully logged in\",\n    \"err\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "forgot password",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "srinubandlamudi55@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/forgot/password"
+					},
+					"response": [
+						{
+							"name": "forgot password",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "srinubandlamudi55@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/forgot/password"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "136"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"88-ogaK/Sgl9WzBGNuVReLhQPrYK0k\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:21:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"err\": {},\n    \"data\": {\n        \"message\": \"Password Reset link sent to your email\"\n    },\n    \"message\": \"Password Reset link sent to your email\"\n}"
+						}
+					]
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:3001/api/v1/reset/password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdjMDc2MWNmNGJhYTlmMWNiNjlkNjMiLCJlbWFpbCI6InNyaW51YmFuZGxhbXVkaTU1QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE5NDA0NDc5LCJleHAiOjE3MTk0MDgwNzl9.jc7d105qS9uFMdn4BdqMF9eg-cIXXhJSK3rbUp7LpOA"
+					},
+					"response": [
+						{
+							"name": "reset password",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:3001/api/v1/reset/password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjdjMDc2MWNmNGJhYTlmMWNiNjlkNjMiLCJlbWFpbCI6InNyaW51YmFuZGxhbXVkaTU1QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE5NDA0NDc5LCJleHAiOjE3MTk0MDgwNzl9.jc7d105qS9uFMdn4BdqMF9eg-cIXXhJSK3rbUp7LpOA"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "358"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"166-199K188RwKcyJzsG0akuEUpxw98\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:21:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"err\": {},\n    \"data\": {\n        \"_id\": \"667c0761cf4baa9f1cb69d63\",\n        \"email\": \"srinubandlamudi55@gmail.com\",\n        \"password\": \"$2b$09$a3Is8DqqAA6VNIc34YZQIe/cFSXBUdSG.iHb/OnE40pU5buv2O/hO\",\n        \"name\": \"Srinu\",\n        \"role\": \"user\",\n        \"isVerified\": true,\n        \"createdAt\": \"2024-06-26T12:19:45.107Z\",\n        \"updatedAt\": \"2024-06-26T12:21:53.306Z\",\n        \"__v\": 0\n    },\n    \"message\": \"Successfully updated the password\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Officials-Details",
+			"item": [
+				{
+					"name": "Create Official",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"title\": \"Professor\",\r\n    \"photo\": \"http://example.com/photo.jpg\",\r\n    \"email\": \"johndoe@example23.com\",\r\n    \"phoneNumber\": \"123-456-7890\",\r\n    \"officeAddress\": \"123 University Ave\",\r\n    \"department\": \"Computer Science\",\r\n    \"bio\": \"John has been a professor of computer science for 10 years.\",\r\n    \"qualifications\": \"PhD in Computer Science\",\r\n    \"experience\": \"10 years teaching\",\r\n    \"responsibilities\": \"Teaching and Research\",\r\n    \"projects\": \"AI Research Project\",\r\n    \"linkedin\": \"http://linkedin.com/in/johndoe\",\r\n    \"researchgate\": \"http://researchgate.net/profile/John_Doe\",\r\n    \"twitter\": \"http://twitter.com/johndoe\",\r\n    \"dateJoined\": \"2020-08-01T00:00:00Z\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/api/v1/officials"
+					},
+					"response": [
+						{
+							"name": "Create Official",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"title\": \"Professor\",\r\n    \"photo\": \"http://example.com/photo.jpg\",\r\n    \"email\": \"johndoe@example23.com\",\r\n    \"phoneNumber\": \"123-456-7890\",\r\n    \"officeAddress\": \"123 University Ave\",\r\n    \"department\": \"Computer Science\",\r\n    \"bio\": \"John has been a professor of computer science for 10 years.\",\r\n    \"qualifications\": \"PhD in Computer Science\",\r\n    \"experience\": \"10 years teaching\",\r\n    \"responsibilities\": \"Teaching and Research\",\r\n    \"projects\": \"AI Research Project\",\r\n    \"linkedin\": \"http://linkedin.com/in/johndoe\",\r\n    \"researchgate\": \"http://researchgate.net/profile/John_Doe\",\r\n    \"twitter\": \"http://twitter.com/johndoe\",\r\n    \"dateJoined\": \"2020-08-01T00:00:00Z\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "localhost:3001/api/v1/officials"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "797"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"31d-kvjdslmXTitGVqZvD3Kp26727t0\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:04:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"name\": \"John Doe\",\n        \"title\": \"Professor\",\n        \"photo\": \"http://example.com/photo.jpg\",\n        \"email\": \"johndoe@example23.com\",\n        \"phoneNumber\": \"123-456-7890\",\n        \"officeAddress\": \"123 University Ave\",\n        \"department\": \"Computer Science\",\n        \"bio\": \"John has been a professor of computer science for 10 years.\",\n        \"qualifications\": \"PhD in Computer Science\",\n        \"experience\": \"10 years teaching\",\n        \"responsibilities\": \"Teaching and Research\",\n        \"projects\": \"AI Research Project\",\n        \"linkedin\": \"http://linkedin.com/in/johndoe\",\n        \"researchgate\": \"http://researchgate.net/profile/John_Doe\",\n        \"twitter\": \"http://twitter.com/johndoe\",\n        \"dateJoined\": \"2020-08-01T00:00:00.000Z\",\n        \"_id\": \"667c03dfcf4baa9f1cb69d38\",\n        \"createdAt\": \"2024-06-26T12:04:47.123Z\",\n        \"updatedAt\": \"2024-06-26T12:04:47.123Z\",\n        \"__v\": 0\n    },\n    \"success\": true,\n    \"message\": \"Successfully Created An Official\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get all officials",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/officials"
+					},
+					"response": [
+						{
+							"name": "get all officials",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/officials"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "800"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"320-/vvnsKyXExdazAIF6rVsT9skMJk\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 11:59:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"_id\": \"66766cbe47e35bcdf3ae77ef\",\n            \"name\": \"John Doe\",\n            \"title\": \"Professor\",\n            \"photo\": \"http://example.com/photo.jpg\",\n            \"email\": \"johndoe@example2.com\",\n            \"phoneNumber\": \"123-456-7890\",\n            \"officeAddress\": \"123 University Ave\",\n            \"department\": \"Computer Science\",\n            \"bio\": \"John has been a professor of computer science for 10 years.\",\n            \"qualifications\": \"PhD in Computer Science\",\n            \"experience\": \"10 years teaching\",\n            \"responsibilities\": \"Teaching and Research\",\n            \"projects\": \"AI Research Project\",\n            \"linkedin\": \"http://linkedin.com/in/johndoe\",\n            \"researchgate\": \"http://researchgate.net/profile/John_Doe\",\n            \"twitter\": \"http://twitter.com/johndoe\",\n            \"dateJoined\": \"2020-08-01T00:00:00.000Z\",\n            \"createdAt\": \"2024-06-22T06:18:38.321Z\",\n            \"updatedAt\": \"2024-06-22T06:18:38.321Z\",\n            \"__v\": 0\n        }\n    ],\n    \"success\": true,\n    \"message\": \"Successfully fetched all Officials\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get official by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/officials/66766cbe47e35bcdf3ae77ef"
+					},
+					"response": [
+						{
+							"name": "get official by Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/officials/66766cbe47e35bcdf3ae77ef"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "793"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"319-6aDdIRUHVTduhqgC/lCTAP8Czx0\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:01:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"_id\": \"66766cbe47e35bcdf3ae77ef\",\n        \"name\": \"John Doe\",\n        \"title\": \"Professor\",\n        \"photo\": \"http://example.com/photo.jpg\",\n        \"email\": \"johndoe@example2.com\",\n        \"phoneNumber\": \"123-456-7890\",\n        \"officeAddress\": \"123 University Ave\",\n        \"department\": \"Computer Science\",\n        \"bio\": \"John has been a professor of computer science for 10 years.\",\n        \"qualifications\": \"PhD in Computer Science\",\n        \"experience\": \"10 years teaching\",\n        \"responsibilities\": \"Teaching and Research\",\n        \"projects\": \"AI Research Project\",\n        \"linkedin\": \"http://linkedin.com/in/johndoe\",\n        \"researchgate\": \"http://researchgate.net/profile/John_Doe\",\n        \"twitter\": \"http://twitter.com/johndoe\",\n        \"dateJoined\": \"2020-08-01T00:00:00.000Z\",\n        \"createdAt\": \"2024-06-22T06:18:38.321Z\",\n        \"updatedAt\": \"2024-06-22T06:18:38.321Z\",\n        \"__v\": 0\n    },\n    \"success\": true,\n    \"message\": \"Successfully fetched Official\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get official by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/official/johndoe@example.com"
+					},
+					"response": [
+						{
+							"name": "get official by email",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/official/johndoe@example2.com"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "793"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"319-6aDdIRUHVTduhqgC/lCTAP8Czx0\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:03:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"_id\": \"66766cbe47e35bcdf3ae77ef\",\n        \"name\": \"John Doe\",\n        \"title\": \"Professor\",\n        \"photo\": \"http://example.com/photo.jpg\",\n        \"email\": \"johndoe@example2.com\",\n        \"phoneNumber\": \"123-456-7890\",\n        \"officeAddress\": \"123 University Ave\",\n        \"department\": \"Computer Science\",\n        \"bio\": \"John has been a professor of computer science for 10 years.\",\n        \"qualifications\": \"PhD in Computer Science\",\n        \"experience\": \"10 years teaching\",\n        \"responsibilities\": \"Teaching and Research\",\n        \"projects\": \"AI Research Project\",\n        \"linkedin\": \"http://linkedin.com/in/johndoe\",\n        \"researchgate\": \"http://researchgate.net/profile/John_Doe\",\n        \"twitter\": \"http://twitter.com/johndoe\",\n        \"dateJoined\": \"2020-08-01T00:00:00.000Z\",\n        \"createdAt\": \"2024-06-22T06:18:38.321Z\",\n        \"updatedAt\": \"2024-06-22T06:18:38.321Z\",\n        \"__v\": 0\n    },\n    \"success\": true,\n    \"message\": \"Successfully fetched Official\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update official",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "bio",
+									"value": "My bio updated",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/officials/66766c7d47e35bcdf3ae77ec",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"officials",
+								"66766c7d47e35bcdf3ae77ec"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update official",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "bio",
+											"value": "My bio updated",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "localhost:3001/api/v1/officials/66766cbe47e35bcdf3ae77ef",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"officials",
+										"66766cbe47e35bcdf3ae77ef"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "739"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2e3-7xl5NuCW8S6ckd4cjEbbkfZFtBc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:03:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"_id\": \"66766cbe47e35bcdf3ae77ef\",\n        \"name\": \"John Doe\",\n        \"title\": \"Professor\",\n        \"photo\": \"http://example.com/photo.jpg\",\n        \"email\": \"johndoe@example2.com\",\n        \"phoneNumber\": \"123-456-7890\",\n        \"officeAddress\": \"123 University Ave\",\n        \"department\": \"Computer Science\",\n        \"bio\": \"My bio updated\",\n        \"qualifications\": \"PhD in Computer Science\",\n        \"experience\": \"10 years teaching\",\n        \"responsibilities\": \"Teaching and Research\",\n        \"projects\": \"AI Research Project\",\n        \"linkedin\": \"http://linkedin.com/in/johndoe\",\n        \"researchgate\": \"http://researchgate.net/profile/John_Doe\",\n        \"twitter\": \"http://twitter.com/johndoe\",\n        \"dateJoined\": \"2020-08-01T00:00:00.000Z\",\n        \"createdAt\": \"2024-06-22T06:18:38.321Z\",\n        \"updatedAt\": \"2024-06-26T12:03:49.614Z\",\n        \"__v\": 0\n    },\n    \"success\": true,\n    \"message\": \"Successfully Updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "delete official by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3001/api/v1/officials/66766c7d47e35bcdf3ae77ec"
+					},
+					"response": [
+						{
+							"name": "delete official by Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": "localhost:3001/api/v1/officials/66766cbe47e35bcdf3ae77ef"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "748"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2ec-oIqhuTUlWJuwZsZneZ6NBiq8eCA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:04:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Official deleted successfully\",\n    \"success\": true,\n    \"data\": {\n        \"_id\": \"66766cbe47e35bcdf3ae77ef\",\n        \"name\": \"John Doe\",\n        \"title\": \"Professor\",\n        \"photo\": \"http://example.com/photo.jpg\",\n        \"email\": \"johndoe@example2.com\",\n        \"phoneNumber\": \"123-456-7890\",\n        \"officeAddress\": \"123 University Ave\",\n        \"department\": \"Computer Science\",\n        \"bio\": \"My bio updated\",\n        \"qualifications\": \"PhD in Computer Science\",\n        \"experience\": \"10 years teaching\",\n        \"responsibilities\": \"Teaching and Research\",\n        \"projects\": \"AI Research Project\",\n        \"linkedin\": \"http://linkedin.com/in/johndoe\",\n        \"researchgate\": \"http://researchgate.net/profile/John_Doe\",\n        \"twitter\": \"http://twitter.com/johndoe\",\n        \"dateJoined\": \"2020-08-01T00:00:00.000Z\",\n        \"createdAt\": \"2024-06-22T06:18:38.321Z\",\n        \"updatedAt\": \"2024-06-26T12:03:49.614Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Domains",
+			"item": [
+				{
+					"name": "Create Domain",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "ML",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Machine Learning",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/domain"
+					},
+					"response": [
+						{
+							"name": "Create Domain",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "ML",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Machine Learning",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/domain"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "213"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d5-0Bwn00KQFZUYF5MRPGXVSxNTDU4\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:08:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"ML\",\n    \"description\": \"Machine Learning\",\n    \"resources\": [],\n    \"contactForums\": [],\n    \"projects\": [],\n    \"_id\": \"667c04bbcf4baa9f1cb69d3b\",\n    \"createdAt\": \"2024-06-26T12:08:27.002Z\",\n    \"updatedAt\": \"2024-06-26T12:08:27.002Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "get all domains",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "localhost:3001/api/v1/domains"
+					},
+					"response": [
+						{
+							"name": "get all domains",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": "localhost:3001/api/v1/domains"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "678"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a6-1gR8aWq4FnUw+RaORIVWl90Q1Vw\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:08:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"6676711c0826ee58e49739db\",\n        \"name\": \"AI\",\n        \"description\": \"Artificial Intelligence\",\n        \"createdAt\": \"2024-06-22T06:37:16.048Z\",\n        \"updatedAt\": \"2024-06-22T10:05:33.681Z\",\n        \"__v\": 19,\n        \"contactForums\": [\n            \"66769e2960ad9c76b634daec\",\n            \"66769e2f60ad9c76b634daf0\",\n            \"6676a1e83b7d47ddba6f268f\",\n            \"6676a1ea3b7d47ddba6f2693\",\n            \"6676a1eb3b7d47ddba6f2697\",\n            \"6676a1ed3b7d47ddba6f269b\"\n        ],\n        \"projects\": [],\n        \"resources\": [\n            \"66768e54e0f87f761e286d9d\",\n            \"6676940aeed61e9929601960\",\n            \"667699074545f716cc95f74c\"\n        ]\n    },\n    {\n        \"_id\": \"667c04bbcf4baa9f1cb69d3b\",\n        \"name\": \"ML\",\n        \"description\": \"Machine Learning\",\n        \"resources\": [],\n        \"contactForums\": [],\n        \"projects\": [],\n        \"createdAt\": \"2024-06-26T12:08:27.002Z\",\n        \"updatedAt\": \"2024-06-26T12:08:27.002Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get domain by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/domain/6676711c0826ee58e49739db"
+					},
+					"response": [
+						{
+							"name": "get domain by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/domain/6676711c0826ee58e49739db"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "462"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1ce-6P0rjeZ4tPxGXnHcwsJfrgmdjVk\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:09:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6676711c0826ee58e49739db\",\n    \"name\": \"AI\",\n    \"description\": \"Artificial Intelligence\",\n    \"createdAt\": \"2024-06-22T06:37:16.048Z\",\n    \"updatedAt\": \"2024-06-22T10:05:33.681Z\",\n    \"__v\": 19,\n    \"contactForums\": [\n        \"66769e2960ad9c76b634daec\",\n        \"66769e2f60ad9c76b634daf0\",\n        \"6676a1e83b7d47ddba6f268f\",\n        \"6676a1ea3b7d47ddba6f2693\",\n        \"6676a1eb3b7d47ddba6f2697\",\n        \"6676a1ed3b7d47ddba6f269b\"\n    ],\n    \"projects\": [],\n    \"resources\": [\n        \"66768e54e0f87f761e286d9d\",\n        \"6676940aeed61e9929601960\",\n        \"667699074545f716cc95f74c\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Domain BY ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "description",
+									"value": "Artificial Intelligence Domain",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/domain/6676711c0826ee58e49739db"
+					},
+					"response": [
+						{
+							"name": "Update Domain BY ID",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "description",
+											"value": "Artificial Intelligence Domain",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/domain/6676711c0826ee58e49739db"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "538"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21a-wXLz7hoXDJDMo5boqvMsiH3+S3U\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:10:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"_id\": \"6676711c0826ee58e49739db\",\n        \"name\": \"AI\",\n        \"description\": \"Artificial Intelligence Domain\",\n        \"createdAt\": \"2024-06-22T06:37:16.048Z\",\n        \"updatedAt\": \"2024-06-26T12:10:28.973Z\",\n        \"__v\": 19,\n        \"contactForums\": [\n            \"66769e2960ad9c76b634daec\",\n            \"66769e2f60ad9c76b634daf0\",\n            \"6676a1e83b7d47ddba6f268f\",\n            \"6676a1ea3b7d47ddba6f2693\",\n            \"6676a1eb3b7d47ddba6f2697\",\n            \"6676a1ed3b7d47ddba6f269b\"\n        ],\n        \"projects\": [],\n        \"resources\": [\n            \"66768e54e0f87f761e286d9d\",\n            \"6676940aeed61e9929601960\",\n            \"667699074545f716cc95f74c\"\n        ]\n    },\n    \"message\": \"Suuccessfully Updated the Domain\",\n    \"success\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Domain By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/api/v1/domain/6676711c0826ee58e49739db"
+					},
+					"response": [
+						{
+							"name": "Delete Domain By Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+										"type": "text"
+									}
+								],
+								"url": "localhost:3001/api/v1/domain/6676711c0826ee58e49739db"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "49"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"31-PdrSwOBW7C1mkICqNoQ/LDCJq0U\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:11:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Successfully deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Resources",
+			"item": [
+				{
+					"name": "Create a REsource",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "First Resource",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "for users",
+									"type": "text"
+								},
+								{
+									"key": "url",
+									"value": "http://google.com",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "pdf",
+									"type": "text"
+								},
+								{
+									"key": "domainId",
+									"value": "667c04bbcf4baa9f1cb69d3b",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/resource/"
+					},
+					"response": [
+						{
+							"name": "Create a REsource",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "First Resource",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "for users",
+											"type": "text"
+										},
+										{
+											"key": "url",
+											"value": "http://google.com",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "pdf",
+											"type": "text"
+										},
+										{
+											"key": "domainId",
+											"value": "667c04bbcf4baa9f1cb69d3b",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/resource/"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "316"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"13c-DoixRSwZeLwcQyBUxSf8UOUrnic\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:15:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"title\": \"First Resource\",\n        \"description\": \"for users\",\n        \"url\": \"http://google.com\",\n        \"type\": \"pdf\",\n        \"domainId\": \"667c04bbcf4baa9f1cb69d3b\",\n        \"_id\": \"667c0673cf4baa9f1cb69d4e\",\n        \"createdAt\": \"2024-06-26T12:15:47.002Z\",\n        \"updatedAt\": \"2024-06-26T12:15:47.002Z\",\n        \"__v\": 0\n    },\n    \"success\": true,\n    \"message\": \"Successfully Created a Resource\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all resources",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/resources"
+					},
+					"response": [
+						{
+							"name": "Get all resources",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/resources"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "822"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"336-itRUFy9QgQQYKR2Wf5WfMJRf4EY\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:12:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"6667edaf075cefa5fea8f801\",\n        \"title\": \"Introduction to MongoDB\",\n        \"description\": \"A comprehensive guide to MongoDB for beginners.\",\n        \"url\": \"https://example.com/resources/mongodb-guide.pdf\",\n        \"type\": \"pdf\",\n        \"domain\": \"66658cf61f655bc110fffb34\",\n        \"uploadedAt\": \"2024-06-11T06:24:47.736Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6667edb6075cefa5fea8f803\",\n        \"title\": \"Introduction to MongoDB\",\n        \"description\": \"A comprehensive guide to MongoDB for beginners.\",\n        \"url\": \"https://example.com/resources/mongodb-guide.pdf\",\n        \"type\": \"pdf\",\n        \"domain\": \"66658cf61f655bc110fffb34\",\n        \"uploadedAt\": \"2024-06-11T06:24:54.645Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"667699074545f716cc95f74c\",\n        \"title\": \"First Resource\",\n        \"description\": \"for users\",\n        \"url\": \"http://google.com\",\n        \"type\": \"pdf\",\n        \"domainId\": \"6676711c0826ee58e49739db\",\n        \"createdAt\": \"2024-06-22T09:27:35.194Z\",\n        \"updatedAt\": \"2024-06-22T09:27:35.194Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get a resource By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/resource/6667edaf075cefa5fea8f801"
+					},
+					"response": [
+						{
+							"name": "Get a resource By Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/resource/6667edaf075cefa5fea8f801"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "285"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"11d-LAUjhadV6oH5qmrqTaFVfbA22nI\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:12:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6667edaf075cefa5fea8f801\",\n    \"title\": \"Introduction to MongoDB\",\n    \"description\": \"A comprehensive guide to MongoDB for beginners.\",\n    \"url\": \"https://example.com/resources/mongodb-guide.pdf\",\n    \"type\": \"pdf\",\n    \"domain\": \"66658cf61f655bc110fffb34\",\n    \"uploadedAt\": \"2024-06-11T06:24:47.736Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "get all resources by DomainId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/resources/6676711c0826ee58e49739db"
+					},
+					"response": [
+						{
+							"name": "get all resources by DomainId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/resources/6676711c0826ee58e49739db"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "250"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fa-xN7/e5enQRWHQUvbl4YGDPNb8IQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:12:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"667699074545f716cc95f74c\",\n        \"title\": \"First Resource\",\n        \"description\": \"for users\",\n        \"url\": \"http://google.com\",\n        \"type\": \"pdf\",\n        \"domainId\": \"6676711c0826ee58e49739db\",\n        \"createdAt\": \"2024-06-22T09:27:35.194Z\",\n        \"updatedAt\": \"2024-06-22T09:27:35.194Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Update a Resource",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "description",
+									"value": "changed (new one)",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/resource/6667edaf075cefa5fea8f801"
+					},
+					"response": [
+						{
+							"name": "Update a Resource",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "description",
+											"value": "changed (new one)",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/resource/6667edaf075cefa5fea8f801"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "294"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"126-Gak7WVyvza66IM/ce8FyZmDL12g\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:13:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6667edaf075cefa5fea8f801\",\n    \"title\": \"Introduction to MongoDB\",\n    \"description\": \"changed (new one)\",\n    \"url\": \"https://example.com/resources/mongodb-guide.pdf\",\n    \"type\": \"pdf\",\n    \"domain\": \"66658cf61f655bc110fffb34\",\n    \"uploadedAt\": \"2024-06-11T06:24:47.736Z\",\n    \"__v\": 0,\n    \"updatedAt\": \"2024-06-26T12:13:57.469Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete  a resource",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+								"type": "text"
+							}
+						],
+						"url": "localhost:3001/api/v1/resource/6667edaf075cefa5fea8f801"
+					},
+					"response": [
+						{
+							"name": "Delete  a resource",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjcwZjg2N2YxOWRlZDEzYzA0MmY0NWYiLCJlbWFpbCI6InIxOTEwMDVAcmd1a3Rya3YuYWMuaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTk0MDM2NTgsImV4cCI6MTcxOTQwNzI1OH0.MYOYhN0QLqlaUwyxI-89bMdcWfQNZBGlGK1-YTBNUxA",
+										"type": "text"
+									}
+								],
+								"url": "localhost:3001/api/v1/resource/6667edaf075cefa5fea8f801"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-IIyyOSvvgAXwzRY2Z1+Oqzky19k\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:14:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "Create a Project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/projects"
+					},
+					"response": []
+				},
+				{
+					"name": "Get project By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get All Projects by DomainId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ContactForum",
+			"item": [
+				{
+					"name": "Create a ContactForum",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "Need AI Resources",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "student@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "I want pdfs",
+									"type": "text"
+								},
+								{
+									"key": "domainId",
+									"value": "667c04bbcf4baa9f1cb69d3b",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/contact-forum"
+					},
+					"response": [
+						{
+							"name": "Create a ContactForum",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "Need AI Resources",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "student@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "I want pdfs",
+											"type": "text"
+										},
+										{
+											"key": "domainId",
+											"value": "667c04bbcf4baa9f1cb69d3b",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/contact-forum"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "308"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"134-FExnESz9KW4QYzBcXeo8VFaMwZ8\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:16:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"title\": \"Need AI Resources\",\n        \"email\": \"student@gmail.com\",\n        \"description\": \"I want pdfs\",\n        \"domainId\": \"667c04bbcf4baa9f1cb69d3b\",\n        \"_id\": \"667c06afcf4baa9f1cb69d55\",\n        \"createdAt\": \"2024-06-26T12:16:47.335Z\",\n        \"updatedAt\": \"2024-06-26T12:16:47.335Z\",\n        \"__v\": 0\n    },\n    \"success\": true,\n    \"message\": \"Successfully created\",\n    \"err\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "get All contactforums",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/contact-forums"
+					},
+					"response": [
+						{
+							"name": "get All contactforums",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/contact-forums"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1525"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5f5-+vLz0HwepqYhuAPXrHGPUbX7tDc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:17:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"_id\": \"6676a1e83b7d47ddba6f268f\",\n            \"title\": \"Need AI Resources\",\n            \"email\": \"student@gmail.com\",\n            \"description\": \"I want pdfs\",\n            \"domainId\": \"6676711c0826ee58e49739db\",\n            \"createdAt\": \"2024-06-22T10:05:28.311Z\",\n            \"updatedAt\": \"2024-06-22T10:05:28.311Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6676a1ea3b7d47ddba6f2693\",\n            \"title\": \"Need AI Resources\",\n            \"email\": \"student@gmail.com\",\n            \"description\": \"I want pdfs\",\n            \"domainId\": \"6676711c0826ee58e49739db\",\n            \"createdAt\": \"2024-06-22T10:05:30.192Z\",\n            \"updatedAt\": \"2024-06-22T10:05:30.192Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6676a1eb3b7d47ddba6f2697\",\n            \"title\": \"Need AI Resources\",\n            \"email\": \"student@gmail.com\",\n            \"description\": \"I want pdfs\",\n            \"domainId\": \"6676711c0826ee58e49739db\",\n            \"createdAt\": \"2024-06-22T10:05:31.770Z\",\n            \"updatedAt\": \"2024-06-22T10:05:31.770Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6676a1ed3b7d47ddba6f269b\",\n            \"title\": \"Need AI Resources\",\n            \"email\": \"student@gmail.com\",\n            \"description\": \"I want pdfs\",\n            \"domainId\": \"6676711c0826ee58e49739db\",\n            \"createdAt\": \"2024-06-22T10:05:33.298Z\",\n            \"updatedAt\": \"2024-06-22T10:05:33.298Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"667c06a5cf4baa9f1cb69d52\",\n            \"title\": \"Need AI Resources\",\n            \"email\": \"student@gmail.com\",\n            \"description\": \"I want pdfs\",\n            \"domainId\": \"6676711c0826ee58e49739db\",\n            \"createdAt\": \"2024-06-26T12:16:37.128Z\",\n            \"updatedAt\": \"2024-06-26T12:16:37.128Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"667c06afcf4baa9f1cb69d55\",\n            \"title\": \"Need AI Resources\",\n            \"email\": \"student@gmail.com\",\n            \"description\": \"I want pdfs\",\n            \"domainId\": \"667c04bbcf4baa9f1cb69d3b\",\n            \"createdAt\": \"2024-06-26T12:16:47.335Z\",\n            \"updatedAt\": \"2024-06-26T12:16:47.335Z\",\n            \"__v\": 0\n        }\n    ],\n    \"success\": true,\n    \"message\": \"Successfully fetched\",\n    \"err\": {}\n}"
+						}
+					]
+				},
+				{
+					"name": "get forum by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/contact-forum/6676a1e83b7d47ddba6f268f"
+					},
+					"response": [
+						{
+							"name": "get forum by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/contact-forum/6676a1e83b7d47ddba6f268f"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "242"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f2-/rMmUu1dMaFBoIapRtq+YbOYYZc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:17:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6676a1e83b7d47ddba6f268f\",\n    \"title\": \"Need AI Resources\",\n    \"email\": \"student@gmail.com\",\n    \"description\": \"I want pdfs\",\n    \"domainId\": \"6676711c0826ee58e49739db\",\n    \"createdAt\": \"2024-06-22T10:05:28.311Z\",\n    \"updatedAt\": \"2024-06-22T10:05:28.311Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "get all forums by domainId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/contact-forums/6676711c0826ee58e49739db"
+					},
+					"response": [
+						{
+							"name": "get all forums by domainId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "localhost:3001/api/v1/contact-forums/6676711c0826ee58e49739db"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1216"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4c0-n7vhjzRnHOiOLQDMiHc6EdHsums\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:17:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"6676a1e83b7d47ddba6f268f\",\n        \"title\": \"Need AI Resources\",\n        \"email\": \"student@gmail.com\",\n        \"description\": \"I want pdfs\",\n        \"domainId\": \"6676711c0826ee58e49739db\",\n        \"createdAt\": \"2024-06-22T10:05:28.311Z\",\n        \"updatedAt\": \"2024-06-22T10:05:28.311Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6676a1ea3b7d47ddba6f2693\",\n        \"title\": \"Need AI Resources\",\n        \"email\": \"student@gmail.com\",\n        \"description\": \"I want pdfs\",\n        \"domainId\": \"6676711c0826ee58e49739db\",\n        \"createdAt\": \"2024-06-22T10:05:30.192Z\",\n        \"updatedAt\": \"2024-06-22T10:05:30.192Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6676a1eb3b7d47ddba6f2697\",\n        \"title\": \"Need AI Resources\",\n        \"email\": \"student@gmail.com\",\n        \"description\": \"I want pdfs\",\n        \"domainId\": \"6676711c0826ee58e49739db\",\n        \"createdAt\": \"2024-06-22T10:05:31.770Z\",\n        \"updatedAt\": \"2024-06-22T10:05:31.770Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6676a1ed3b7d47ddba6f269b\",\n        \"title\": \"Need AI Resources\",\n        \"email\": \"student@gmail.com\",\n        \"description\": \"I want pdfs\",\n        \"domainId\": \"6676711c0826ee58e49739db\",\n        \"createdAt\": \"2024-06-22T10:05:33.298Z\",\n        \"updatedAt\": \"2024-06-22T10:05:33.298Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"667c06a5cf4baa9f1cb69d52\",\n        \"title\": \"Need AI Resources\",\n        \"email\": \"student@gmail.com\",\n        \"description\": \"I want pdfs\",\n        \"domainId\": \"6676711c0826ee58e49739db\",\n        \"createdAt\": \"2024-06-26T12:16:37.128Z\",\n        \"updatedAt\": \"2024-06-26T12:16:37.128Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Update Forum by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "description",
+									"value": "my description changed",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/contact-forum/6676a1e83b7d47ddba6f268f"
+					},
+					"response": [
+						{
+							"name": "Update Forum by ID",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "description",
+											"value": "my description changed",
+											"type": "text"
+										}
+									]
+								},
+								"url": "localhost:3001/api/v1/contact-forum/6676a1e83b7d47ddba6f268f"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "253"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fd-YIscy1RfKxkm/Y3thMdBJfCKvV4\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:18:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6676a1e83b7d47ddba6f268f\",\n    \"title\": \"Need AI Resources\",\n    \"email\": \"student@gmail.com\",\n    \"description\": \"my description changed\",\n    \"domainId\": \"6676711c0826ee58e49739db\",\n    \"createdAt\": \"2024-06-22T10:05:28.311Z\",\n    \"updatedAt\": \"2024-06-26T12:18:07.160Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete forum by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3001/api/v1/contact-forum/6676a1e83b7d47ddba6f268f"
+					},
+					"response": [
+						{
+							"name": "Delete forum by ID",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": "localhost:3001/api/v1/contact-forum/6676a1e83b7d47ddba6f268f"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "49"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"31-ErVz4Kx4oVha12x3yEd3mP23+TA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 26 Jun 2024 12:18:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Successfully Deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "News Model",
+			"item": [
+				{
+					"name": "Create News",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "kerkvlkvml",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "ergrrgv",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "vnd",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/create/news"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All News",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:3001/api/v1/news"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "new",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:3001/api/v1/update/news/6690060a70f4193891972102"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3001/api/v1/delete/news/6690060a70f4193891972102"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Testimonials",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Amazing Service\",\r\n  \"name\": \"John Doe\",\r\n  \"message\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\",\r\n  \"rating\": 5,\r\n  \"designation\": \"CEO\",\r\n  \"photo\": \"https://example.com/john-doe.jpg\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"approved\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:3001/api/v1/testimonials/create"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:3001/api/v1/testimonials/delete/6690079b70f4193891972107"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -15,6 +15,8 @@ import UserDetails from "./components/UserDetails";
 import Signin from "./components/SignIn";
 import ForgotPassword from "./components/ForgotPassword";
 import AdminPage from "./components/Admin_op/AdminPage";
+import PasswordVerify from "./components/PasswordVerify";
+
 function App() {
   return (
     <>
@@ -32,6 +34,7 @@ function App() {
         <Route path="/Domain/:domainName" element={<Domains />} />
         <Route path="/Profile/:username" element={<UserProfile />} />
         <Route path="/About" element={<About />} />
+        <Route path="/user/verify/:authToken" element={<PasswordVerify />} />
       </Routes>
       <Footer />
     </>

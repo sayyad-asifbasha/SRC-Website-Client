@@ -18,7 +18,16 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { Button, CardActions } from "@mui/material";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useFormik } from "formik";
+import { useRef } from "react";
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "../../styles/AdminPage.css";
 
 const style = {
   position: "absolute",
@@ -60,12 +69,97 @@ export default function CarouselForm() {
     setCarItem(item);
     handleOpen();
   };
+  const deleteCarousal = (item) => {
+    setDeleteItem(item);
+    setCOpen(true);
+  };
   const [open, setOpen] = React.useState(false);
+  const [copen, setCOpen] = React.useState(false);
   const [carItem, setCarItem] = React.useState({});
+  const [deleteItem, setDeleteItem] = React.useState({});
+
+  const [edit, setEdit] = React.useState(true);
+  const fileRef = useRef(null);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleCClose = () => setCOpen(false);
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setEdit(!edit);
+  };
+  const handleEditSubmission = (e) => {
+    e.preventDefault();
+    setEdit(!edit);
+    handleClose();
+    toast.success("Updated Carousel Successfully", {
+      position: "top-right",
+      autoClose: 3000,
+      height: 100,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+      transition: Bounce,
+    });
+  };
+
+  const handleAddCarousel = (e) => {
+    e.preventDefault();
+    console.log(addCarousalFormik.values);
+    toast.success("Added Carousel Successfully", {
+      position: "top-right",
+      autoClose: 3000,
+      height: 100,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+      transition: Bounce,
+    });
+    addCarousalFormik.values = { title: "", description: "" };
+    addCarousalFormik.resetForm();
+    fileRef.current.value = "";
+  };
+
+  const handleDeleteCarousel = () => {
+    handleCClose();
+    console.log(deleteItem);
+    toast.success("Deleted Carousel Successfully", {
+      position: "top-right",
+      autoClose: 3000,
+      height: 100,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+      transition: Bounce,
+    });
+  };
+  const handleFileChange = (event) => {
+    const file = event.currentTarget.files[0];
+    addCarousalFormik.setFieldValue("file", file);
+  };
+
+  const editCarousalFormik = useFormik({
+    initialValues: {
+      title: carItem && carItem.title,
+      description: carItem && carItem.description,
+    },
+  });
+  const addCarousalFormik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      file: null,
+    },
+  });
   return (
     <>
+      <ToastContainer />
       <div>
         <Modal
           aria-labelledby="transition-modal-title"
@@ -88,25 +182,92 @@ export default function CarouselForm() {
                 sx={{ height: "20rem" }}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {carItem && carItem.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  scroll="paper"
-                >
-                  {carItem && carItem.description}
+                <Typography>
+                  <div
+                    className="contact-fields carousel-fields"
+                    onSubmit={handleEditSubmission}
+                  >
+                    <form>
+                      <input
+                        type="text"
+                        id="carousel-title"
+                        required
+                        name="title"
+                        defaultValue={carItem && carItem.title}
+                        disabled={edit}
+                        onChange={editCarousalFormik.handleChange}
+                        style={
+                          !edit
+                            ? {
+                                border: "0.5px solid black",
+                                backgroundColor: "white",
+                              }
+                            : {}
+                        }
+                      />
+
+                      <textarea
+                        style={
+                          !edit
+                            ? {
+                                border: "0.5px solid black",
+                                backgroundColor: "white",
+                                resize: "none",
+                              }
+                            : { resize: "none" }
+                        }
+                        placeholder="Description about Domain"
+                        name="description"
+                        id="carousel-desc"
+                        required
+                        cols={30}
+                        rows={7}
+                        spellCheck={false}
+                        disabled={edit}
+                        defaultValue={carItem && carItem.description}
+                        onChange={editCarousalFormik.handleChange}
+                        // eslint-disable-next-line
+                      ></textarea>
+                      {edit ? (
+                        <button className="submit-message" onClick={handleEdit}>
+                          Edit
+                        </button>
+                      ) : (
+                        <button className="submit-message" type="submit">
+                          Save
+                        </button>
+                      )}
+                    </form>
+                  </div>
                 </Typography>
               </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Share
-                </Button>
-              </CardActions>
             </Box>
           </Fade>
         </Modal>
+      </div>
+      <div>
+        <React.Fragment>
+          <Dialog
+            open={copen}
+            onClose={handleCClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Delete Carousel"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                You are about to delete this carousel. This action is
+                irreversible. Do you wish to proceed?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCClose}>Cancel</Button>
+              <Button onClick={handleDeleteCarousel}>Delete</Button>
+            </DialogActions>
+          </Dialog>
+        </React.Fragment>
       </div>
       <Grid>
         <Typography sx={{ color: "white", mx: 3 }} variant="h5" component="div">
@@ -133,7 +294,11 @@ export default function CarouselForm() {
                         />
                       </IconButton>
                       <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
+                        <DeleteIcon
+                          onClick={() => {
+                            deleteCarousal(item[1]);
+                          }}
+                        />
                       </IconButton>
                     </>
                   }
@@ -156,6 +321,48 @@ export default function CarouselForm() {
           </List>
         </Demo>
       </Grid>
+      <div className="sub-contact-container" style={{ margin: ".9rem" }}>
+        <div className="contact-head">
+          <div>
+            <h2>Add Carousel</h2>
+          </div>
+        </div>
+        <div className="contact-fields add-carousel-item">
+          <form onSubmit={handleAddCarousel}>
+            <input
+              type="text"
+              id="domain-name"
+              required
+              name="title"
+              onChange={addCarousalFormik.handleChange}
+              value={addCarousalFormik.values.title}
+              placeholder="Title of carousel"
+            />
+
+            <textarea
+              style={{ resize: "none" }}
+              placeholder="Description about Carousel Item"
+              name="description"
+              id="domain-desc"
+              required
+              onChange={addCarousalFormik.handleChange}
+              cols={30}
+              rows={7}
+              value={addCarousalFormik.values.description}
+            ></textarea>
+            <input
+              type="file"
+              name="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              ref={fileRef}
+            />
+            <button className="submit-message" type="submit">
+              Add Carousel
+            </button>
+          </form>
+        </div>
+      </div>
     </>
   );
 }

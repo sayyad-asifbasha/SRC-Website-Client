@@ -10,6 +10,7 @@ import { toast, Bounce } from "react-toastify";
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -37,7 +38,14 @@ export default function Navbar() {
     <>
       <ToastContainer />
       <Headroom downTolerance={10} upTolerance={10} pinStart={50}>
-        <header className="main">
+        <header
+          className="main"
+          style={
+            location.pathname.startsWith("/user/verify")
+              ? { display: "none" }
+              : { display: "block" }
+          }
+        >
           <nav className="header header-close" id="header">
             <div className="Logos">
               <div className="burger" onClick={toggleMenu}>

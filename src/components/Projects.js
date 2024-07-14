@@ -13,6 +13,10 @@ import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Badge } from "@mui/material";
 import phone from "../assets/images/contact-image-3.jpg";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -24,12 +28,16 @@ const ExpandMore = styled((props) => {
   }),
 }));
 export default function Projects() {
+  // const [expanded, setExpanded] = React.useState(false);
+
+  // const handleExpandClick = () => {
+  //   setExpanded(!expanded);
+  // };
   const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
   };
-
   const projects = [
     {
       domain: "1",
@@ -119,7 +127,7 @@ export default function Projects() {
           gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
         }}
       >
-        {projects.map((e) => {
+        {projects.map((e, i) => {
           return (
             <div style={{ margin: "2rem" }}>
               <Card sx={{ maxWidth: 345 }}>
@@ -140,7 +148,7 @@ export default function Projects() {
                 />
                 <CardContent
                   sx={{
-                    margin: "1.3rem",
+                    margin: "0rem",
 
                     fontSize: "3.5rem",
                   }}
@@ -171,24 +179,59 @@ export default function Projects() {
                       </ul>
                     </div>
                   </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
+                  <div
+                    style={{
+                      display: "grid",
+                      margin: "0px",
+                      placeItems: "center",
+                      gridTemplateColumns:
+                        "repeat(auto-fill, minmax(90px, 2fr))",
+                      gap: "none !important",
+                    }}
                   >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                  <CardContent>
-                    <Typography paragraph>Description:</Typography>
-
-                    <Typography paragraph>{e.projectDescription}</Typography>
-                  </CardContent>
-                </Collapse>
+                    {e.tags.map((ele) => {
+                      return (
+                        <div style={{ margin: "10px !important" }}>
+                          <Badge
+                            badgeContent={ele}
+                            color="primary"
+                            sx={badgeStyle}
+                          ></Badge>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+                <Accordion
+                  expanded={expanded === `panel${i}`}
+                  onChange={handleChange(`panel${i}`)}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography
+                      sx={{
+                        color: "text.primary",
+                        fontSize: "20px !important",
+                      }}
+                    >
+                      Description
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      sx={{
+                        color: "text.primary",
+                        fontSize: "18px !important",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {e.projectDescription}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
               </Card>
             </div>
           );

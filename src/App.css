@@ -31,6 +31,27 @@
 body {
   background-color: var(--background-color);
 }
+.user-verify-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user-verify-button {
+  outline: none;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  font-size: 1.09rem;
+  color: black;
+  margin-top: 7rem;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.user-verify-button:hover {
+  color: white;
+  background-color: var(--hover-color);
+}
 
 /* Contact us styles */
 

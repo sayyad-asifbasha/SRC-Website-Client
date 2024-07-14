@@ -17,6 +17,7 @@ import CarouselForm from "./CarouselForm";
 import DomainForm from "./DomainForm";
 import "../../styles/AdminPage.css";
 import NewsForm from "./NewsForm";
+import UpcomingEventForm from "./UpcomingEventForm";
 import Officials from "./Officials";
 import ContactForum from "./ContactForum";
 import CompletedEventForum from "./CompletedEventForum";
@@ -45,10 +46,15 @@ export default function NestedList() {
 
   const handleMenuClick = (setAnchorEl) => (event) => {
     setAnchorEl(event.currentTarget);
+    // setSelectedIndex(event.target.id);
+    console.log(event.target.id);
   };
 
-  const handleMenuClose = (setAnchorEl) => () => {
+  const handleMenuClose = (setAnchorEl) => (e) => {
     setAnchorEl(null);
+    // console.log(e.target.id);
+    setSelectedIndex(e.target.id);
+    console.log(selectedIndex);
   };
 
   return (
@@ -58,7 +64,7 @@ export default function NestedList() {
           <List
             sx={{
               width: "100%",
-              maxWidth: 360,
+              maxWidth: 400,
               bgcolor: "back.paper",
 
               borderRadius: "0.5rem",
@@ -205,7 +211,7 @@ export default function NestedList() {
           <div className="dashboard-nav">
             <Box
               sx={{
-                maxWidth: { xs: "100%", sm: 480 },
+                maxWidth: { xs: "100%", sm: 500 },
                 bgcolor: "background.paper",
               }}
             >
@@ -237,16 +243,28 @@ export default function NestedList() {
                           "aria-labelledby": "home-button",
                         }}
                       >
-                        <MenuItem onClick={handleMenuClose(setHomeAnchorEl)}>
+                        <MenuItem
+                          onClick={handleMenuClose(setHomeAnchorEl)}
+                          id="1"
+                        >
                           Carousel
                         </MenuItem>
-                        <MenuItem onClick={handleMenuClose(setHomeAnchorEl)}>
+                        <MenuItem
+                          onClick={handleMenuClose(setHomeAnchorEl)}
+                          id="2"
+                        >
                           Domain
                         </MenuItem>
-                        <MenuItem onClick={handleMenuClose(setHomeAnchorEl)}>
+                        <MenuItem
+                          onClick={handleMenuClose(setHomeAnchorEl)}
+                          id="4"
+                        >
                           Events
                         </MenuItem>
-                        <MenuItem onClick={handleMenuClose(setHomeAnchorEl)}>
+                        <MenuItem
+                          onClick={handleMenuClose(setHomeAnchorEl)}
+                          id="3"
+                        >
                           News
                         </MenuItem>
                       </Menu>
@@ -360,14 +378,10 @@ export default function NestedList() {
             <DomainForm />
           ) : selectedIndex === 3 ? (
             <NewsForm />
-          ) : selectedIndex === 4 ? (
-            <Officials />
-          ) : selectedIndex === 5 ? (
-            <CompletedEventForum />
-          ) : selectedIndex === 9 ? (
-            <ContactForum />
+          ) : selectedIndex === 6 ? (
+            <UpcomingEventForm />
           ) : (
-            <ContactForum />
+            <NewsForm />
           )}
         </div>
       </div>
