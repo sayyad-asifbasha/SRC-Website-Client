@@ -18,15 +18,14 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import dayjs from "dayjs";
-import {  DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useFormik } from "formik";
 import "../../styles/AdminPage.css";
-
 
 export default function UpcomingEventForm() {
   const Demo = styled("div")(({ theme }) => ({
@@ -86,22 +85,21 @@ export default function UpcomingEventForm() {
       transition: Bounce,
     });
   };
-  const handleAddEvent=(e)=>
-  {
+  const handleAddEvent = (e) => {
     e.preventDefault();
     console.log(formik.values);
     // console.log(formik.values.start.format('hh:mm A'))
     // console.log(formik.values.end.format('hh:mm A'))
-  }
+  };
 
   const formik = useFormik({
     initialValues: {
       name: "",
       description: "",
-      from:dayjs(),
-      to:dayjs(),
-      start:dayjs("T15:30"),
-      end:dayjs("T15:30")
+      from: dayjs(),
+      to: dayjs(),
+      start: dayjs("T15:30"),
+      end: dayjs("T15:30"),
     },
     validateOnMount: true,
 
@@ -220,28 +218,52 @@ export default function UpcomingEventForm() {
               rows={7}
               onChange={formik.handleChange}
             ></textarea>
-            <LocalizationProvider dateAdapter={AdapterDayjs} >
-            <div className="upcoming-event-time">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <div className="upcoming-event-time">
                 <DemoItem label="Starts">
-                  <TimePicker  name="start" value={formik.values.start}
-                   onChange={(time) => {
-                    const parsedTime= dayjs(time);
-                    formik.setFieldValue('to', parsedTime.format("hh:mm A"))
-                    }} />
+                  <TimePicker
+                    name="start"
+                    value={formik.values.start}
+                    onChange={(time) => {
+                      const parsedTime = dayjs(time);
+                      formik.setFieldValue("to", parsedTime.format("hh:mm A"));
+                    }}
+                  />
                 </DemoItem>
                 <DemoItem label="Ends">
-                  <TimePicker  name="end" value={formik.values.end}
-                    onChange={(time) => formik.setFieldValue('to', dayjs(time).format("hh:mm A"))}/>
+                  <TimePicker
+                    name="end"
+                    value={formik.values.end}
+                    onChange={(time) =>
+                      formik.setFieldValue("to", dayjs(time).format("hh:mm A"))
+                    }
+                  />
                 </DemoItem>
               </div>
               <div className="upcoming-event-date">
                 <DemoItem label="From">
-                  <DatePicker name="from" value={formik.values.from}
-                    onChange={(date) => formik.setFieldValue('from', dayjs(date).format("DD MMM YYYY"))} />
+                  <DatePicker
+                    name="from"
+                    value={formik.values.from}
+                    onChange={(date) =>
+                      formik.setFieldValue(
+                        "from",
+                        dayjs(date).format("DD MMM YYYY")
+                      )
+                    }
+                  />
                 </DemoItem>
                 <DemoItem label="To">
-                  <DatePicker name="to" value={formik.values.to}
-                    onChange={(date) => formik.setFieldValue('to', dayjs(date).format("DD MMM YYYY"))} />
+                  <DatePicker
+                    name="to"
+                    value={formik.values.to}
+                    onChange={(date) =>
+                      formik.setFieldValue(
+                        "to",
+                        dayjs(date).format("DD MMM YYYY")
+                      )
+                    }
+                  />
                 </DemoItem>
               </div>
             </LocalizationProvider>

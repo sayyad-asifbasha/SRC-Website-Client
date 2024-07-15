@@ -12,16 +12,23 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import CardContent from "@mui/material/CardContent";
-import { Button, CardActions } from "@mui/material";
+import {
+  Button,
+  CardActions,
+  CardMedia,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+} from "@mui/material";
+
 import { useFormik } from "formik";
 import "../../styles/Login.css";
 import { toast, Bounce } from "react-toastify";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import snackbar, { setSnackBar } from "../../features/snackbar/snackbar";
-export default function DomainForm() {
+
+export default function CompletedEventForum() {
   // Calling getAllDomains in useEffect
-  const dispatch = useDispatch();
+
   useEffect(() => {
     try {
       getAllDomains();
@@ -37,6 +44,37 @@ export default function DomainForm() {
   const deleteDomainApi = process.env.REACT_APP_DELETE_DOMAIN_BY_ID;
 
   const updateDomainApi = process.env.REACT_APP_UPDATE_DOMAIN_BY_ID;
+
+  //  Function to show Toast
+
+  const showToast = (msg, msgType) => {
+    if (msgType === "warn") {
+      toast.warn(msg, {
+        position: "top-right",
+        autoClose: 3000,
+        height: 100,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+    if (msgType === "success") {
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 3000,
+        height: 100,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+  };
 
   // init of React Hooks
 
@@ -79,7 +117,7 @@ export default function DomainForm() {
         console.log(res.data);
       });
     } catch (e) {
-      // console.log(e);
+      console.log(e);
     }
   };
 
@@ -106,37 +144,23 @@ export default function DomainForm() {
   // Function for Adding Domain
 
   const addDomain = async (e) => {
-    console.log(
-      `Bearer ${localStorage
-        .getItem("authToken")
-        .slice(1, localStorage.getItem("authToken").length - 1)}`
-    );
     console.log(e);
     try {
       const res = await axios.post(addDomainApi, e, {
         headers: {
-          Authorization: `Bearer ${localStorage
-            .getItem("authToken")
-            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+          key: "Authorization",
+          value: JSON.stringify(localStorage.getItem("authToken")),
+          type: "text",
         },
       });
+      showToast("Domain Created Successfully", "success");
       clearInputFields();
-      dispatch(
-        setSnackBar({
-          message: "Domain Created Successfully",
-          variant: "success",
-        })
-      );
+
       formik.resetForm();
       getAllDomains();
     } catch (e) {
       console.log(e);
-      dispatch(
-        setSnackBar({
-          message: "Error Creating in domain",
-          variant: "error",
-        })
-      );
+      showToast("Error in creating Domain", "warn");
     }
   };
 
@@ -158,38 +182,19 @@ export default function DomainForm() {
         console.log(update);
         const res = await axios.put(updateDomainApi + carItem._id, update, {
           headers: {
-            Authorization: `Bearer ${localStorage
-              .getItem("authToken")
-              .slice(1, localStorage.getItem("authToken").length - 1)}`,
+            key: "Authorization",
+            value: JSON.stringify(localStorage.getItem("authToken")),
+            type: "text",
           },
         });
-        dispatch(
-          setSnackBar({
-            message: "Domain Updated Successfully",
-            variant: "success",
-          })
-        );
         getAllDomains();
-        clearInputFields();
         setUpdate(false);
         clearInputFields();
       } catch (e) {
         console.log(e);
-        dispatch(
-          setSnackBar({
-            message: "Error updating in domain",
-            variant: "error",
-          })
-        );
       }
     } else {
-      // showToast("Requried fields", "warn");
-      dispatch(
-        setSnackBar({
-          message: "Fields required",
-          variant: "error",
-        })
-      );
+      showToast("Requried fields", "warn");
     }
   };
 
@@ -200,27 +205,16 @@ export default function DomainForm() {
     try {
       const res = await axios.delete(deleteDomainApi + e._id, {
         headers: {
-          Authorization: `Bearer ${localStorage
-            .getItem("authToken")
-            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+          key: "Authorization",
+          value: JSON.stringify(localStorage.getItem("authToken")),
+          type: "text",
         },
       });
-      // showToast("Domain Deleted Successfully", "success");
-      dispatch(
-        setSnackBar({
-          message: "Domain Deleted Successfully",
-          variant: "success",
-        })
-      );
+      showToast("Domain Deleted Successfully", "success");
       getAllDomains();
     } catch (e) {
       console.log(e);
-      dispatch(
-        setSnackBar({
-          message: "Error in Deleting Domain",
-          variant: "error",
-        })
-      );
+      showToast("Error in Deleting Domain", "warn");
     }
   };
 
@@ -253,6 +247,26 @@ export default function DomainForm() {
     setCarItem(item);
     handleOpen();
   };
+  const carousalDetails = {
+    0: {
+      //   image: CarousalImg1,
+      title: "Title of Image 1",
+      description:
+        "Main Page Component, sit amet consectetur adipisicing elit. Quasi reiciendis veritatis iure, aperiam vitae obcaecati consequatur at.Praesentium, asperiores facere ad repellendus voluptatibusconsequatur nisi commodi a? Incidunt odio magnam veritatis! Temporaconsectetur excepturi ipsam in! Nisi exercitationem, vel autemratione iusto fugiat esse labore! Enim earum vel accusamus hic ipsumdebitis aperiam praesentium eos necessitatibus facilis laudantiumquasi odit, deserunt cumque quas quae exercitationem soluta, cumdoloremque id! Dignissimos animi, id maxime autem provident quo consequatur rerum fugiat qui repellendus quam aliquid sequi doloressed placeat ea distinctio quasi?......",
+    },
+    1: {
+      //   image: CarousalImg1,
+      title: "Title of Image 2",
+      description:
+        "Main Page Component, sit amet consectetur adipisicing elit. Quasi reiciendis veritatis iure, aperiam vitae obcaecati consequatur at.Praesentium, asperiores facere ad repellendus voluptatibusconsequatur nisi commodi a? Incidunt odio magnam veritatis! Temporaconsectetur excepturi ipsam in! Nisi exercitationem, vel autemratione iusto fugiat esse labore! Enim earum vel accusamus hic ipsumdebitis aperiam praesentium eos necessitatibus facilis laudantiumquasi odit, deserunt cumque quas quae exercitationem soluta, cumdoloremque id! Dignissimos animi, id maxime autem provident quo consequatur rerum fugiat qui repellendus quam aliquid sequi doloressed placeat ea distinctio quasi?......",
+    },
+    2: {
+      //   image: CarousalImg2,
+      title: "Title of Image 3",
+      description:
+        "Main Page Component, sit amet consectetur adipisicing elit. Quasi reiciendis veritatis iure, aperiam vitae obcaecati consequatur at.Praesentium, asperiores facere ad repellendus voluptatibusconsequatur nisi commodi a? Incidunt odio magnam veritatis! Temporaconsectetur excepturi ipsam in! Nisi exercitationem, vel autemratione iusto fugiat esse labore! Enim earum vel accusamus hic ipsumdebitis aperiam praesentium eos necessitatibus facilis laudantiumquasi odit, deserunt cumque quas quae exercitationem soluta, cumdoloremque id! Dignissimos animi, id maxime autem provident quo consequatur rerum fugiat qui repellendus quam aliquid sequi doloressed placeat ea distinctio quasi?......",
+    },
+  };
 
   const style = {
     position: "absolute",
@@ -273,105 +287,60 @@ export default function DomainForm() {
           flexDirection: "column",
         }}
       >
-        <div style={{ color: "white" }}>
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-              backdrop: {
-                timeout: 500,
-              },
-            }}
+        <Grid>
+          <Typography
+            sx={{ color: "white", mx: 3 }}
+            variant="h5"
+            component="div"
           >
-            <Fade in={open}>
-              <Box sx={style}>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {carItem && carItem.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    scroll="paper"
+            Current Carousel Items
+          </Typography>
+          <Demo sx={{ borderRadius: "0.5rem", margin: "10px" }}>
+            <List sx={{ padding: "0px" }}>
+              {Object.entries(carousalDetails).map((item) => {
+                return (
+                  <ListItem
+                    key={item[1].title}
+                    sx={{ borderBottom: "1px solid grey", padding: "14px" }}
+                    secondaryAction={
+                      <>
+                        <IconButton
+                          edge="end"
+                          aria-label="edit"
+                          sx={{ marginRight: "0.5rem" }}
+                        >
+                          <EditNoteRoundedIcon
+                            onClick={() => {
+                              editCarousal(item[1]);
+                            }}
+                          />
+                        </IconButton>
+                        <IconButton edge="end" aria-label="delete">
+                          <DeleteIcon />
+                        </IconButton>
+                      </>
+                    }
                   >
-                    {carItem && carItem.description}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    id="domain-edit-btn"
-                    size="small"
-                    onClick={() => {
-                      setUpdate(true);
-                      setInputFields();
-                      handleClose(false);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                </CardActions>
-              </Box>
-            </Fade>
-          </Modal>
-          <Grid>
-            <Typography
-              sx={{ color: "white", mx: 3 }}
-              variant="h5"
-              component="div"
-            >
-              Current Domains
-            </Typography>
-            <Demo sx={{ borderRadius: "0.5rem", margin: "10px" }}>
-              <List sx={{ padding: "0px" }}>
-                {domains &&
-                  domains.map((item) => {
-                    return (
-                      <ListItem
-                        key={item._id}
-                        sx={{ borderBottom: "1px solid grey", padding: "14px" }}
-                        secondaryAction={
-                          <>
-                            <IconButton
-                              edge="end"
-                              aria-label="edit"
-                              sx={{ marginRight: "0.5rem" }}
-                            >
-                              <EditNoteRoundedIcon
-                                onClick={() => {
-                                  editCarousal(item);
-                                }}
-                              />
-                            </IconButton>
-                            <IconButton edge="end" aria-label="delete">
-                              <DeleteIcon
-                                onClick={() => {
-                                  deleteDomain(item);
-                                }}
-                              />
-                            </IconButton>
-                          </>
-                        }
+                    <ListItemAvatar>
+                      <Avatar
+                        sx={{ width: 75, height: 75, marginRight: "10px" }}
                       >
-                        <div style={{ color: "black" }}>
-                          <div
-                            style={{ fontWeight: "bold", marginBottom: "1rem" }}
-                          >
-                            {item.name}
-                          </div>
-                          <div>{item.description}</div>
-                        </div>
-                      </ListItem>
-                    );
-                  })}
-              </List>
-            </Demo>
-          </Grid>
-        </div>
-
+                        <img
+                          src={"" + item[1].image}
+                          alt=""
+                          height={"75px"}
+                          width={"75px"}
+                          srcSet=""
+                        />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={item[1].title} />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Demo>
+        </Grid>
         <div className="sub-contact-container" style={{ margin: ".5rem" }}>
           <div className="contact-head">
             <div>
@@ -392,17 +361,17 @@ export default function DomainForm() {
             <form onSubmit={update ? updateDomain : handleSubmit}>
               <input
                 type="text"
-                id="domain-name"
+                id="event-name"
                 required
                 ref={nameRef}
                 name="name"
-                placeholder="Domain Name"
+                placeholder="Event Name"
                 onChange={formik.handleChange}
               />
 
               <textarea
                 style={{ resize: "none" }}
-                placeholder="Description about Domain"
+                placeholder="Description about Event"
                 ref={descRef}
                 name="description"
                 id="domain-desc"

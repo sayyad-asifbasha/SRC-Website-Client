@@ -16,10 +16,11 @@ import Button from "@mui/material/Button";
 import CarouselForm from "./CarouselForm";
 import DomainForm from "./DomainForm";
 import "../../styles/AdminPage.css";
-import { Domain } from "@mui/icons-material";
 import NewsForm from "./NewsForm";
 import UpcomingEventForm from "./UpcomingEventForm";
-
+import Officials from "./Officials";
+import ContactForum from "./ContactForum";
+import CompletedEventForum from "./CompletedEventForum";
 export default function NestedList() {
   const [expanded, setExpanded] = React.useState("panel1");
 
@@ -96,12 +97,7 @@ export default function NestedList() {
                 >
                   <ListItemText primary="Domain" />
                 </ListItemButton>
-                {/* <ListItemButton
-                  selected={selectedIndex === 3}
-                  onClick={(event) => handleListItemClick(event, 3)}
-                >
-                  <ListItemText primary="Events" />
-                </ListItemButton> */}
+
                 <ListItemButton
                   selected={selectedIndex === 3}
                   onClick={(event) => handleListItemClick(event, 3)}
@@ -188,6 +184,29 @@ export default function NestedList() {
                 </ListItemButton>
               </AccordionDetails>
             </Accordion>
+
+            {/* Contact Forum Dashboard */}
+            <Accordion
+              expanded={expanded === "panel5"}
+              onChange={handleChange("panel5")}
+              sx={{ borderRadius: "0.5rem !important", marginBottom: "4px" }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <ListItemText primary="Contact Forum" />
+              </AccordionSummary>
+              <AccordionDetails>
+                <ListItemButton
+                  selected={selectedIndex === 9}
+                  onClick={(event) => handleListItemClick(event, 9)}
+                >
+                  <ListItemText primary="Contact Forum" />
+                </ListItemButton>
+              </AccordionDetails>
+            </Accordion>
           </List>
           <div className="dashboard-nav">
             <Box
@@ -224,16 +243,28 @@ export default function NestedList() {
                           "aria-labelledby": "home-button",
                         }}
                       >
-                        <MenuItem onClick={handleMenuClose(setHomeAnchorEl)} id="1">
+                        <MenuItem
+                          onClick={handleMenuClose(setHomeAnchorEl)}
+                          id="1"
+                        >
                           Carousel
                         </MenuItem>
-                        <MenuItem onClick={handleMenuClose(setHomeAnchorEl)} id="2">
+                        <MenuItem
+                          onClick={handleMenuClose(setHomeAnchorEl)}
+                          id="2"
+                        >
                           Domain
                         </MenuItem>
-                        <MenuItem onClick={handleMenuClose(setHomeAnchorEl)} id="4">
+                        <MenuItem
+                          onClick={handleMenuClose(setHomeAnchorEl)}
+                          id="4"
+                        >
                           Events
                         </MenuItem>
-                        <MenuItem onClick={handleMenuClose(setHomeAnchorEl)}  id="3">
+                        <MenuItem
+                          onClick={handleMenuClose(setHomeAnchorEl)}
+                          id="3"
+                        >
                           News
                         </MenuItem>
                       </Menu>
@@ -347,8 +378,10 @@ export default function NestedList() {
             <DomainForm />
           ) : selectedIndex === 3 ? (
             <NewsForm />
-          ) :selectedIndex === 6 ? (
+          ) : selectedIndex === 6 ? (
             <UpcomingEventForm />
+          ) : selectedIndex === 9 ? (
+            <ContactForum />
           ) : (
             <NewsForm />
           )}

@@ -9,9 +9,9 @@ export default function Home() {
     <>
       <div className="App">
         <Carousal />
+        <News />
         <DomainsList />
         <EventsDemo />
-        <News />
         <Testimonals />
         <Contact />
       </div>

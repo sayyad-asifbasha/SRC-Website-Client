@@ -1,29 +1,16 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/Userprofile.css";
-import userImg from "../assets/images/contact-image-3.jpg";
 export default function UserProfile() {
   const { username } = useParams();
   const [icon, setIcon] = useState(true);
-  const edit = (e) => {
-    e.preventDefault();
-    const inputs = document.querySelectorAll(".edit-inputs");
-    const editBtn = document.getElementById("edit-btn");
-    inputs.forEach((element) => {
-      if (element.disabled) {
-        element.disabled = false;
-        element.style.cursor = "text";
-        setIcon(false);
-        element.style.border = "1px solid rgb(192, 191, 191";
-      } else {
-        element.disabled = true;
-        element.style.border = "none";
-        element.style.cursor = "not-allowed";
-        setIcon(true);
-      }
-    });
-  };
+  const [edit, setEdit] = useState(true);
 
+  const editFields = (e) => {
+    e.preventDefault();
+    setEdit(!edit);
+    setIcon(!icon);
+  };
   const fileInputRef = useRef(null);
   const [image, setImage] = useState(null);
   const handleFileChange = (event) => {
@@ -77,7 +64,7 @@ export default function UserProfile() {
                   onChange={handleFileChange}
                   accept="image/*"
                 />
-                <button onClick={edit} id="edit-btn">
+                <button onClick={editFields} id="edit-btn">
                   {icon ? (
                     <svg
                       viewBox="0 0 24 24"
@@ -99,41 +86,71 @@ export default function UserProfile() {
               <div className="profile-details-item">
                 <div className="profile-input-field">
                   <label htmlFor="Name">Name</label>
-                  <input type="text" className="edit-inputs" />
+                  <input
+                    type="text"
+                    className="edit-inputs"
+                    disabled={edit}
+                    style={edit ? { cursor: "not-allowed" } : {}}
+                  />
                 </div>
               </div>
               <div className="profile-details-item">
                 <div className="profile-input-field">
                   <label htmlFor="ID">ID</label>
-                  <input type="text" className="edit-inputs" />
+                  <input
+                    type="text"
+                    className="edit-inputs"
+                    disabled={edit}
+                    style={edit ? { cursor: "not-allowed" } : {}}
+                  />
                 </div>
               </div>
 
               <div className="profile-details-item">
                 <div className="profile-input-field">
                   <label htmlFor="Gender">Gender</label>
-                  <input type="text" className="edit-inputs" />
+                  <input
+                    type="text"
+                    className="edit-inputs"
+                    disabled={edit}
+                    style={edit ? { cursor: "not-allowed" } : {}}
+                  />
                 </div>
               </div>
 
               <div className="profile-details-item">
                 <div className="profile-input-field">
                   <label htmlFor="Leetcode">Leetcode</label>
-                  <input type="text" className="edit-inputs" />
+                  <input
+                    type="text"
+                    className="edit-inputs"
+                    disabled={edit}
+                    style={edit ? { cursor: "not-allowed" } : {}}
+                  />
                 </div>
               </div>
 
               <div className="profile-details-item">
                 <div className="profile-input-field">
                   <label htmlFor="Github">Github</label>
-                  <input type="text" className="edit-inputs" />
+                  <input
+                    type="text"
+                    className="edit-inputs"
+                    disabled={edit}
+                    style={edit ? { cursor: "not-allowed" } : {}}
+                  />
                 </div>
               </div>
 
               <div className="profile-details-item">
                 <div className="profile-input-field">
                   <label htmlFor="Geeks for geeks">Geeks for Geeks</label>
-                  <input type="text" className="edit-inputs" />
+                  <input
+                    type="text"
+                    className="edit-inputs"
+                    disabled={edit}
+                    style={edit ? { cursor: "not-allowed" } : {}}
+                  />
                 </div>
               </div>
             </div>

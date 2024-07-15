@@ -127,7 +127,7 @@ export default function Projects() {
           gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
         }}
       >
-        {projects.map((e,i) => {
+        {projects.map((e, i) => {
           return (
             <div style={{ margin: "2rem" }}>
               <Card sx={{ maxWidth: 345 }}>
@@ -153,6 +153,32 @@ export default function Projects() {
                     fontSize: "3.5rem",
                   }}
                 >
+                  <Typography variant="body2" color="text.secondary">
+                    <div>
+                      <ul
+                        style={{
+                          display: "gird",
+                          marginLeft: "1rem",
+                          gap: "3rem",
+                          listStyle: "none",
+                          gridTemplateColumns:
+                            "repeat(auto-fit, minmax(35px, 1fr))",
+                        }}
+                      >
+                        {e.tags.map((ele) => {
+                          return (
+                            <li>
+                              <Badge
+                                badgeContent={ele}
+                                color="primary"
+                                sx={badgeStyle}
+                              ></Badge>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </Typography>
                   <div
                     style={{
                       display: "grid",
@@ -185,13 +211,24 @@ export default function Projects() {
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                   >
-                    <Typography sx={{ color: "text.primary",fontSize:"20px !important"}}>
-                        Description
+                    <Typography
+                      sx={{
+                        color: "text.primary",
+                        fontSize: "20px !important",
+                      }}
+                    >
+                      Description
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography sx={{ color: "text.primary",fontSize:"18px !important",fontWeight:"500"}}>
-                     {e.projectDescription}
+                    <Typography
+                      sx={{
+                        color: "text.primary",
+                        fontSize: "18px !important",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {e.projectDescription}
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
