@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import DomainMembers from "./DomainMembers";
-// import Navbar from "./Navbar";
 import Carousal from "./Carousal";
 import LeaderBoard from "./LeaderBoard";
-
+import Resources from "./Resources";
 export default function Domains() {
   return (
     <>
       {<Carousal />}
-      {<LeaderBoard />}
+      {<Resources />}
+      {/* {<LeaderBoard />} */}
       {<DomainMembers />}
     </>
   );
