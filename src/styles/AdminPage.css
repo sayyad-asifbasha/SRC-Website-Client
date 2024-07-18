@@ -17,9 +17,7 @@
   font-weight: 900;
 }
 
-.dashboard-nav {
-  display: none;
-}
+
 .css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root.Mui-selected {
   background-color: var(--hover-color) !important;
   color: white;
@@ -74,14 +72,8 @@
   .admin-container {
     display: flex;
     flex-direction: column;
-    padding: 0px;
-  }
-
-  .dashboard-list {
-    display: none;
-  }
-
-  .dashboard-nav {
-    display: block;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 0rem;
   }
 }

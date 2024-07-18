@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import CardContent from "@mui/material/CardContent";
-import { Formik, useFormik } from "formik";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import {  useFormik } from "formik";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import "../../styles/Login.css";
@@ -37,28 +37,19 @@ export default function NewsForm() {
   // React hooks
 
   const [news, setNews] = useState([]);
-  const titleRef = useRef();
-  const linkRef = useRef();
-  const contentRef = useRef();
+  const [copen, setCOpen] = React.useState(false);
+  const [carItem, setCarItem] = React.useState({});
+  const [cancel,setCancel]=useState(false);
+  const [update, setUpdate] = useState({check:false,news:""});
+  const [loader,setLoader]=useState(false);
+  const handleCClose = () => setCOpen(false);
+
   const dispatch = useDispatch();
 
   // Function to clear input fields
 
-  const clearInputFields = () => {
-    titleRef.current.value = "";
-    linkRef.current.value = "";
-    contentRef.current.value = "";
-  };
-
   // Function for setting input fields
 
-  const setInputFields = () => {
-    console.log(carItem.link);
-    titleRef.current.value = carItem.title;
-    linkRef.current.value =
-      typeof carItem.image === "undefined" ? "" : carItem.image;
-    contentRef.current.value = carItem.content;
-  };
 
   //  Function for CRUD operations
 
@@ -75,19 +66,24 @@ export default function NewsForm() {
   const upodateNews = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(updateNewsApi + carItem._id, formik.values, {
+      setLoader(true);
+      const res = await axios.put(updateNewsApi + update.news._id, formik.values, {
         headers: {
           Authorization: `Bearer ${localStorage
             .getItem("authToken")
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      clearInputFields();
       getNews();
+      setUpdate({check:false,news:""});
+      setCancel(false);
+      formik.resetForm();
       dispatch(
         setSnackBar({ message: "Update News successfully", variant: "success" })
       );
+      setLoader(false);
     } catch (e) {
+      setLoader(false);
       console.log(e);
       dispatch(
         setSnackBar({ message: "Error in updating news", variant: "error" })
@@ -102,6 +98,7 @@ export default function NewsForm() {
         .slice(1, localStorage.getItem("authToken").length - 1)}`
     );
     try {
+      setLoader(true);
       const res = await axios.post(createNewsApi, e, {
         headers: {
           Authorization: `Bearer ${localStorage
@@ -109,12 +106,13 @@ export default function NewsForm() {
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      clearInputFields();
       getNews();
       dispatch(
         setSnackBar({ message: "News Added Successsfully", variant: "success" })
       );
+      setLoader(false);
     } catch (e) {
+      setLoader(false);
       console.log(e);
       dispatch(
         setSnackBar({ message: "Error adding in news", variant: "error" })
@@ -122,9 +120,9 @@ export default function NewsForm() {
     }
   };
 
-  const deleteNews = async (e) => {
+  const deleteNews = async () => {
     try {
-      const res = await axios.delete(deleteNewsApi + e._id, {
+      const res = await axios.delete(deleteNewsApi + update.news._id, {
         headers: {
           Authorization: `Bearer ${localStorage
             .getItem("authToken")
@@ -137,6 +135,7 @@ export default function NewsForm() {
           variant: "success",
         })
       );
+      handleCClose();
       getNews();
     } catch (e) {
       console.log(e);
@@ -153,26 +152,16 @@ export default function NewsForm() {
     backgroundColor: theme.palette.background.paper,
   }));
 
-  const editCarousal = (item) => {
-    setCarItem(item);
-    handleOpen();
-  };
-  const [open, setOpen] = React.useState(false);
-  const [carItem, setCarItem] = React.useState({});
-  const [update, setUpdate] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const editNews=()=>
+  {
+    setCancel(true);
+    formik.setFieldValue("title",update.news.title);
+    formik.setFieldValue("image",update.news.image);
+    formik.setFieldValue("content",update.news.content);
+    handleCClose();
+  }
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "80%",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-  };
+  
 
   const formik = useFormik({
     initialValues: {
@@ -224,50 +213,41 @@ export default function NewsForm() {
         }}
       >
         <div style={{ color: "white" }}>
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-              backdrop: {
-                timeout: 500,
-              },
-            }}
-          >
-            <Fade in={open}>
-              <Box sx={style}>
-                <CardContent>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: ".5rem",
-                      alignItems: "center",
+          <div>
+            <React.Fragment>
+              <Dialog
+                open={copen}
+                onClose={handleCClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {update.check ? "Edit News" : "Delete News"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    {update.check
+                      ? "You are about to edit this news.Modify the details in following form"
+                      : "You are about to delete this news. This action is irreversible. Do you wish to proceed?"}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => {
+                      setUpdate({ check: false, news: "" });
+                      setCOpen(false);
+                      setCancel(false);
                     }}
                   >
-                    <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-                      {carItem.title}
-                    </div>
-                    <div>{carItem.date}</div>
-                  </div>
-                  <div style={{ marginTop: "1rem" }}>{carItem.content}</div>
-                </CardContent>
-                <Button
-                  id="domain-edit-btn"
-                  size="small"
-                  onClick={() => {
-                    setUpdate(true);
-                    setInputFields();
-                    handleClose(false);
-                  }}
-                >
-                  Edit
-                </Button>
-              </Box>
-            </Fade>
-          </Modal>
+                    Cancel
+                  </Button>
+                  <Button onClick={update.check ? editNews : deleteNews}>
+                    {update.check ? "Edit" : "Delete"}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </React.Fragment>
+          </div>
           <Grid>
             <Typography
               sx={{ color: "white", mx: 3 }}
@@ -282,35 +262,11 @@ export default function NewsForm() {
                   return (
                     <ListItem
                       key={item[1].domainnName}
-                      sx={{ borderBottom: "1px solid grey", padding: "14px" }}
-                      secondaryAction={
-                        <>
-                          <IconButton
-                            edge="end"
-                            aria-label="edit"
-                            sx={{ marginRight: "0.5rem" }}
-                            onClick={() => {
-                              editCarousal(item[1]);
-                            }}
-                          >
-                            <EditNoteRoundedIcon />
-                          </IconButton>
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            onClick={() => {
-                              deleteNews(item[1]);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </>
-                      }
+                      sx={{ borderBottom: "1px solid grey" }}
                     >
                       <div
                         style={{
                           color: "black",
-                          marginRight: "5rem",
                         }}
                       >
                         <div
@@ -318,11 +274,41 @@ export default function NewsForm() {
                             fontWeight: "bold",
                             marginBottom: "1rem",
                             fontSize: "1.3rem",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                           }}
                         >
-                          {item[1].title}
+                          <div>{item[1].title}</div>
+                          <div>
+                            <IconButton
+                              edge="end"
+                              aria-label="edit"
+                              sx={{ marginRight: "0.5rem" }}
+                              onClick={() => {
+                                setCOpen(true);
+                                setUpdate({check:true,news:item[1]})
+                              }}
+                            >
+                              <EditNoteRoundedIcon />
+                            </IconButton>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() => {
+                                setCOpen(true);
+                                setUpdate({check:false,news:item[1]})
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </div>
                         </div>
-                        <div style={ellipsisStyle}>{item[1].content}</div>
+                        <div
+                          style={{ fontSize: "1.15rem", textAlign: "justify" }}
+                        >
+                          {item[1].content}
+                        </div>
                       </div>
                     </ListItem>
                   );
@@ -336,25 +322,26 @@ export default function NewsForm() {
           <div className="contact-head">
             <div>
               <h3>{update ? "Update News" : "Add News"}</h3>
-              {update && (
+              {cancel ? (
                 <button
                   onClick={() => {
-                    setUpdate(false);
-                    clearInputFields();
+                    setUpdate({check:"false",news:""});
+                    setCancel(false);
+                    formik.resetForm();
                   }}
                 >
                   Cancel
                 </button>
-              )}
+              ):""}
             </div>
           </div>
           <div className="contact-fields">
-            <form onSubmit={update ? upodateNews : handleSubmit}>
+            <form onSubmit={update.check ? upodateNews : handleSubmit}>
               <input
                 type="text"
                 id="news-heading"
-                ref={titleRef}
                 name="title"
+                value={formik.values.title}
                 required
                 placeholder="News Heading"
                 onChange={formik.handleChange}
@@ -363,7 +350,7 @@ export default function NewsForm() {
                 type="text"
                 id="news-links"
                 name="image"
-                ref={linkRef}
+                value={formik.values.image}
                 placeholder="Any Links"
                 onChange={formik.handleChange}
               />
@@ -371,17 +358,26 @@ export default function NewsForm() {
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Description about News"
+                value={formik.values.content}
                 name="content"
                 id="news-desc"
                 cols={30}
                 rows={7}
                 required
-                ref={contentRef}
                 onChange={formik.handleChange}
               ></textarea>
-              <button className="submit-message">
+              {/* <button className="submit-message">
                 {update ? "Update News" : "Add News"}
-              </button>
+              </button> */}
+              {loader ? (
+                <button className="submit-message" disabled={loader}>
+                  <CircularProgress size={27} sx={{ color: "#022368" }} />
+                </button>
+              ) : (
+                <button className="submit-message">
+                  {update.check ? "update News" : "Add News"}
+                </button>
+              )}
             </form>
           </div>
         </div>

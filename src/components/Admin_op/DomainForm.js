@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -7,27 +7,23 @@ import ListItem from "@mui/material/ListItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import CardContent from "@mui/material/CardContent";
-import { Button, CardActions } from "@mui/material";
+import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import "../../styles/Login.css";
-import { toast, Bounce } from "react-toastify";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
-import snackbar, { setSnackBar } from "../../features/snackbar/snackbar";
+import  { setSnackBar } from "../../features/snackbar/snackbar";
 export default function DomainForm() {
   // Calling getAllDomains in useEffect
   const dispatch = useDispatch();
   useEffect(() => {
-    try {
       getAllDomains();
-    } catch (e) {
-      console.log(e);
-    }
   }, []);
 
   // Getting Environment Variables
@@ -42,10 +38,11 @@ export default function DomainForm() {
 
   const [domains, setDomains] = useState(null);
   const [update, setUpdate] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [carItem, setCarItem] = React.useState({});
-  const nameRef = useRef("");
-  const descRef = useRef("");
+  const [loader, setLoader] = React.useState(false);
+  const [cancel,setCancel]=useState(false);
+  const [copen, setCOpen] = React.useState(false);
+
+  const handleCClose = (type) => setCOpen(false);
 
   const formik = useFormik({
     initialValues: {
@@ -83,6 +80,13 @@ export default function DomainForm() {
     }
   };
 
+  const editDomain=()=>
+  {
+    setCOpen(false);
+    formik.setFieldValue("name",update.domain.name);
+    formik.setFieldValue("description",update.domain.description);
+    setCancel(true);
+  }
   // Function for Handling Form
 
   const handleSubmit = (e) => {
@@ -113,6 +117,7 @@ export default function DomainForm() {
     );
     console.log(e);
     try {
+      setLoader(true);
       const res = await axios.post(addDomainApi, e, {
         headers: {
           Authorization: `Bearer ${localStorage
@@ -120,7 +125,7 @@ export default function DomainForm() {
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      clearInputFields();
+      formik.resetForm();
       dispatch(
         setSnackBar({
           message: "Domain Created Successfully",
@@ -129,7 +134,9 @@ export default function DomainForm() {
       );
       formik.resetForm();
       getAllDomains();
+      setLoader(false);
     } catch (e) {
+      setLoader(false);
       console.log(e);
       dispatch(
         setSnackBar({
@@ -144,49 +151,38 @@ export default function DomainForm() {
 
   const updateDomain = async (e) => {
     e.preventDefault();
-    console.log(carItem);
-    if (
-      nameRef.current.value !== "" &&
-      nameRef.current.value !== "undefined" &&
-      descRef.current.value !== "" &&
-      descRef.current.value !== "undefined"
-    ) {
-      try {
-        const update = {
-          description: descRef.current.value,
-        };
-        console.log(update);
-        const res = await axios.put(updateDomainApi + carItem._id, update, {
+    setCancel(false)
+    try {
+      setLoader(true);
+
+      console.log(update);
+      const res = await axios.put(
+        updateDomainApi + update.domain._id,
+        formik.values,
+        {
           headers: {
             Authorization: `Bearer ${localStorage
               .getItem("authToken")
               .slice(1, localStorage.getItem("authToken").length - 1)}`,
           },
-        });
-        dispatch(
-          setSnackBar({
-            message: "Domain Updated Successfully",
-            variant: "success",
-          })
-        );
-        getAllDomains();
-        clearInputFields();
-        setUpdate(false);
-        clearInputFields();
-      } catch (e) {
-        console.log(e);
-        dispatch(
-          setSnackBar({
-            message: "Error updating in domain",
-            variant: "error",
-          })
-        );
-      }
-    } else {
-      // showToast("Requried fields", "warn");
+        }
+      );
       dispatch(
         setSnackBar({
-          message: "Fields required",
+          message: "Domain Updated Successfully",
+          variant: "success",
+        })
+      );
+      getAllDomains();
+      setUpdate(false);
+      formik.resetForm();
+      setLoader(false);
+    } catch (e) {
+      setLoader(false);
+      console.log(e);
+      dispatch(
+        setSnackBar({
+          message: "Error updating in domain",
           variant: "error",
         })
       );
@@ -195,10 +191,9 @@ export default function DomainForm() {
 
   // Function for Deleting Domains
 
-  const deleteDomain = async (e) => {
-    console.log(e);
+  const deleteDomain = async () => {
     try {
-      const res = await axios.delete(deleteDomainApi + e._id, {
+      const res = await axios.delete(deleteDomainApi +update.domain._id, {
         headers: {
           Authorization: `Bearer ${localStorage
             .getItem("authToken")
@@ -222,26 +217,8 @@ export default function DomainForm() {
         })
       );
     }
+    setCOpen(false);
   };
-
-  // Function for setting text in input fields
-
-  const setInputFields = () => {
-    nameRef.current.value = carItem.name;
-    descRef.current.value = carItem.description;
-  };
-
-  // Function to clear Input Fields
-
-  const clearInputFields = () => {
-    nameRef.current.value = "";
-    descRef.current.value = "";
-  };
-
-  // Function for Handlnig Modal
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   // Custom Styles
 
@@ -249,21 +226,7 @@ export default function DomainForm() {
     backgroundColor: theme.palette.background.paper,
   }));
 
-  const editCarousal = (item) => {
-    setCarItem(item);
-    handleOpen();
-  };
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "80%",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-  };
 
   return (
     <>
@@ -274,49 +237,41 @@ export default function DomainForm() {
         }}
       >
         <div style={{ color: "white" }}>
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-              backdrop: {
-                timeout: 500,
-              },
-            }}
-          >
-            <Fade in={open}>
-              <Box sx={style}>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {carItem && carItem.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    scroll="paper"
-                  >
-                    {carItem && carItem.description}
-                  </Typography>
-                </CardContent>
-                <CardActions>
+          <div>
+            <React.Fragment>
+              <Dialog
+                open={copen}
+                onClose={handleCClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {update.check ? "Edit Domain" : "Delete Domain"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    {update.check
+                      ? "You are about to edit this domian.Modify the details in following form"
+                      : "You are about to delete this domian. This action is irreversible. Do you wish to proceed?"}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
                   <Button
-                    id="domain-edit-btn"
-                    size="small"
                     onClick={() => {
-                      setUpdate(true);
-                      setInputFields();
-                      handleClose(false);
+                      setUpdate({check:false,domain:""});
+                      setCOpen(false);
+                      setCancel(false);
                     }}
                   >
-                    Edit
+                    Cancel
                   </Button>
-                </CardActions>
-              </Box>
-            </Fade>
-          </Modal>
+                  <Button onClick={update.check ? editDomain : deleteDomain}>
+                    {update.check ? "Edit" : "Delete"}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </React.Fragment>
+          </div>
           <Grid>
             <Typography
               sx={{ color: "white", mx: 3 }}
@@ -333,34 +288,45 @@ export default function DomainForm() {
                       <ListItem
                         key={item._id}
                         sx={{ borderBottom: "1px solid grey", padding: "14px" }}
-                        secondaryAction={
-                          <>
-                            <IconButton
-                              edge="end"
-                              aria-label="edit"
-                              sx={{ marginRight: "0.5rem" }}
-                            >
-                              <EditNoteRoundedIcon
-                                onClick={() => {
-                                  editCarousal(item);
-                                }}
-                              />
-                            </IconButton>
-                            <IconButton edge="end" aria-label="delete">
-                              <DeleteIcon
-                                onClick={() => {
-                                  deleteDomain(item);
-                                }}
-                              />
-                            </IconButton>
-                          </>
-                        }
                       >
                         <div style={{ color: "black" }}>
                           <div
                             style={{ fontWeight: "bold", marginBottom: "1rem" }}
                           >
-                            {item.name}
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                              }}
+                            >
+                              <div style={{ fontSize: "1.3rem" }}>
+                                {item.name}
+                              </div>
+                              <div>
+                                <IconButton
+                                  edge="end"
+                                  aria-label="edit"
+                                  sx={{ marginRight: "0.5rem" }}
+                                >
+                                  <EditNoteRoundedIcon
+                                    onClick={() => {
+                                      setCOpen(true);
+                                      // setCarItem(item);
+                                      setUpdate({check:true,domain:item})
+                                    }}
+                                  />
+                                </IconButton>
+                                <IconButton edge="end" aria-label="delete">
+                                  <DeleteIcon
+                                    onClick={() => {
+                                      setCOpen(true);
+                                      // setCarItem(item);
+                                      setUpdate({check:false,domain:item})                                    }}
+                                  />
+                                </IconButton>
+                              </div>
+                            </div>
                           </div>
                           <div>{item.description}</div>
                         </div>
@@ -375,17 +341,19 @@ export default function DomainForm() {
         <div className="sub-contact-container" style={{ margin: ".5rem" }}>
           <div className="contact-head">
             <div>
-              <h3>{update ? "Update Domain" : "Add Domain"}</h3>
-              {update && (
+              <h3>{update.check ? "Update Domain" : "Add Domain"}</h3>
+              {cancel ? (
                 <button
                   onClick={() => {
                     setUpdate(false);
-                    clearInputFields();
+                    formik.resetForm();
+                    setLoader(false);
+                    setCancel(false);
                   }}
                 >
                   Cancel
                 </button>
-              )}
+              ):""}
             </div>
           </div>
           <div className="contact-fields">
@@ -394,7 +362,7 @@ export default function DomainForm() {
                 type="text"
                 id="domain-name"
                 required
-                ref={nameRef}
+                value={formik.values.name}
                 name="name"
                 placeholder="Domain Name"
                 onChange={formik.handleChange}
@@ -403,7 +371,7 @@ export default function DomainForm() {
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Description about Domain"
-                ref={descRef}
+                value={formik.values.description}
                 name="description"
                 id="domain-desc"
                 required
@@ -411,9 +379,18 @@ export default function DomainForm() {
                 rows={7}
                 onChange={formik.handleChange}
               ></textarea>
-              <button className="submit-message">
+              {/* <button className="submit-message">
                 {update ? "Update Domain" : "Add Domain"}
-              </button>
+              </button> */}
+              {loader ? (
+                <button className="submit-message" disabled={loader}>
+                  <CircularProgress size={27} sx={{ color: "#022368" }} />
+                </button>
+              ) : (
+                <button className="submit-message">
+                  {update ? "update Domain" : "Add Domain"}
+                </button>
+              )}
             </form>
           </div>
         </div>

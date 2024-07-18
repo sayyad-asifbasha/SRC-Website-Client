@@ -103,9 +103,9 @@ export default function Login() {
     const logInApi = process.env.REACT_APP_LOGIN_IN;
     try {
       const res = await axios.post(logInApi, e);
-      console.log(res.data.data);
-      dispatch(loggedStatus({ logged: true, token: res.data.data }));
-      localStorage.setItem("authToken", JSON.stringify(res.data.data));
+      console.log(res.data.data.token);
+      dispatch(loggedStatus({ logged: true, token: res.data.data.token }));
+      localStorage.setItem("authToken", JSON.stringify(res.data.data.token));
       navigate("/");
     } catch (e) {
       console.log(e.response);

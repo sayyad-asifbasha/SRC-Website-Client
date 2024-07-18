@@ -146,6 +146,11 @@ body {
   background-color: var(--hover-color);
   color: white;
 }
+.submit-message:disabled
+{
+  background-color: rgb(222,222,222);
+  cursor: not-allowed;
+}
 
 .contact-visit-info > div {
   display: flex;
