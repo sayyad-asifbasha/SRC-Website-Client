@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -26,12 +26,14 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useFormik } from "formik";
 import "../../styles/AdminPage.css";
+import { useRef } from "react";
+import axios from "axios";
 
 export default function UpcomingEventForm() {
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
   }));
-
+  const getUserByEmail=process.env.REACT_APP_GET_USER_BY_EMAIL;
   const eventDetails = {
     0: {
       image: CarousalImg1,
@@ -64,6 +66,10 @@ export default function UpcomingEventForm() {
   const [deleteItem, setDeleteItem] = React.useState({});
   const handleCClose = () => setCOpen(false);
   const [copen, setCOpen] = React.useState(false);
+  const [edit, setEdit] = useState({ check: false, event: "" });
+  const [event, setEvent] = useState();
+  const inputRef=useRef();
+  const[coordianators,setCoordinators]=useState([]);
 
   const deleteCompletedEvent = (item) => {
     setDeleteItem(item);
@@ -85,21 +91,37 @@ export default function UpcomingEventForm() {
       transition: Bounce,
     });
   };
-  const handleAddEvent = (e) => {
+  const handleAddEvent = async (e) => {
     e.preventDefault();
-    console.log(formik.values);
-    // console.log(formik.values.start.format('hh:mm A'))
-    // console.log(formik.values.end.format('hh:mm A'))
+    formik.setFieldValue("coordinators",coordianators);
+    console.log(formik.values.coordinators);
+    try {
+      console.log(formik.values);
+      const res = await axios.post(
+        "https://src-website-api.onrender.com/api/v1/events",
+        formik.values
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const formik = useFormik({
     initialValues: {
       name: "",
       description: "",
-      from: dayjs(),
-      to: dayjs(),
-      start: dayjs("T15:30"),
-      end: dayjs("T15:30"),
+      fromDate: "",
+      toDate: "",
+      startTime: "",
+      endTime: "",
+      isUpcoming: false,
+      location: "",
+      registrationLink: "",
+      domain: "",
+      prizeDetails: ["", "", ""],
+      time:"10:00AM",
+      coordinators:[""]
     },
     validateOnMount: true,
 
@@ -116,7 +138,47 @@ export default function UpcomingEventForm() {
       return errors;
     },
   });
-
+  const handlePrizeDetailChange = (index, event) => {
+    const newPrizeDetails = [...formik.values.prizeDetails];
+    newPrizeDetails[index] = {
+      position: index + 1,
+      description: event.target.value,
+    };
+    formik.setFieldValue("prizeDetails", newPrizeDetails);
+  };
+  const addCoordinator=async()=>
+  {
+      try
+      {
+          const email=inputRef.current.value;
+          console.log(email);
+          const res = await axios.get(getUserByEmail + email, {
+            headers: {
+              Authorization: `Bearer ${localStorage
+                .getItem("authToken")
+                .slice(1, localStorage.getItem("authToken").length - 1)}`,
+            },
+          });
+          setCoordinators(coordianators.push(res._id));
+          inputRef.current.value="";
+      }catch(e)
+      {
+        console.log(e)
+      }
+  }
+  const getAllEvents = async () => {
+    try {
+      const res = await axios.get(
+        "https://src-website-api.onrender.com/api/v1/events"
+      );
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    getAllEvents();
+  }, []);
   return (
     <>
       <ToastContainer />
@@ -129,17 +191,27 @@ export default function UpcomingEventForm() {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {"Delete Carousel"}
+              {edit.check ? "Edit Event" : "Delete Event"}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                You are about to delete this carousel. This action is
-                irreversible. Do you wish to proceed?
+                {edit.check
+                  ? "You are about to edit this event.Modify the details in following form"
+                  : "You are about to delete this event. This action is irreversible. Do you wish to proceed?"}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleCClose}>Cancel</Button>
-              <Button onClick={handleDeleteEvent}>Delete</Button>
+              <Button
+                onClick={() => {
+                  setEdit({ check: false, event: "" });
+                  setCOpen(false);
+                }}
+              >
+                Cancel
+              </Button>
+              {/* <Button onClick={edit.check ? editProject : deleteProject}>
+                {edit.check ? "Edit" : "Delete"}
+              </Button> */}
             </DialogActions>
           </Dialog>
         </React.Fragment>
@@ -204,7 +276,7 @@ export default function UpcomingEventForm() {
               id="domain-name"
               required
               name="name"
-              placeholder="Domain Name"
+              placeholder="Event Name"
               onChange={formik.handleChange}
             />
 
@@ -218,24 +290,60 @@ export default function UpcomingEventForm() {
               rows={7}
               onChange={formik.handleChange}
             ></textarea>
+            <input
+              type="text"
+              id="domain-name"
+              required
+              name="location"
+              placeholder="Location "
+              onChange={formik.handleChange}
+            />
+            <select
+              name="domain"
+              id="domain"
+              style={{
+                height: "3rem",
+                border: "0.5px solid rgb(222,222,222)",
+                outline: "none",
+              }}
+              onChange={formik.handleChange}
+              required
+            >
+              <option hidden value="">
+                Select Domain
+              </option>
+              <option value="Web development"> Web Development</option>
+              <option value="DSA"> DSA</option>
+              <option value="AI"> AI </option>
+              <option value="Data Science"> Data Science</option>
+            </select>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <div className="upcoming-event-time">
                 <DemoItem label="Starts">
                   <TimePicker
                     name="start"
-                    value={formik.values.start}
+                    value={
+                      formik.values.startTime
+                        ? dayjs(formik.values.startTime, "hh:mm A")
+                        : null
+                    }
+                    // value={formik.values.start}
                     onChange={(time) => {
-                      const parsedTime = dayjs(time);
-                      formik.setFieldValue("to", parsedTime.format("hh:mm A"));
+                      formik.setFieldValue("startTime", time.format("hh:mm A"));
                     }}
                   />
                 </DemoItem>
                 <DemoItem label="Ends">
                   <TimePicker
                     name="end"
-                    value={formik.values.end}
+                    value={
+                      formik.values.endTime
+                        ? dayjs(formik.values.endTime, "hh:mm A")
+                        : null
+                    }
+                    // value={formik.values.end}
                     onChange={(time) =>
-                      formik.setFieldValue("to", dayjs(time).format("hh:mm A"))
+                      formik.setFieldValue("endTime", time.format("hh:mm A"))
                     }
                   />
                 </DemoItem>
@@ -244,11 +352,15 @@ export default function UpcomingEventForm() {
                 <DemoItem label="From">
                   <DatePicker
                     name="from"
-                    value={formik.values.from}
+                    value={
+                      formik.values.fromDate
+                        ? dayjs(formik.values.fromDate, "DD MMM YYYY")
+                        : null
+                    }
                     onChange={(date) =>
                       formik.setFieldValue(
-                        "from",
-                        dayjs(date).format("DD MMM YYYY")
+                        "fromDate",
+                        date.format("DD MMM YYYY")
                       )
                     }
                   />
@@ -256,17 +368,67 @@ export default function UpcomingEventForm() {
                 <DemoItem label="To">
                   <DatePicker
                     name="to"
-                    value={formik.values.to}
+                    value={
+                      formik.values.toDate
+                        ? dayjs(formik.values.toDate, "DD MMM YYYY")
+                        : null
+                    }
                     onChange={(date) =>
-                      formik.setFieldValue(
-                        "to",
-                        dayjs(date).format("DD MMM YYYY")
-                      )
+                      formik.setFieldValue("toDate", date.format("DD MMM YYYY"))
                     }
                   />
                 </DemoItem>
               </div>
             </LocalizationProvider>
+            <div className="coordianator-details" style={{"display":"flex","flexDirection":"column",gap:"1rem","border":"1px solid rgb(222,222,222)","padding":"1rem"}}>
+            <input
+              type="email"
+              id="domain-name"
+              required
+              name="coordiantor"
+              ref={inputRef}
+              placeholder="Enter the email id "
+            />
+            <div  className="submit-message" style={{"textAlign":"center"}} onClick={addCoordinator}>
+              Add Coordianator
+            </div>
+            </div>
+            <input
+              type="text"
+              id="domain-name"
+              required
+              name="prizeDetails"
+              
+              placeholder="1st prize details "
+              onChange={(event) => handlePrizeDetailChange(0, event)}
+              value={formik.values.prizeDetails[0]?.description || ""}
+            />
+            <input
+              type="text"
+              id="domain-name"
+              required
+              name="prizeDetails"
+              placeholder="2nd prize details "
+              onChange={(event) => handlePrizeDetailChange(1, event)}
+              value={formik.values.prizeDetails[1]?.description || ""}
+            />
+            <input
+              type="text"
+              id="domain-name"
+              required
+              name="prizeDetails"
+              placeholder="3rd prize details "
+              onChange={(event) => handlePrizeDetailChange(2, event)}
+              value={formik.values.prizeDetails[2]?.description || ""}
+            />
+            <input
+              type="text"
+              id="domain-name"
+              required
+              name="registrationLink"
+              placeholder="Registration Link "
+              onChange={formik.handleChange}
+            />
             <button className="submit-message">
               {/* {update ? "Update Domain" : "Add Domain"} */}
               submit
