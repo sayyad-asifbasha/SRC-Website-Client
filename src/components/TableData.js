@@ -17,123 +17,6 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { SvgIcon } from "@mui/material";
 
-function Row(props) {
-  const { row } = props;
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <React.Fragment>
-      <TableRow
-        sx={{
-          "& > *": { borderBottom: "unset" },
-        }}
-      >
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row" align="left">
-          {row.domainName}
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Sub-Events
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableBody>
-                  {row.subEvents.map((subEvents) => (
-                    <SubEve subEve={subEvents} />
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
-function SubEve(props) {
-  const { subEve } = props;
-  const [open, setOpen] = React.useState(false);
-  return (
-    <React.Fragment>
-      <TableRow
-        sx={{
-          "& > *": { borderBottom: "unset" },
-          "& td": {
-            fontSize: "1.25rem",
-            color: "white",
-          },
-        }}
-      >
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row" align="right">
-          {subEve.name}
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                {subEve.name !== "Hackathon" ? "Winners" : "Teams"}
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                {/* {subEve.name !== "Hackathon" ? (
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="left">Name</TableCell>
-                      <TableCell align="left">LinkedIn</TableCell>
-                      <TableCell align="left">GitHub</TableCell>
-                    </TableRow>
-                  </TableHead>
-                ) : (
-                  ""
-                )} */}
-                <TableBody>
-                  {subEve.name !== "Hackathon"
-                    ? subEve.winners.map((winner) => (
-                        <React.Fragment key={winner.rank}>
-                          {
-                            <WinnersList
-                              key={winner.name}
-                              winnersList={winner}
-                            />
-                          }
-                        </React.Fragment>
-                      ))
-                    : subEve.winners.map((winner, index) => (
-                        <React.Fragment key={index}>
-                          <TeamCollapse winnersList={winner} />
-                        </React.Fragment>
-                      ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
 function TeamCollapse(props) {
   const [open, setOpen] = React.useState(false);
 
@@ -160,13 +43,6 @@ function TeamCollapse(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Table size="small" aria-label="purchases">
-                {/* <TableHead>
-                  <TableRow>
-                    <TableCell align="left">Name</TableCell>
-                    <TableCell align="left">LinkedIn</TableCell>
-                    <TableCell align="left">GitHub</TableCell>
-                  </TableRow>
-                </TableHead> */}
                 <TableBody>
                   {winnersList.rank.map((winner, index) => (
                     <React.Fragment key={index}>
@@ -222,27 +98,10 @@ function WinnersList(props) {
     </React.Fragment>
   );
 }
-// Row.propTypes = {
-//   row: PropTypes.shape({
-//     calories: PropTypes.number.isRequired,
-//     carbs: PropTypes.number.isRequired,
-//     fat: PropTypes.number.isRequired,
-//     history: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         amount: PropTypes.number.isRequired,
-//         customerId: PropTypes.string.isRequired,
-//         date: PropTypes.string.isRequired,
-//       })
-//     ).isRequired,
-//     name: PropTypes.string.isRequired,
-//     price: PropTypes.number.isRequired,
-//     protein: PropTypes.number.isRequired,
-//   }).isRequired,
-// };
 
 export default function TableData(props) {
   const { event } = props;
-
+  console.log(event);
   return (
     <TableContainer
       component={Paper}
@@ -262,9 +121,17 @@ export default function TableData(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {event.domains.map((row) => (
-            <Row key={row.domainName} row={row} />
-          ))}
+          {event.name !== "Hackathon"
+            ? event.winners.map((winner) => (
+                <React.Fragment key={winner.rank}>
+                  {<WinnersList key={winner.name} winnersList={winner} />}
+                </React.Fragment>
+              ))
+            : event.winners.map((winner, index) => (
+                <React.Fragment key={index}>
+                  <TeamCollapse winnersList={winner} />
+                </React.Fragment>
+              ))}
         </TableBody>
       </Table>
     </TableContainer>

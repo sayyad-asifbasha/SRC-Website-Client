@@ -1,6 +1,5 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
-
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
@@ -15,7 +14,7 @@ import UserDetails from "./components/UserDetails";
 import Signin from "./components/SignIn";
 import ForgotPassword from "./components/ForgotPassword";
 import AdminPage from "./components/Admin_op/AdminPage";
-import PasswordVerify from "./components/PasswordVerify";
+import UserVerify from "./components/UserVerify";
 import SnackbarListener from "./components/SnackBarListener";
 import { SnackbarProvider } from "notistack";
 import Error from "./components/Utils/Error";
@@ -73,7 +72,7 @@ function App() {
             }
           />
           <Route path="/About" element={<About />} />
-          <Route path="/user/verify/:authToken" element={<PasswordVerify />} />
+          <Route path="/user/verify/:authToken" element={<UserVerify />} />
           <Route
             path="/reset/password"
             element={
@@ -83,6 +82,10 @@ function App() {
                 <Error />
               )
             }
+          />
+          <Route
+            path="/reset/password/:authToken"
+            element={<ResetPassword />}
           />
         </Routes>
         <Footer />

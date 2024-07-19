@@ -18,12 +18,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
-import  { setSnackBar } from "../../features/snackbar/snackbar";
+import { setSnackBar } from "../../features/snackbar/snackbar";
 export default function DomainForm() {
   // Calling getAllDomains in useEffect
   const dispatch = useDispatch();
   useEffect(() => {
-      getAllDomains();
+    getAllDomains();
   }, []);
 
   // Getting Environment Variables
@@ -39,7 +39,7 @@ export default function DomainForm() {
   const [domains, setDomains] = useState(null);
   const [update, setUpdate] = useState(false);
   const [loader, setLoader] = React.useState(false);
-  const [cancel,setCancel]=useState(false);
+  const [cancel, setCancel] = useState(false);
   const [copen, setCOpen] = React.useState(false);
 
   const handleCClose = (type) => setCOpen(false);
@@ -80,13 +80,12 @@ export default function DomainForm() {
     }
   };
 
-  const editDomain=()=>
-  {
+  const editDomain = () => {
     setCOpen(false);
-    formik.setFieldValue("name",update.domain.name);
-    formik.setFieldValue("description",update.domain.description);
+    formik.setFieldValue("name", update.domain.name);
+    formik.setFieldValue("description", update.domain.description);
     setCancel(true);
-  }
+  };
   // Function for Handling Form
 
   const handleSubmit = (e) => {
@@ -151,7 +150,7 @@ export default function DomainForm() {
 
   const updateDomain = async (e) => {
     e.preventDefault();
-    setCancel(false)
+    setCancel(false);
     try {
       setLoader(true);
 
@@ -193,7 +192,7 @@ export default function DomainForm() {
 
   const deleteDomain = async () => {
     try {
-      const res = await axios.delete(deleteDomainApi +update.domain._id, {
+      const res = await axios.delete(deleteDomainApi + update.domain._id, {
         headers: {
           Authorization: `Bearer ${localStorage
             .getItem("authToken")
@@ -226,8 +225,6 @@ export default function DomainForm() {
     backgroundColor: theme.palette.background.paper,
   }));
 
-
-
   return (
     <>
       <div
@@ -258,7 +255,7 @@ export default function DomainForm() {
                 <DialogActions>
                   <Button
                     onClick={() => {
-                      setUpdate({check:false,domain:""});
+                      setUpdate({ check: false, domain: "" });
                       setCOpen(false);
                       setCancel(false);
                     }}
@@ -313,7 +310,7 @@ export default function DomainForm() {
                                     onClick={() => {
                                       setCOpen(true);
                                       // setCarItem(item);
-                                      setUpdate({check:true,domain:item})
+                                      setUpdate({ check: true, domain: item });
                                     }}
                                   />
                                 </IconButton>
@@ -322,7 +319,8 @@ export default function DomainForm() {
                                     onClick={() => {
                                       setCOpen(true);
                                       // setCarItem(item);
-                                      setUpdate({check:false,domain:item})                                    }}
+                                      setUpdate({ check: false, domain: item });
+                                    }}
                                   />
                                 </IconButton>
                               </div>
@@ -353,7 +351,9 @@ export default function DomainForm() {
                 >
                   Cancel
                 </button>
-              ):""}
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <div className="contact-fields">
@@ -379,9 +379,7 @@ export default function DomainForm() {
                 rows={7}
                 onChange={formik.handleChange}
               ></textarea>
-              {/* <button className="submit-message">
-                {update ? "Update Domain" : "Add Domain"}
-              </button> */}
+
               {loader ? (
                 <button className="submit-message" disabled={loader}>
                   <CircularProgress size={27} sx={{ color: "#022368" }} />

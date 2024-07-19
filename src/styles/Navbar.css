@@ -28,10 +28,10 @@
   );
   --border-color: rgb(199, 194, 194);
 }
-.items #user-name-info-badge {
-  background-color: var(--hover-color);
-  border-radius: 0.5rem;
-  color: white !important;
+#user-name-info-badge {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: Bold;
 }
 .main {
   width: 100%;

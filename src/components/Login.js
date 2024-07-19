@@ -1,19 +1,19 @@
 import { React, useState } from "react";
 import "../styles/Login.css";
 import axios from "axios";
-import { Link, Navigate, json, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { Flip, ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loggedStatus, token } from "../features/user/user";
+import { loggedStatus } from "../features/user/user";
 import { useDispatch } from "react-redux";
 import { setSnackBar } from "../features/snackbar/snackbar";
-
+import { CircularProgress } from "@mui/material";
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [passwordIcon, setPasswordIcon] = useState("keyboard");
+  const [loader, setLoader] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -75,6 +75,7 @@ export default function Login() {
     }
   };
   const loginUser = async (e) => {
+    setLoader(true);
     console.log(e);
     const logInApi = process.env.REACT_APP_LOGIN_IN;
     try {
@@ -96,6 +97,7 @@ export default function Login() {
     } catch (e) {
       console.log(e.response);
       dispatch(setSnackBar({ message: e.response.data.err, variant: "error" }));
+      setLoader(false);
     }
   };
 
@@ -108,7 +110,6 @@ export default function Login() {
   };
   return (
     <>
-      <ToastContainer />
       <div id="background"></div>
       <div id="card">
         <img
@@ -176,8 +177,12 @@ export default function Login() {
             )}
           </div>
           <Link to="/forgot/password">Forgot password?</Link>
-          <button type="submit" className="password">
-            Login
+          <button type="submit" className="password" disabled={loader}>
+            {loader ? (
+              <CircularProgress size={27} sx={{ color: "#022368" }} />
+            ) : (
+              "Login"
+            )}
           </button>
           <Link to="/Signin" id="sign-account">
             Don't have an account?

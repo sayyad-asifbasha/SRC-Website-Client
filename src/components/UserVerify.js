@@ -3,9 +3,9 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { setSnackBar } from "../features/snackbar/snackbar";
-export default function PasswordVerify() {
-  // Env variables
+export default function UserVerify() {
   const dispatch = useDispatch();
+  // Env variables
   const userVerifyApi = process.env.REACT_APP_USER_VERIFICATION;
   let { authToken } = useParams();
   const handleUserVerification = async () => {

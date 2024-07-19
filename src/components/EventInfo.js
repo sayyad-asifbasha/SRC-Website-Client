@@ -6,165 +6,279 @@ import Carousal from "./Completed_event_carousal";
 import TableData from "./TableData";
 export default function Eventname() {
   let { eventName } = useParams();
+  // const event = [
+  //   {
+  //     id: 1,
+  //     domainName: "WEB",
+  //     description:
+  //       "Register on respective events to get detail information to your mail",
+  //     prize1: "1st prize details",
+  //     prize2: "2nd prize details",
+  //     prize3: "3rd prize details",
+  //     name: "Hackathon",
+  //     isUpcoming: true,
+  //     location: "CSE Dept,RK Valley",
+  //     date: "20 APR,2024 10:00AM-05:00PM",
+  //     winners: [
+  //       {
+  //         rank: [
+  //           {
+  //             teamName: "teamDev",
+  //             name: "Hackathon 1(Team lead)",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 1",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 1",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 1",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         rank: [
+  //           {
+  //             teamName: "teamDev",
+  //             name: "Hackathon 2(Team lead)",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 2",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 2",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 2",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         rank: [
+  //           {
+  //             teamName: "teamDev",
+  //             name: "Hackathon 3(Team lead)",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 3",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 3",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //           {
+  //             name: "Hackathon 3",
+  //             LinedIn: "Link",
+  //             github: "Link",
+  //           },
+  //         ],
+  //       },
+  //     ],
+
+  //     registrationLink: "",
+  //   },
+  //   {
+  //     id: 2,
+  //     domainName: "DSA",
+  //     description:
+  //       "Register on respective events to get detail information to your mail",
+  //     prize1: "1st prize details",
+  //     prize2: "2nd prize details",
+  //     prize3: "3rd prize details",
+  //     name: "Coding Competition",
+  //     location: "CSE Dept,RK Valley",
+  //     date: "20 APR,2024 10:00AM-05:00PM",
+  //     winners: [
+  //       {
+  //         name: "Coding Competition",
+  //         linkedIn: "Link",
+  //         github: "Link",
+  //       },
+  //       {
+  //         name: "Coding Competition",
+  //         linkedIn: "Link",
+  //         github: "Link",
+  //       },
+  //       {
+  //         name: "Coding Competition",
+  //         linkedIn: "Link",
+  //         github: "Link",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: "Quiz",
+  //     location: "CSE Dept,RK Valley",
+  //     date: "20 APR,2024 10:00AM-05:00PM",
+  //     winners: [
+  // {
+  //   name: "Quiz",
+  //   linkedIn: "Link",
+  //   github: "Link",
+  // },
+  // {
+  //   name: "Quiz",
+  //   linkedIn: "Link",
+  //   github: "Link",
+  // },
+  // {
+  //   name: "Quiz",
+  //   linkedIn: "Link",
+  //   github: "Link",
+  // },
+  //     ],
+
+  //     registrationLink: "",
+  //     location: "SAC",
+  //     date: "14-july-2024",
+  //     description: "",
+  //   },
+  // ];
+
+  // const event = {
+  //   id: 1,
+  //   domainName: "WEB",
+  //   description:
+  //     "Register on respective events to get detail information to your mail",
+  //   prize1: "1st prize details",
+  //   prize2: "2nd prize details",
+  //   prize3: "3rd prize details",
+  //   name: "Hackathon",
+  //   isUpcoming: false,
+  //   location: "CSE Dept,RK Valley",
+  //   date: "20 APR,2024 10:00AM-05:00PM",
+  //   winners: [
+  //     {
+  //       rank: [
+  //         {
+  //           teamName: "teamDev",
+  //           name: "Hackathon 1(Team lead)",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 1",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 1",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 1",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       rank: [
+  //         {
+  //           teamName: "teamDev",
+  //           name: "Hackathon 2(Team lead)",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 2",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 2",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 2",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       rank: [
+  //         {
+  //           teamName: "teamDev",
+  //           name: "Hackathon 3(Team lead)",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 3",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 3",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //         {
+  //           name: "Hackathon 3",
+  //           LinedIn: "Link",
+  //           github: "Link",
+  //         },
+  //       ],
+  //     },
+  //   ],
+
+  //   registrationLink: "",
+  // };
+
   const event = {
-    id: 1,
-    name: "Aadhya",
+    id: 2,
+    domainName: "DSA",
+    description:
+      "Register on respective events to get detail information to your mail",
+    prize1: "1st prize details",
+    prize2: "2nd prize details",
+    prize3: "3rd prize details",
+    name: "Coding Competition",
     isUpcoming: true,
-    domains: [
+    location: "CSE Dept,RK Valley",
+    date: "20 APR,2024 10:00AM-05:00PM",
+    winners: [
       {
-        id: 1,
-        domainName: "Web Development",
-        description:
-          "Register on respective events to get detail information to your mail",
-        prize1: "1st prize details",
-        prize2: "2nd prize details",
-        prize3: "3rd prize details",
-        subEvents: [
-          {
-            name: "Hackathon",
-            location: "CSE Dept,RK Valley",
-            date: "20 APR,2024 10:00AM-05:00PM",
-            winners: [
-              {
-                rank: [
-                  {
-                    teamName: "teamDev",
-                    name: "Hackathon 1(Team lead)",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 1",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 1",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 1",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                ],
-              },
-              {
-                rank: [
-                  {
-                    teamName: "teamDev",
-                    name: "Hackathon 2(Team lead)",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 2",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 2",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 2",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                ],
-              },
-              {
-                rank: [
-                  {
-                    teamName: "teamDev",
-                    name: "Hackathon 3(Team lead)",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 3",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 3",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                  {
-                    name: "Hackathon 3",
-                    LinedIn: "Link",
-                    github: "Link",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        registrationLink: "",
+        name: "Quiz",
+        linkedIn: "Link",
+        github: "Link",
       },
       {
-        id: 2,
-        domainName: "DSA",
-        description:
-          "Register on respective events to get detail information to your mail",
-        prize1: "1st prize details",
-        prize2: "2nd prize details",
-        prize3: "3rd prize details",
-        subEvents: [
-          {
-            name: "Coding Competition",
-            location: "CSE Dept,RK Valley",
-            date: "20 APR,2024 10:00AM-05:00PM",
-            winners: [
-              {
-                name: "Coding Competition",
-                linkedIn: "Link",
-                github: "Link",
-              },
-              {
-                name: "Coding Competition",
-                linkedIn: "Link",
-                github: "Link",
-              },
-              {
-                name: "Coding Competition",
-                linkedIn: "Link",
-                github: "Link",
-              },
-            ],
-          },
-          {
-            name: "Quiz",
-            location: "CSE Dept,RK Valley",
-            date: "20 APR,2024 10:00AM-05:00PM",
-            winners: [
-              {
-                name: "Quiz",
-                linkedIn: "Link",
-                github: "Link",
-              },
-              {
-                name: "Quiz",
-                linkedIn: "Link",
-                github: "Link",
-              },
-              {
-                name: "Quiz",
-                linkedIn: "Link",
-                github: "Link",
-              },
-            ],
-          },
-        ],
-        registrationLink: "",
+        name: "Quiz",
+        linkedIn: "Link",
+        github: "Link",
+      },
+      {
+        name: "Quiz",
+        linkedIn: "Link",
+        github: "Link",
       },
     ],
-    location: "SAC",
-    date: "14-july-2024",
-    description: "",
   };
   return (
     <>
@@ -194,13 +308,9 @@ export default function Eventname() {
               neque.
             </p>
 
-            <h2>Our event in different domains</h2>
+            <h2>Events</h2>
           </div>
-          <div className="each-domain">
-            {event.domains.map((domain) => {
-              return <Domaindetails domain={domain} />;
-            })}
-          </div>
+          <div className="each-domain">{<Domaindetails domain={event} />}</div>
         </>
       ) : (
         <>

@@ -2,7 +2,7 @@ import { React, useState } from "react";
 // import "../../styles/Login.css";
 import "../../styles/Login.css";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,11 +11,12 @@ import { setSnackBar } from "../../features/snackbar/snackbar";
 export default function ResetPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [loader, setLoader] = useState(false);
   const [passwordIcon, setPasswordIcon] = useState("keyboard");
   const [cPasswordIcon, setCPasswordIcon] = useState("keyboard");
-
   const resetPasswordApi = process.env.REACT_APP_RESET_PASSWORD;
+
+  const { authToken } = useParams();
 
   const formik = useFormik({
     initialValues: {
@@ -78,17 +79,20 @@ export default function ResetPassword() {
   };
   const updateUserPassword = async (e) => {
     console.log(e);
+    setLoader(true);
     try {
+      let token = "";
+      if (authToken) {
+        token = authToken;
+      } else {
+        token = localStorage
+          .getItem("authToken")
+          .slice(1, localStorage.getItem("authToken").length - 1);
+      }
       const password = {
         password: e.password,
       };
-      const res = await axios.patch(
-        resetPasswordApi +
-          localStorage
-            .getItem("authToken")
-            .slice(1, localStorage.getItem("authToken").length - 1),
-        password
-      );
+      const res = await axios.patch(resetPasswordApi + token, password);
       console.log(res);
       console.log(e);
       dispatch(
@@ -99,6 +103,7 @@ export default function ResetPassword() {
       );
       navigate("/");
     } catch (e) {
+      setLoader(false);
       console.log(e.response);
       dispatch(
         setSnackBar({ message: "something went wrong", variant: "error" })
@@ -209,9 +214,13 @@ export default function ResetPassword() {
               </svg>
             )}
           </div>
-          <button type="submit" className="password">
-            Update Password
-          </button>
+          {loader ? (
+            <button className="submit-message" disabled={loader}>
+              <circularProgress size={27} sx={{ color: "#022368" }} />
+            </button>
+          ) : (
+            <button className="submit-message">Update Password</button>
+          )}
         </form>
       </div>
     </>
