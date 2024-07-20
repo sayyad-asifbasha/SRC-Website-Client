@@ -220,11 +220,13 @@ export default function NestedList() {
         </div>
         <div>
           {selectedIndex === 1 ? (
-            <UpcomingEventForm />
+            <CompletedEventForum />
           ) : selectedIndex === 2 ? (
             <DomainForm />
           ) : selectedIndex === 3 ? (
             <NewsForm />
+          ): selectedIndex === 5 ? (
+            < CompletedEventForum/>
           ): selectedIndex === 10 ? (
             <Officials />
           ) : selectedIndex === 6 ? (
