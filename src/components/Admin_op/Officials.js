@@ -1,75 +1,27 @@
-import React, { useEffect, useState, useRef } from "react";
-import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import CardContent from "@mui/material/CardContent";
-import { Button, CardActions } from "@mui/material";
+import React, {  useState } from "react";
 import { useFormik } from "formik";
 import "../../styles/Login.css";
-import { toast, Bounce } from "react-toastify";
 import axios from "axios";
+import { setSnackBar } from "../../features/snackbar/snackbar";
+import { useDispatch } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function DomainForm() {
-  // Calling getAllDomains in useEffect
-
-  useEffect(() => {
-    try {
-      getAllDomains();
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
-
   // Getting Environment Variables
+  const getUserProfile = process.env.REACT_APP_GET_USER_BY_EMAIL;
+  const udpateRole = process.env.REACT_APP_UPDATE_ROLE_BY_EMAIL;
+  const getUsers = process.env.REACT_APP_GET_USER_PROFILE_BY_EMAIL;
 
-  //  Function to show Toast
+  const [user, setUser] = useState(null);
+  const [cancel, setCancel] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [loader,setLoader]=useState(false);
 
-  const showToast = (msg, msgType) => {
-    if (msgType === "warn") {
-      toast.warn(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-    if (msgType === "success") {
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-  };
-
-  // init of React Hooks
-
-  const emailRef = useRef("");
-  const [carItem, setCarItem] = React.useState({});
-  const [officials, setOfficials] = useState(null);
-
-  const formik = useFormik({
+  const userFormik = useFormik({
     initialValues: {
       email: "",
+      role: "",
+      domainId: "",
     },
     validateOnMount: true,
 
@@ -77,21 +29,34 @@ export default function DomainForm() {
       let errors = {};
 
       if (values.email === "") {
-        errors.name = "Please enter the valid Domain Name";
+        errors.name = "Please enter the valid Email";
       }
 
       return errors;
     },
   });
 
-  //  Functions for CRUD
-
-  // Function to get All Domains
-
-  const getAllDomains = () => {
+  const dispatch = useDispatch();
+  const getUser = async (e) => {
     try {
+      setLoader(true);
+      const res = await axios.get(getUserProfile + e.email, {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      });
+      console.log(res);
+      setUser(res.data);
+      setCancel(true);
+      setLoader(false);
     } catch (e) {
+      userFormik.resetForm();
+      setLoader(false);
+      setCancel(false);
       console.log(e);
+      dispatch(setSnackBar({ message: "User not Found", variant: "error" }));
     }
   };
 
@@ -99,70 +64,131 @@ export default function DomainForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formik.errors);
-
-    if (formik.errors.email) {
+    console.log("getting details");
+    if (userFormik.errors.email) {
       document.getElementById("user-email").style.border = "1px solid red";
     }
 
-    if (!formik.errors.email) {
+    if (!userFormik.errors.email) {
       document.getElementById("user-email").style.border = "none";
 
-      addOfficial(formik.values);
+      getUser(userFormik.values);
     }
   };
 
-  // Function for Adding Domain
-
-  const addOfficial = async (e) => {
-    console.log(e);
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+    console.log("updating user");
     try {
-      showToast("user", "success");
-      clearInputFields();
-
-      formik.resetForm();
-      getAllDomains();
+      const role = {
+        role: userFormik.values.role,
+      };
+      console.log(role);
+      const res = await axios.put(udpateRole + user._id, role, {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      });
+      console.log(res);
+      if (res.data.data.role === "Coordinator") {
+        setSuccess(res.data.data);
+        dispatch(
+          setSnackBar({
+            message: "successfully Updated Role. select Domain",
+            variant: "success",
+          })
+        );
+      } else {
+        console.log("user if not coordinator");
+        setUser(null);
+        setCancel(false);
+        handleRmoveDomain();
+        userFormik.resetForm();
+        dispatch(
+          setSnackBar({
+            message: "successfully Updated Role.",
+            variant: "success",
+          })
+        );
+      }
+      setLoader(false);
     } catch (e) {
       console.log(e);
-      showToast("Error in creating Domain", "warn");
+      setLoader(false);
     }
   };
-
-  // Function for Deleting Official
-
-  const removeOfficial = (e) => {
-    console.log(e);
+  const handleRmoveDomain = async () => {
+    try {
+      console.log(userFormik.values.email);
+      const used = await axios.get(getUsers + userFormik.values.email, {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      });
+      console.log(used)
+      const domain = {
+        $unset:{domain:""},
+        role:userFormik.values.role
+      };
+      const res = await axios.put(
+        "https://src-website-api.onrender.com/api/v1/profiles/update/" +
+          used.data._id,
+        domain
+      );
+      console.log(res);
+      console.log("in domain");
+    } catch (e) {
+      console.log(e);
+    }
   };
-
-  // Function for setting text in input fields
-
-  // Function to clear Input Fields
-
-  const clearInputFields = () => {
-    emailRef.current.value = "";
-  };
-
-  // Function for Handlnig Modal
-
-  // Custom Styles
-
-  const Demo = styled("div")(({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
-  }));
-
-  const editCarousal = (item) => {
-    setCarItem(item);
-  };
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "80%",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
+  const handleUpdateDomain = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+    try {
+      const used = await axios.get(getUsers + success.email, {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      });
+      const domain = {
+        domain: userFormik.values.domainId,
+        role:userFormik.values.role
+      };
+      const res = await axios.put(
+        " https://src-website-api.onrender.com/api/v1/profiles/update/" +
+          used.data._id,
+        domain
+      );
+      console.log(res);
+      dispatch(setSnackBar(
+        {
+          message:"Successfully assigned a coordinator",
+          variant:"success"
+        }
+      ))
+      console.log("in domain");
+      setSuccess(null);
+      setCancel(false);
+      setUser(null);
+      userFormik.resetForm();
+      setLoader(false);
+    } catch (e) {
+      dispatch(setSnackBar(
+        {
+          message:"Failed to  assigned a coordinator",
+          variant:"error"
+        }
+      ))
+      console.log(e);
+      setLoader(false);
+    }
   };
 
   return (
@@ -173,86 +199,121 @@ export default function DomainForm() {
           flexDirection: "column",
         }}
       >
-        <div style={{ color: "white" }}>
-          <Fade>
-            <Box sx={style}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {carItem && carItem.name}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  scroll="paper"
-                >
-                  {carItem && carItem.description}
-                </Typography>
-              </CardContent>
-            </Box>
-          </Fade>
-          <Grid>
-            <Typography
-              sx={{ color: "white", mx: 3 }}
-              variant="h5"
-              component="div"
-            >
-              Current Coordinators
-            </Typography>
-            <Demo sx={{ borderRadius: "0.5rem", margin: "10px" }}>
-              <List sx={{ padding: "0px" }}>
-                {officials &&
-                  officials.map((item) => {
-                    return (
-                      <ListItem
-                        key={item._id}
-                        sx={{ borderBottom: "1px solid grey", padding: "14px" }}
-                        secondaryAction={
-                          <>
-                            <IconButton edge="end" aria-label="delete">
-                              <DeleteIcon
-                                onClick={() => {
-                                  removeOfficial(item);
-                                }}
-                              />
-                            </IconButton>
-                          </>
-                        }
-                      >
-                        <div style={{ color: "black" }}>
-                          <div
-                            style={{ fontWeight: "bold", marginBottom: "1rem" }}
-                          >
-                            {item.name}
-                          </div>
-                          <div>{item.description}</div>
-                        </div>
-                      </ListItem>
-                    );
-                  })}
-              </List>
-            </Demo>
-          </Grid>
-        </div>
-
         <div className="sub-contact-container" style={{ margin: ".5rem" }}>
           <div className="contact-head">
             <div>
-              <h3>Uesrs</h3>
+              <h3>Users</h3>
+              {cancel && (
+                <button
+                  onClick={() => {
+                    setUser(null);
+                    setSuccess(null);
+                    setCancel(false);
+                    setLoader(false);
+                    userFormik.resetForm();
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </div>
           <div className="contact-fields">
-            <form onSubmit={handleSubmit}>
+            <form
+              onSubmit={
+                success && user
+                  ? handleUpdateDomain
+                  : user
+                  ? handleUpdate
+                  : handleSubmit
+              }
+            >
               <input
                 type="text"
                 id="user-email"
-                required
-                ref={emailRef}
-                name="name"
+                disabled={!user ? false : true}
+                required={user ? false : true}
+                name="email"
+                value={userFormik.values.email}
                 placeholder="Enter user email"
-                onChange={formik.handleChange}
+                onChange={userFormik.handleChange}
               />
-
-              <button className="submit-message">Get User</button>
+              {user && (
+                <>
+                  <input
+                    type="text"
+                    id="user-email"
+                    disabled
+                    name=""
+                    placeholder="Enter user email"
+                    defaultValue={user.email + "   ( " + user.role + " )"}
+                  />
+                  <select
+                    name="role"
+                    id="role"
+                    style={{
+                      height: "3rem",
+                      border: "0.5px solid rgb(222,222,222)",
+                      outline: "none",
+                    }}
+                    disabled={success ? true : false}
+                    value={userFormik.values.role}
+                    onChange={userFormik.handleChange}
+                    required
+                  >
+                    <option value={""} disabled>
+                      {" "}
+                      select role
+                    </option>
+                    {user.role !== "admin" ? (
+                      <option value={"admin"}>Admin</option>
+                    ) : (
+                      ""
+                    )}
+                    {user.role !== "Coordinator" ? (
+                      <option value={"Coordinator"}>Coordinator</option>
+                    ) : (
+                      ""
+                    )}
+                    {user.role !== "user" ? (
+                      <option value={"user"}>user</option>
+                    ) : (
+                      ""
+                    )}
+                  </select>
+                </>
+              )}
+              {success && (
+                <select
+                  name="domainId"
+                  id="role"
+                  required
+                  style={{
+                    height: "3rem",
+                    border: "0.5px solid rgb(222,222,222)",
+                    outline: "none",
+                    
+                  }}
+                  onChange={userFormik.handleChange}
+                >
+                  <option value={" "} disabled>Select Domain</option>
+                  <option value={"66941ce2c02f158af0de725f"}>WEB</option>
+                  <option value={"66941ce2c02f158af0de725f"}>APP</option>
+                </select>
+              )}
+              {
+                loader?
+                (
+                  <button className="submit-message" disabled={loader}>
+                      <CircularProgress size={27} sx={{ color: "#022368" }} />
+                  </button>
+                ):
+                (
+                <button className="submit-message">
+                      {user?"Update User":"Get User"}
+                  </button>
+                )
+              }
             </form>
           </div>
         </div>

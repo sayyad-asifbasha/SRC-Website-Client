@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   logged: false,
   authToken: "",
+  name: "",
+  role: "",
+  email: "",
 };
 
 export const logged = createSlice({
@@ -10,11 +13,11 @@ export const logged = createSlice({
   initialState,
   reducers: {
     loggedStatus: (state, action) => {
-      const status = {
-        logStatus: action.payload,
-      };
-      state.logged = status.logStatus.logged;
-      state.authToken = status.logStatus.token;
+      state.name = action.payload.name;
+      state.logged = action.payload.logged;
+      state.authToken = action.payload.token;
+      state.role = action.payload.role;
+      state.email = action.payload.email;
     },
   },
 });

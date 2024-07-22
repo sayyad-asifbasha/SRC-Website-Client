@@ -1,6 +1,5 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
-
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
@@ -15,9 +14,13 @@ import UserDetails from "./components/UserDetails";
 import Signin from "./components/SignIn";
 import ForgotPassword from "./components/ForgotPassword";
 import AdminPage from "./components/Admin_op/AdminPage";
-import PasswordVerify from "./components/PasswordVerify";
+import UserVerify from "./components/UserVerify";
 import SnackbarListener from "./components/SnackBarListener";
 import { SnackbarProvider } from "notistack";
+import Error from "./components/Utils/Error";
+import UsersProfile from "./components/UsersProfile";
+import { useSelector } from "react-redux";
+import ResetPassword from "./components/Utils/ResetPassword";
 function App() {
   return (
     <>
@@ -33,15 +36,57 @@ function App() {
           <Route path="/Signin" element={<Signin />} />
           <Route path="/Details" element={<UserDetails />} />
           <Route path="/Login" element={<Login />} />
-          <Route path="/Admin" element={<AdminPage />} />
+          <Route
+            path="/Admin"
+            element={
+              useSelector((state) => state.logStatus.logged) ? (
+                <AdminPage />
+              ) : (
+                <Error />
+              )
+            }
+          />
           <Route path="/forgot/password" element={<ForgotPassword />} />
           <Route path="/Projects" element={<Projects />} />
           <Route path="/Events" element={<Events />} />
           <Route path="/Events/:eventName" element={<EventInfo />} />
           <Route path="/Domain/:domainName" element={<Domains />} />
-          <Route path="/Profile/:username" element={<UserProfile />} />
+          <Route
+            path="/Profile/:username"
+            element={
+              useSelector((state) => state.logStatus.logged) ? (
+                <UserProfile />
+              ) : (
+                <Error />
+              )
+            }
+          />
+          <Route
+            path="/user/Profile/:email"
+            element={
+              useSelector((state) => state.logStatus.logged) ? (
+                <UsersProfile />
+              ) : (
+                <Error />
+              )
+            }
+          />
           <Route path="/About" element={<About />} />
-          <Route path="/user/verify/:authToken" element={<PasswordVerify />} />
+          <Route path="/user/verify/:authToken" element={<UserVerify />} />
+          <Route
+            path="/reset/password"
+            element={
+              useSelector((state) => state.logStatus.logged) ? (
+                <ResetPassword />
+              ) : (
+                <Error />
+              )
+            }
+          />
+          <Route
+            path="/reset/password/:authToken"
+            element={<ResetPassword />}
+          />
         </Routes>
         <Footer />
       </SnackbarProvider>

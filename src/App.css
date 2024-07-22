@@ -169,6 +169,10 @@ body {
 .thumbs {
   display: none;
 }
+.control-arrow,
+.control-next {
+  display: none;
+}
 
 .carousel .slide-holder {
   width: 100%;
@@ -227,9 +231,11 @@ div .images {
 }
 
 .control-dots {
-  z-index: -999 !important;
+  z-index: -500;
 }
-
+.control-dots .dot {
+  z-index: -500;
+}
 .control-arrow {
   z-index: -999 !important;
 }

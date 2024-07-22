@@ -5,12 +5,12 @@ import Headroom from "react-headroom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { logged, loggedStatus } from "../features/user/user";
-import { toast, Bounce } from "react-toastify";
+import { loggedStatus } from "../features/user/user";
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const username = useSelector((state) => state.logStatus.name);
+  const role = useSelector((state) => state.logStatus.role);
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -25,15 +25,23 @@ export default function Navbar() {
     });
   });
   const logout = () => {
-    dispatch(loggedStatus({ logged: false, authToken: "" }));
+    dispatch(
+      loggedStatus({
+        logged: false,
+        authToken: "",
+        name: "",
+        role: "",
+        email: "",
+      })
+    );
     localStorage.removeItem("authToken");
+    localStorage.removeItem("username");
     navigate("/");
     window.history.pushState(null, null, window.location.href);
     window.addEventListener("popstate", () => {
       window.history.pushState(null, null, window.location.href);
     });
   };
-
   return (
     <>
       <ToastContainer />
@@ -161,15 +169,20 @@ export default function Navbar() {
                     >
                       <path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" />
                     </svg>
-                    User
+                    <span className="items">{username}</span>
+                    <span id="user-name-info-badge">({role})</span>
                   </Link>
                   <div id="user-options">
                     <ul>
+                      {role === "admin" ? (
+                        <li>
+                          <Link to="/Admin">Admin</Link>
+                        </li>
+                      ) : (
+                        ""
+                      )}
                       <li>
-                        <Link to="/Admin">Admin</Link>
-                      </li>
-                      <li>
-                        <Link to="/profile/user">My profile</Link>
+                        <Link to={`/profile/${username}`}>My profile</Link>
                       </li>
                       <li style={{ cursor: "pointer" }} onClick={logout}>
                         Logout
@@ -179,7 +192,7 @@ export default function Navbar() {
                 </>
               )}
 
-              <form className="searchBox">
+              {/* <form className="searchBox">
                 <input
                   type="search"
                   placeholder="Search in SRC"
@@ -195,7 +208,7 @@ export default function Navbar() {
                     <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
                   </svg>
                 </button>
-              </form>
+              </form> */}
             </div>
           </nav>
         </header>

@@ -18,7 +18,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
 import { useParams } from "react-router-dom";
-import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 const initialScoreDetails = [
   {

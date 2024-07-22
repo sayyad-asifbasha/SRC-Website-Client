@@ -2,40 +2,14 @@ import { React, useState } from "react";
 import "../styles/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { ToastContainer, toast, Bounce, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { setSnackBar } from "../features/snackbar/snackbar";
+import { CircularProgress } from "@mui/material";
 export default function Signin() {
   const navigate = useNavigate();
-  const showToast = (msg, msgType) => {
-    if (msgType === "warn") {
-      toast.warn(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-    if (msgType === "success") {
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-  };
+
   const [passwordIcon, setPasswordIcon] = useState("keyboard");
   const formik = useFormik({
     initialValues: {
@@ -86,17 +60,19 @@ export default function Signin() {
     if (formik.errors.username) {
       document.getElementById("username").style.border = "0.1px solid red";
 
-      showToast(formik.errors.name, "warn");
+      dispacth(setSnackBar({ message: formik.errors.name, variant: "error" }));
     }
     if (formik.errors.email) {
       document.getElementById("email").style.border = "0.1px solid red";
 
-      showToast(formik.errors.email, "warn");
+      dispacth(setSnackBar({ message: formik.errors.email, variant: "error" }));
     }
     if (formik.errors.password) {
       document.getElementById("password").style.border = "0.1px solid red";
 
-      showToast(formik.errors.password, "warn");
+      dispacth(
+        setSnackBar({ message: formik.errors.password, variant: "error" })
+      );
     }
     if (
       !formik.errors.email &&
@@ -112,20 +88,26 @@ export default function Signin() {
       signInUser(formik.values);
     }
   };
+  const dispacth = useDispatch();
+  const [loader, setLoader] = useState(false);
 
   const signInUser = async (e) => {
     console.log(e);
+    setLoader(true);
     const signApi = process.env.REACT_APP_SIGN_UP;
     try {
       const res = await axios.post(signApi, e);
-      showToast(res.data.data.message, "success");
-      console.log(res.data.data.message);
+      dispacth(
+        setSnackBar({ message: res.data.data.message, variant: "success" })
+      );
+      setLoader(false);
       setTimeout(() => {
         navigate("/Login");
       }, 3000);
     } catch (e) {
       console.log(e.response.data);
-      showToast(e.response.data.err, "warn");
+      dispacth(setSnackBar({ message: e.response.data.err, variant: "error" }));
+      setLoader(false);
     }
   };
 
@@ -138,7 +120,6 @@ export default function Signin() {
   };
   return (
     <>
-      <ToastContainer />
       <div id="background"></div>
       <div id="card">
         <img
@@ -221,7 +202,11 @@ export default function Signin() {
           </div>
 
           <button type="submit" className="password">
-            Signin
+            {loader ? (
+              <CircularProgress size={27} sx={{ color: "#022368" }} />
+            ) : (
+              "Sign up"
+            )}
           </button>
           <Link to="/Login" id="already-account">
             Already have an account?

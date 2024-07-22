@@ -3,39 +3,13 @@ import "../styles/Login.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import { Flip, ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { setSnackBar } from "../features/snackbar/snackbar";
+import { CircularProgress } from "@mui/material";
 export default function ForgotPassword() {
-  const showToast = (msg, msgType) => {
-    if (msgType === "warn") {
-      toast.warn(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-    if (msgType === "success") {
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-  };
-  const [passwordIcon, setPasswordIcon] = useState("keyboard");
-
+  const [loader, setLoader] = useState(false);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -65,7 +39,8 @@ export default function ForgotPassword() {
     if (formik.errors.email) {
       document.getElementById("email").style.border = "0.1px solid red";
 
-      showToast(formik.errors.email, "warn");
+      // showToast(formik.errors.email, "warn");
+      dispatch(setSnackBar({ message: formik.errors.email, variant: "error" }));
     }
 
     if (!formik.errors.email && !formik.errors.password) {
@@ -77,20 +52,27 @@ export default function ForgotPassword() {
   };
   const verifyUser = async (e) => {
     console.log(e);
+    setLoader(true);
     const forgotApi = process.env.REACT_APP_FORGOT_PASSWORD;
     try {
-      const res = await axios.post(forgotApi, e);
-      showToast(res.data.message, "success");
+      const res = await axios.get(forgotApi + e.email);
       console.log(res);
+      setLoader(false);
+      dispatch(
+        setSnackBar({
+          message: "Reset link sent to your mail",
+          variant: "success",
+        })
+      );
     } catch (e) {
-      showToast(e.response.data.err, "warn");
+      setLoader(false);
       console.log(e);
+      dispatch(setSnackBar({ message: "user not found", variant: "error" }));
     }
   };
 
   return (
     <>
-      <ToastContainer />
       <div id="background"></div>
       <div id="card">
         <img
@@ -120,9 +102,13 @@ export default function ForgotPassword() {
             </svg>
           </div>
 
-          <button type="submit" className="password">
-            Verify
-          </button>
+          {loader ? (
+            <button className="submit-message" disabled={loader}>
+              <CircularProgress size={27} sx={{ color: "#022368" }} />
+            </button>
+          ) : (
+            <button className="submit-message">verify</button>
+          )}
           <Link to="/Signin" id="sign-account">
             Don't have an account?
           </Link>

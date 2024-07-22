@@ -105,7 +105,8 @@
 
 #loginForm > button,
 .skip-or-submit button,
-.contact-head > div > button {
+.contact-head > div > button,
+.reset-password-btn {
   border: none;
   color: black;
   background: #f2f2f2;
@@ -119,6 +120,7 @@
   text-align: center;
   transition: 0.31s;
 }
+
 .skip-or-submit {
   display: flex;
   gap: 3rem;
@@ -132,10 +134,15 @@
 .details-submit {
   width: 500px !important;
 }
+.reset-password-btn {
+  width: fit-content;
+  font-size: 1rem;
+}
 
 #loginForm > button:hover,
 .skip-or-submit button:hover,
-.contact-head > div > button:hover {
+.contact-head > div > button:hover,
+.reset-password-btn:hover {
   color: white;
   background-color: var(--hover-color);
 }

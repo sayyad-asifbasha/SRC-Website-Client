@@ -28,9 +28,12 @@
   );
   --border-color: rgb(199, 194, 194);
 }
-
+#user-name-info-badge {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: Bold;
+}
 .main {
-  /* height: 100%; */
   width: 100%;
   display: flex;
 }
@@ -43,9 +46,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* height: var(--header-height); */
   height: 9vh;
   width: 100%;
+
+  z-index: 1000;
   background-color: var(--background-color);
   padding: var(--header-padding);
   /* box-shadow: var(--box-shadow); */
@@ -170,10 +174,11 @@
   padding: 0.5rem;
   position: absolute;
   border-radius: 0.5rem;
-  top: 3rem;
-  right: 13rem;
+  top: 2.3rem;
+  right: 0;
   display: none;
-  background-color: black;
+  width: 11%;
+  background-color: var(--background-color);
 }
 #user-options > ul {
   display: flex;

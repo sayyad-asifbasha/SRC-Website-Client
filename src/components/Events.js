@@ -10,7 +10,7 @@ const events = [
     date: "20 APR,2024 10:00AM-05:00PM",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur unde ipsa sint ipsum facere ratione modi, qui autem mollitia sit explicabo laborum excepturi ea amet iure numquam quasi. Quisquam, sunt! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio numquam expedita soluta deleniti harum dicta quas quam aspernatur dolores ea, optio ab ratione sequi, error veritatis distinctio corrupti recusandae ex? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati unde enim",
-    isUpcoming: false,
+    isUpcoming: true,
     summary:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur unde ipsa sint ipsum facere ratione modi, qui autem mollitia sit explicabo laborum excepturi ea amet iure numquam quasi. Quisquam, sunt! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ad Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio numquam expedita soluta deleniti harum dicta quas quam aspernatur dolores ea, optio ab ratione sequi, error veritatis distinctio corrupti recusandae ex? ",
   },
