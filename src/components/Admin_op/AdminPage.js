@@ -220,7 +220,7 @@ export default function NestedList() {
         </div>
         <div>
           {selectedIndex === 1 ? (
-            <CompletedEventForum />
+            <CarouselForm />
           ) : selectedIndex === 2 ? (
             <DomainForm />
           ) : selectedIndex === 3 ? (

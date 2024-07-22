@@ -28,6 +28,8 @@ export default function ResouceForm() {
   const getAllResource = process.env.REACT_APP_GET_RESOURCES;
   const updateResources = process.env.REACT_APP_UPDATE_RESOURCE_BY_ID;
   const deleteResources = process.env.REACT_APP_DELETE_RESOURCE_BY_ID;
+  const getDomains=process.env.REACT_APP_GET_DOMAINS;
+
 
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -39,6 +41,7 @@ export default function ResouceForm() {
   const [resource, setresource] = React.useState();
   const [cancel, setCancel] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const [domain,setDomain]=React.useState([]);
 
   const handleCClose = (type) => setCOpen(false);
   const handleChange = (panel) => (event, isExpanded) => {
@@ -47,13 +50,13 @@ export default function ResouceForm() {
   const dispacth = useDispatch();
   useEffect(() => {
     getAllResources();
+    handleDomain();
   }, []);
 
   const getAllResources = async () => {
     try {
       const data = await axios.get(getAllResource);
       setresource(data.data);
-      // console.log(data.data);
     } catch (e) {
       console.log(e);
     }
@@ -160,12 +163,31 @@ export default function ResouceForm() {
     resourceFormik.setFieldValue("type", edit.resource.type);
     setCancel(true);
   };
+  const handleDomain=async()=>
+  {
+    try{
+      const res=await axios.get(getDomains,
+        {
+          headers:
+          {
+            Authorization:`Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+          }
+        }
+      );
+      setDomain(res.data);
+    }catch(e)
+    {
+      console.log(e);
+    }
+  }
 
   const resourceFormik = useFormik({
     initialValues: {
       title: "",
       description: "",
-      domainId: "66941ce2c02f158af0de725f",
+      domainId: "",
       url: "",
       type: "",
     },
@@ -368,15 +390,16 @@ export default function ResouceForm() {
                 outline: "none",
               }}
               onChange={resourceFormik.handleChange}
+              value={resourceFormik.values.domainId}
               required
             >
               <option hidden value="">
                 Select Domain
               </option>
-              <option value="66941ce2c02f158af0de725f"> Web Development</option>
-              <option value="66941ce2c02f158af0de725f"> DSA</option>
-              <option value="66941ce2c02f158af0de725f"> AI </option>
-              <option value="66941ce2c02f158af0de725f"> Data Science</option>
+              {domain&&domain.map((item)=>
+              {
+                return(<option value={item._id}>{item.name}</option>)
+              })}
             </select>
             <input
               type="text"

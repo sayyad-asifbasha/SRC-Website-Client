@@ -34,6 +34,11 @@ import axios from "axios";
 
 export default function UpcomingEventForm() {
   const getUserByEmail = process.env.REACT_APP_GET_USER_BY_EMAIL;
+  const getDomains = process.env.REACT_APP_GET_DOMAINS;
+  const getEvents=process.env.REACT_APP_GET_EVENTS;
+  const deleteEvent=process.env.REACT_APP_GET_DELETE_BY_ID;
+  const updateEvent=process.env.REACT_APP_GET_UPDATE_BY_ID;
+  const addEvent=process.env.REACT_APP_ADD_EVENT;
 
   const dispacth = useDispatch();
   const handleCClose = () => setCOpen(false);
@@ -45,14 +50,15 @@ export default function UpcomingEventForm() {
   const [coordinators, setCoordinators] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
   const [loader, setLoader] = useState(false);
-  const [visible,setVisible]=useState(false);
+  const [visible, setVisible] = useState(false);
+  const [domain, setDomain] = useState([]);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   const handleDeleteEvent = async () => {
     try {
-      const res = await axios.delete("https://src-website-api.onrender.com/api/v1/events/" + edit.event._id);
+      const res = await axios.delete(deleteEvent + edit.event._id);
       dispacth(
         setSnackBar(
           {
@@ -136,7 +142,7 @@ export default function UpcomingEventForm() {
     console.log(formik.values);
     if (checkTime()) {
       try {
-        const res = await axios.put("https://src-website-api.onrender.com/api/v1/events/" + edit.event._id, formik.values);
+        const res = await axios.put(updateEvent + edit.event._id, formik.values);
         if (!formik.values.isUpcoming) {
           dispacth(
             setSnackBar({
@@ -180,7 +186,7 @@ export default function UpcomingEventForm() {
       setLoader(true);
       try {
         const res = await axios.post(
-          "https://src-website-api.onrender.com/api/v1/events",
+          addEvent,
           formik.values
         );
         dispacth(
@@ -240,6 +246,22 @@ export default function UpcomingEventForm() {
       return errors;
     },
   });
+  const handleDomain = async () => {
+    try {
+      const res = await axios.get(getDomains,
+      {
+        headers:
+        {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        }
+      });
+      setDomain(res.data);
+    } catch (e) {
+      console.log(e)
+    }
+  }
   const handlePrizeDetailChange = (index, event) => {
     const newPrizeDetails = [...formik.values.prizeDetails];
     newPrizeDetails[index] = {
@@ -322,7 +344,7 @@ export default function UpcomingEventForm() {
   const getAllEvents = async () => {
     try {
       const res = await axios.get(
-        "https://src-website-api.onrender.com/api/v1/events"
+       getEvents
       );
       setEvent(res.data);
     } catch (e) {
@@ -331,6 +353,7 @@ export default function UpcomingEventForm() {
   };
   useEffect(() => {
     getAllEvents();
+    handleDomain();
   }, []);
   return (
     <>
@@ -492,7 +515,7 @@ export default function UpcomingEventForm() {
           </div>
         </div>
         <div className="contact-fields  add-carousel-item ">
-          <form onSubmit={visible&&edit.check ? handleUpdateEvent : handleAddEvent}>
+          <form onSubmit={visible && edit.check ? handleUpdateEvent : handleAddEvent}>
             <input
               type="text"
               id="domain-name"
@@ -536,12 +559,14 @@ export default function UpcomingEventForm() {
               required
             >
               <option hidden value="">
-                Select Domain
-              </option>
-              <option value="Web development"> Web Development</option>
-              <option value="DSA"> DSA</option>
-              <option value="AI"> AI </option>
-              <option value="Data Science"> Data Science</option>
+                  Select Domain
+                </option>
+              {
+                domain&&domain.map((item)=>
+                {
+                  return(<option value={item.name}>{item.name}</option>)
+                })
+              }
             </select>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <div className="upcoming-event-time">

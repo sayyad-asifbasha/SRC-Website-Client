@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useFormik } from "formik";
 import "../../styles/Login.css";
 import axios from "axios";
@@ -11,10 +11,13 @@ export default function DomainForm() {
   const getUserProfile = process.env.REACT_APP_GET_USER_BY_EMAIL;
   const udpateRole = process.env.REACT_APP_UPDATE_ROLE_BY_EMAIL;
   const getUsers = process.env.REACT_APP_GET_USER_PROFILE_BY_EMAIL;
+  const getDomains=process.env.REACT_APP_GET_DOMAINS;
+  const updateUserProfile=process.env.REACT_APP_UPDATE_USER_DETAILS;
 
   const [user, setUser] = useState(null);
   const [cancel, setCancel] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [domain,setDomain]=useState([]);
   const [loader,setLoader]=useState(false);
 
   const userFormik = useFormik({
@@ -60,6 +63,24 @@ export default function DomainForm() {
     }
   };
 
+  const handleDomain= async()=>
+  {
+    try{
+      const res=await axios.get(getDomains,{
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      })
+      setDomain(res.data);
+      // console.log(res);
+      console.log(domain);
+    }catch(e)
+    {
+      console.log(e);
+    }
+  }
   // Function for Handling Form
 
   const handleSubmit = (e) => {
@@ -136,7 +157,7 @@ export default function DomainForm() {
         role:userFormik.values.role
       };
       const res = await axios.put(
-        "https://src-website-api.onrender.com/api/v1/profiles/update/" +
+        updateUserProfile +
           used.data._id,
         domain
       );
@@ -162,7 +183,7 @@ export default function DomainForm() {
         role:userFormik.values.role
       };
       const res = await axios.put(
-        " https://src-website-api.onrender.com/api/v1/profiles/update/" +
+        updateUserProfile+
           used.data._id,
         domain
       );
@@ -190,7 +211,11 @@ export default function DomainForm() {
       setLoader(false);
     }
   };
-
+  useEffect(()=>
+  {
+    handleDomain();
+    // console.log(domain);
+  },[])
   return (
     <>
       <div
@@ -296,9 +321,15 @@ export default function DomainForm() {
                   }}
                   onChange={userFormik.handleChange}
                 >
-                  <option value={" "} disabled>Select Domain</option>
-                  <option value={"66941ce2c02f158af0de725f"}>WEB</option>
-                  <option value={"66941ce2c02f158af0de725f"}>APP</option>
+                  <option hidden value="">Select Domain</option>
+                  {/* <option value={"66941ce2c02f158af0de725f"}>WEB</option>
+                  <option value={"66941ce2c02f158af0de725f"}>APP</option> */}
+                  {
+                    domain&&domain.map((item)=>
+                    {
+                      return (<option value={item._id}>{item.name}</option>)
+                    })
+                  }
                 </select>
               )}
               {

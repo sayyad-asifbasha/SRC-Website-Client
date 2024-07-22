@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -34,6 +32,13 @@ import axios from "axios";
 
 export default function UpcomingEventForm() {
   const getUserByEmail = process.env.REACT_APP_GET_USER_BY_EMAIL;
+  const getDomains=process.env.REACT_APP_GET_DOMAINS;
+  const getEvents=process.env.REACT_APP_GET_EVENTS;
+  const deleteEvent=process.env.REACT_APP_GET_DELETE_BY_ID;
+  const updateEvent=process.env.REACT_APP_GET_UPDATE_BY_ID;
+
+
+
 
   const dispacth = useDispatch();
   const handleCClose = () => setCOpen(false);
@@ -46,6 +51,7 @@ export default function UpcomingEventForm() {
   const [expanded, setExpanded] = React.useState(false);
   const [loader, setLoader] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [domain,setDomain]=useState([]);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -53,7 +59,7 @@ export default function UpcomingEventForm() {
   const handleDeleteEvent = async () => {
     try {
       const res = await axios.delete(
-        "https://src-website-api.onrender.com/api/v1/events/" + edit.event._id
+        deleteEvent + edit.event._id
       );
       dispacth(
         setSnackBar({
@@ -142,7 +148,7 @@ export default function UpcomingEventForm() {
     if (checkTime()) {
       try {
         const res = await axios.put(
-          "https://src-website-api.onrender.com/api/v1/events/" +
+          updateEvent+
             edit.event._id,
           formik.values
         );
@@ -184,40 +190,6 @@ export default function UpcomingEventForm() {
     }
     console.log(formik.values);
   };
-  // const handleAddEvent = async (e) => {
-  //   e.preventDefault();
-  //   if (checkTime()) {
-  //     setLoader(true);
-  //     try {
-  //       const res = await axios.post(
-  //         "https://src-website-api.onrender.com/api/v1/events",
-  //         formik.values
-  //       );
-  //       dispacth(
-  //         setSnackBar({
-  //           message: "Event created successfully",
-  //           variant: "success",
-  //         })
-  //       );
-  //       formik.resetForm();
-  //       setCoordinators(null);
-  //       getAllEvents();
-  //       setCancel(false);
-  //       setLoader(false);
-  //     } catch (error) {
-  //       setLoader(false);
-  //       setCancel(false);
-  //       dispacth(
-  //         setSnackBar({
-  //           message: "Error in creating event",
-  //           variant: "error",
-  //         })
-  //       );
-  //       console.log(error);
-  //     }
-  //   }
-
-  // };
 
   const formik = useFormik({
     initialValues: {
@@ -251,6 +223,27 @@ export default function UpcomingEventForm() {
       return errors;
     },
   });
+  const handleDomain=async()=>
+  {
+    try
+    {
+      const res=await axios.get(getDomains,
+        {
+          headers:
+          {
+            Authorization:`Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+          }
+        }
+      );
+      setDomain(res.data);
+    }
+    catch(e)
+    {
+      console.log(e);
+    }
+  }
   const handleWinners = (index, event) => {
     const newWinners = [...formik.values.winners];
     newWinners[index] = {
@@ -336,9 +329,7 @@ export default function UpcomingEventForm() {
   };
   const getAllEvents = async () => {
     try {
-      const res = await axios.get(
-        "https://src-website-api.onrender.com/api/v1/events"
-      );
+      const res = await axios.get(getEvents);
       setEvent(res.data);
     } catch (e) {
       console.log(e);
@@ -346,6 +337,7 @@ export default function UpcomingEventForm() {
   };
   useEffect(() => {
     getAllEvents();
+    handleDomain();
   }, []);
   return (
     <>
@@ -693,10 +685,12 @@ export default function UpcomingEventForm() {
                 <option hidden value="">
                   Select Domain
                 </option>
-                <option value="Web development"> Web Development</option>
-                <option value="DSA"> DSA</option>
-                <option value="AI"> AI </option>
-                <option value="Data Science"> Data Science</option>
+                {
+                  domain&&domain.map((item)=>
+                  {
+                    return(<option value={item.name}> {item.name}</option>)
+                  })
+                }
               </select>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <div className="upcoming-event-time">

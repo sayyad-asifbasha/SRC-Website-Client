@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -22,12 +22,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 export default function ProjectForm() {
-
   // Getting Environment Variables
   const createProject = process.env.REACT_APP_CREATE_PROJECT;
   const getAllProject = process.env.REACT_APP_GET_ALL_PROJECTS;
   const updateProjects = process.env.REACT_APP_UPDATE_PROJECT;
   const deleteProjects = process.env.REACT_APP_DELETE_PROJECT;
+  const getDomains = process.env.REACT_APP_GET_DOMAINS;
 
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -39,6 +39,7 @@ export default function ProjectForm() {
   const [projects, setProjects] = React.useState();
   const [cancel, setCancel] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const [domain, setDomain] = useState([]);
 
   const handleCClose = (type) => setCOpen(false);
   const handleChange = (panel) => (event, isExpanded) => {
@@ -47,6 +48,7 @@ export default function ProjectForm() {
   const dispacth = useDispatch();
   useEffect(() => {
     getAllProjects();
+    handleDomain();
   }, []);
 
   const getAllProjects = async () => {
@@ -153,6 +155,7 @@ export default function ProjectForm() {
   };
   const editProject = () => {
     setCOpen(false);
+    console.log(edit.project);
     projectFormik.setFieldValue("name", edit.project.name);
     projectFormik.setFieldValue("description", edit.project.description);
     projectFormik.setFieldValue("domainId", edit.project.domainId);
@@ -161,11 +164,25 @@ export default function ProjectForm() {
     setCancel(true);
   };
 
+  const handleDomain = async () => {
+    try {
+      const res = await axios.get(getDomains, {
+        headers: {
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
+        },
+      });
+      setDomain(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const projectFormik = useFormik({
     initialValues: {
       name: "",
       description: "",
-      domainId: "66941ce2c02f158af0de725f",
+      domainId:"",
       githubLink: "",
       demoLink: "",
       contributors: [],
@@ -252,55 +269,94 @@ export default function ProjectForm() {
             return (
               <Accordion
                 expanded={expanded === ele._id}
-                style={{ borderRadius: "0.5rem",marginTop:"0.5rem" }}
+                style={{ borderRadius: "0.5rem", marginTop: "0.5rem" }}
                 onChange={handleChange(ele._id)}
-
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
-
                   aria-controls={`${ele._id}`}
                   id={`${ele._id}`}
                 >
-
-                  <Typography  >
-
-                  <span style={{fontSize:'20px',fontWeight:"600"}}>{ele.name}</span>
+                  <Typography>
+                    <span style={{ fontSize: "20px", fontWeight: "600" }}>
+                      {ele.name}
+                    </span>
                   </Typography>
-
                 </AccordionSummary>
                 <AccordionDetails>
-                  <ListItem >
+                  <ListItem>
                     <div style={{ color: "black" }}>
-                      <div style={{ display: 'flex', flexDirection: "column", gap: "1rem" }}>
-                        <div style={{ textAlign: 'justify' }}>
-                          <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>Description : </span>
-                          <span >{ele.description}</span>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "1rem",
+                        }}
+                      >
+                        <div style={{ textAlign: "justify" }}>
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            Description :{" "}
+                          </span>
+                          <span>{ele.description}</span>
                         </div>
                         <div>
-                          <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>Domain : </span>
-                          <span >{ele.domainId}</span>
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            Domain :{" "}
+                          </span>
+                          <span>{ele.domainId}</span>
                         </div>
                         <div>
-                          <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>Github Link : </span>
-                          <span style={{ textAlign: 'justify' }}><a href={ele.githubLink}>{ele.githubLink}</a></span>
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            Github Link :{" "}
+                          </span>
+                          <span style={{ textAlign: "justify" }}>
+                            <a href={ele.githubLink}>{ele.githubLink}</a>
+                          </span>
                         </div>
                         <div>
-                          <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>Demo Link : </span>
-                          <span style={{ textAlign: 'justify' }}><a href={ele.demoLink}>{ele.demoLink}</a></span>
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            Demo Link :{" "}
+                          </span>
+                          <span style={{ textAlign: "justify" }}>
+                            <a href={ele.demoLink}>{ele.demoLink}</a>
+                          </span>
                         </div>
                         <div>
-                           <IconButton
-                          edge="end"
-                          aria-label="edit"
-                          sx={{ marginRight: "0.5rem" }}
-                          onClick={() => {
-                            setEdit({ check: true, project: ele });
-                            setCOpen(true);
-                          }}
-                        >
-                          <EditNoteRoundedIcon />
-                        </IconButton>
+                          <IconButton
+                            edge="end"
+                            aria-label="edit"
+                            sx={{ marginRight: "0.5rem" }}
+                            onClick={() => {
+                              setEdit({ check: true, project: ele });
+                              setCOpen(true);
+                            }}
+                          >
+                            <EditNoteRoundedIcon />
+                          </IconButton>
                           <IconButton
                             edge="end"
                             aria-label="delete"
@@ -311,16 +367,15 @@ export default function ProjectForm() {
                           >
                             <DeleteIcon />
                           </IconButton>
-                          </div>
+                        </div>
                       </div>
                     </div>
-
                   </ListItem>
                 </AccordionDetails>
               </Accordion>
             );
           })}
-      </div >
+      </div>
       <div className="sub-contact-container" style={{ margin: ".9rem" }}>
         <div className="contact-head">
           <div>
@@ -369,16 +424,18 @@ export default function ProjectForm() {
                 outline: "none",
               }}
               onChange={projectFormik.handleChange}
+              value={projectFormik.values.domainId}
               required
             >
               <option hidden value="">
-                {" "}
                 Select Domain
               </option>
-              <option value="66941ce2c02f158af0de725f"> Web Development</option>
-              <option value="66941ce2c02f158af0de725f"> DSA</option>
-              <option value="66941ce2c02f158af0de725f"> AI </option>
-              <option value="66941ce2c02f158af0de725f"> Data Science</option>
+              {
+                  domain&&domain.map((item)=>
+                  {
+                    return(<option value={item._id}> {item.name}</option>)
+                  })
+                }
             </select>
             <input
               type="text"
