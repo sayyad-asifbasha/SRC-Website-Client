@@ -16,14 +16,7 @@
   font-size: 50px;
 }
 
-.event-container:nth-child(even) {
-  display: flex;
-  margin: 2.1rem;
-  overflow: hidden;
-  flex-direction: row-reverse;
-}
-
-.event-container:nth-child(odd) {
+.event-container {
   display: flex;
   margin: 2.1rem;
   overflow: hidden;
@@ -42,11 +35,12 @@
 
 .event-details {
   display: flex;
-  gap: 1.9rem !important;
+  justify-content: space-between;
   text-align: left;
-  justify-content: center;
   background-color: aliceblue;
   padding: 1.3rem;
+  width: 100%;
+  gap: 3.9rem !important;
 }
 .event-date {
   text-align: center;
@@ -58,7 +52,7 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  gap: 1rem;
+  width: 75%;
 }
 
 .event-venue > h2 {
@@ -78,15 +72,15 @@
 }
 
 .event-description .intro p {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
   font-size: 1rem;
   line-height: 1.7rem;
   margin-bottom: 1rem;
   margin-top: 2.1rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  text-indent: 1rem;
 }
 
 .event-description > a > button,
@@ -178,22 +172,21 @@
     height: 250px;
     background-size: cover;
     background-position: 0% 0%;
+    margin: 0;
   }
 
-  .event-container:nth-child(odd) {
+  .event-container {
     flex-direction: column;
-    margin: 1rem;
+    margin: 0.9rem;
   }
 
-  .event-container:nth-child(even) {
-    flex-direction: column;
-    margin: 1rem;
-  }
   .event-details {
     flex-direction: column;
+    padding: 1rem;
   }
   .event-venue-desc {
     gap: 0rem;
+    width: 100%;
   }
   .event-venue {
     display: flex;
@@ -278,7 +271,6 @@
 .event-domain-container {
   background-color: aliceblue;
   padding: 1rem;
-  margin: 1.5rem;
   border-radius: 0.7rem;
 }
 
@@ -289,7 +281,7 @@
 }
 
 .single-event-desc {
-  padding: 2.5rem;
+  padding: 1.3rem;
 }
 
 .single-event-desc > h2 {
@@ -483,7 +475,9 @@
     text-align: left;
     gap: 0rem;
   }
-
+  .single-event-desc {
+    padding: 1rem;
+  }
   .single-event-desc > h2 {
     color: white;
     font-size: 1.5rem;

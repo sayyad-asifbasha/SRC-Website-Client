@@ -17,7 +17,7 @@ export default function Resources() {
 
   const getResourcesApi = process.env.REACT_APP_GET_RESOURCE_BY_DOMAIN_ID;
 
-  const domainId = useSelector((state) => state.introText.domainId);
+  const domainId = useSelector((state) => state.domainData.domainId);
   useEffect(() => {
     getResources(domainId);
   }, [domainId]);

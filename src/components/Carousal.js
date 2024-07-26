@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
-import carousalImg1 from "../assets/images/carousal-1.jpg";
-import carousalImg2 from "../assets/images/carousal-2.jpg";
 import { Carousel } from "react-responsive-carousel";
+import { changeDomainData } from "../features/carousel/carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useDispatch, useSelector } from "react-redux";
-import { changeIntroText, changeDomainId } from "../features/carousel/carousel";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import DomainInfo from "./DomainMembers";
-const images = [carousalImg1, carousalImg2, carousalImg1];
+import { Skeleton } from "@mui/material";
+
 export default function Carousal() {
   // init of variables
+
+  const getAllCarouselsApi = process.env.REACT_APP_GET_ALL_CAROUSEL;
   // init React hooks
 
   const dispatch = useDispatch();
   const [domain, setDomain] = useState(null);
+  const [carousels, setCarousels] = useState(null);
   const location = useLocation();
   const { domainName } = useParams();
-
+  const domainId = useSelector((state) => state.domainData.domainId);
+  console.log(domainId);
+  console.log(location.pathname);
   // useEffect for getting domains
 
   useEffect(() => {
     getDomains();
+    getAllCarousels();
   }, [location]);
 
   // Init of variables
@@ -35,14 +39,17 @@ export default function Carousal() {
       const res = await axios.get(getDomainsApi);
       setDomain(res.data);
       if (location.pathname === "/") {
-        dispatch(changeIntroText(introText));
-        dispatch(changeDomainId(""));
+        dispatch(changeDomainData({ introText: introText, domainId: "" }));
       } else {
         console.log(domainName);
         res.data.map((item) => {
           if (item.name === domainName) {
-            dispatch(changeDomainId(item._id));
-            dispatch(changeIntroText(item.description));
+            dispatch(
+              changeDomainData({
+                introText: item.description,
+                domainId: item._id,
+              })
+            );
           }
         });
       }
@@ -51,8 +58,20 @@ export default function Carousal() {
     }
   };
 
+  // Function to get all carousels
+
+  const getAllCarousels = async () => {
+    try {
+      const res = await axios.get(getAllCarouselsApi);
+      console.log(res.data);
+      setCarousels(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const introText =
-    "Main Page Component, sit amet consectetur adipisicing elit. Quasi reiciendis veritatis iure, aperiam vitae obcaecati consequatur at.Praesentium, asperiores facere ad repellendus voluptatibusconsequatur nisi commodi a? Incidunt odio magnam veritatis! Temporaconsectetur excepturi ipsam in! Nisi exercitationem, vel autemratione iusto fugiat esse labore! Enim earum vel accusamus hic ipsumdebitis aperiam praesentium eos necessitatibus facilis laudantiumquasi odit, deserunt cumque quas quae exercitationem soluta, cumdoloremque id! Dignissimos animi, id maxime autem provident quo consequatur rerum fugiat qui repellendus quam aliquid sequi doloressed placeat ea distinctio quasi?......";
+    "Welcome to the SRC (Student Recreation Center), a dynamic club initiated by the Computer Science department of RGUKT RK Valley in 2024. Our mission is to foster increased interaction between seniors and juniors, promoting a culture of mutual learning, collaboration, and support within our college community.\n Our Mission Our Mission At SRC, we believe in the power of community and the importance of shared experiences. Our primary goal is to bridge the gap between different batches of students, enabling them to learn from each other, grow together, and create lasting bonds.\nRegular Activities Weekly Coding Contests: Every week, we organize coding contests that challenge our members to hone their programming skills. These contests are designed to be both fun and educational, providing a competitive yet friendly environment for all participants.";
 
   return (
     <div>
@@ -68,34 +87,56 @@ export default function Carousal() {
           transitionTime={1000}
           width="95%"
         >
-          {images.map((item) => {
-            return (
-              <div
-                className="slide-holder"
-                style={{
-                  background: `url(${item})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  backgroundPosition: "50% 50%",
-                }}
-              >
-                <div className="text-container">
-                  <h2>Bugatti Chiron Super Sport 300</h2>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua se. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.kjahflahfhf oiwwiro asfh
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+          {carousels
+            ? carousels
+                .filter((item) => {
+                  if (location.pathname === "/" && !item.domainId) {
+                    return true;
+                  }
+                  if (location.pathname !== "/" && item.domainId === domainId) {
+                    return true;
+                  }
+                  return false;
+                })
+                .map((item) => {
+                  return (
+                    <div
+                      key={item._id}
+                      className="slide-holder"
+                      style={{
+                        background: `url(${
+                          "data:image/jpeg;base64," + item.image
+                        })`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
+                        backgroundPosition: "50% 50%",
+                      }}
+                    >
+                      <div className="text-container">
+                        <h2>{item.title}</h2>
+                        <p>{item.description}</p>
+                      </div>
+                    </div>
+                  );
+                })
+            : Array.from({ length: 1 }).map((_, index) => {
+                return (
+                  <div key={index}>
+                    <Skeleton
+                      variant="rectangular"
+                      width={"100vw"}
+                      height={"25rem"}
+                      sx={{
+                        backgroundColor: "gray",
+                      }}
+                    />
+                  </div>
+                );
+              })}
         </Carousel>
         <div className="carousal-content">
           <h2>Welcome to SRC</h2>
-          <h4>{useSelector((state) => state.introText.introText)}</h4>
+          <h4>{useSelector((state) => state.domainData.introText)}</h4>
         </div>
       </center>
     </div>

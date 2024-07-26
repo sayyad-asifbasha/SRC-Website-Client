@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -19,9 +20,31 @@ import SnackbarListener from "./components/SnackBarListener";
 import { SnackbarProvider } from "notistack";
 import Error from "./components/Utils/Error";
 import UsersProfile from "./components/UsersProfile";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ResetPassword from "./components/Utils/ResetPassword";
+import { isTokenExpired } from "./components/Utils/Auth";
+import { loggedStatus } from "./features/user/user";
 function App() {
+  const dispatch = useDispatch();
+  const role = useSelector((state) => state.logStatus.role);
+  useEffect(() => {
+    if (localStorage.getItem("authToken")) {
+      if (isTokenExpired(localStorage.getItem("authToken"))) {
+        dispatch(
+          loggedStatus({
+            logged: false,
+            token: "",
+            name: "",
+            role: "",
+            email: "",
+          })
+        );
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("username");
+      }
+    }
+  }, [role]);
+
   return (
     <>
       <SnackbarProvider
@@ -39,7 +62,8 @@ function App() {
           <Route
             path="/Admin"
             element={
-              useSelector((state) => state.logStatus.logged) ? (
+              useSelector((state) => state.logStatus.logged) &&
+              role === "admin" ? (
                 <AdminPage />
               ) : (
                 <Error />

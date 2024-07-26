@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import persistStore from "redux-persist/es/persistStore";
 import persistReducer from "redux-persist/es/persistReducer";
-import introTextReducer from "../features/carousel/carousel";
+import carouselSlice from "../features/carousel/carousel";
 import storage from "redux-persist/lib/storage";
 import logStatus from "../features/user/user";
 import { combineReducers } from "@reduxjs/toolkit";
@@ -12,7 +12,7 @@ const persistConfig = {
   storage,
 };
 const rootReducer = combineReducers({
-  introText: introTextReducer,
+  domainData: carouselSlice,
   logStatus: logStatus,
   setSnackBar: snackbarSlice,
 });
