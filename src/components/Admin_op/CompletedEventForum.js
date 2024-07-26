@@ -1,94 +1,228 @@
-import React, { useEffect, useState, useRef } from "react";
-import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import CardContent from "@mui/material/CardContent";
-import {
-  Button,
-  CardActions,
-  CardMedia,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-} from "@mui/material";
-
+import CircularProgress from "@mui/material/CircularProgress";
+import CarousalImg1 from "../../assets/images/carousal-1.jpg";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { Accordion } from "@mui/material";
+import { AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
+import { DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { useFormik } from "formik";
-import "../../styles/Login.css";
-import { toast, Bounce } from "react-toastify";
+import { setSnackBar } from "../../features/snackbar/snackbar";
+import "../../styles/AdminPage.css";
+import { useRef } from "react";
 import axios from "axios";
 
-export default function CompletedEventForum() {
-  // Calling getAllDomains in useEffect
+export default function CompletedEventForm() {
+  const getUserByEmail = process.env.REACT_APP_GET_USER_BY_EMAIL;
+  const getDomains = process.env.REACT_APP_GET_DOMAINS;
+  const getEvents = process.env.REACT_APP_GET_EVENTS;
+  const deleteEvent = process.env.REACT_APP_GET_DELETE_BY_ID;
+  const updateEvent = process.env.REACT_APP_GET_UPDATE_BY_ID;
 
-  useEffect(() => {
+  const dispacth = useDispatch();
+  const handleCClose = () => setCOpen(false);
+  const [copen, setCOpen] = React.useState(false);
+  const [edit, setEdit] = useState({ check: false, event: "" });
+  const [cancel, setCancel] = useState(false);
+  const [event, setEvent] = useState();
+  const inputRef = useRef();
+  const [coordinators, setCoordinators] = useState([]);
+  const [expanded, setExpanded] = React.useState(false);
+  const [loader, setLoader] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [domain, setDomain] = useState([]);
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  const handleFileChange = async (event) => {
+    const file = Array.from(event.currentTarget.files);
+    console.log("hello", formik.values.images);
+    formik.setFieldValue("images", file);
+  };
+
+  const handleDeleteEvent = async () => {
     try {
-      getAllDomains();
+      const res = await axios.delete(deleteEvent + edit.event._id);
+      dispacth(
+        setSnackBar({
+          message: "Delete Event Successfully",
+          variant: "success",
+        })
+      );
+      getAllEvents();
+      handleCClose();
+      setExpanded(false);
     } catch (e) {
-      console.log(e);
-    }
-  }, []);
-
-  // Getting Environment Variables
-
-  const getDomainApi = process.env.REACT_APP_GET_DOMAINS;
-  const addDomainApi = process.env.REACT_APP_CREATE_DOMAIN;
-  const deleteDomainApi = process.env.REACT_APP_DELETE_DOMAIN_BY_ID;
-
-  const updateDomainApi = process.env.REACT_APP_UPDATE_DOMAIN_BY_ID;
-
-  //  Function to show Toast
-
-  const showToast = (msg, msgType) => {
-    if (msgType === "warn") {
-      toast.warn(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
-    }
-    if (msgType === "success") {
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 3000,
-        height: 100,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-        transition: Bounce,
-      });
+      dispacth(
+        setSnackBar({
+          message: "Failed to delete event",
+          variant: "error",
+        })
+      );
     }
   };
 
-  // init of React Hooks
+  const handleEdit = () => {
+    setCancel(true);
+    formik.setFieldValue("name", edit.event.name);
+    formik.setFieldValue("domain", edit.event.domain);
+    formik.setFieldValue(
+      "fromDate",
+      dayjs(edit.event.fromDate).format("DD MMM YYYY")
+    );
+    formik.setFieldValue(
+      "toDate",
+      dayjs(edit.event.toDate).format("DD MMM YYYY")
+    );
+    formik.setFieldValue("startTime", edit.event.startTime);
+    formik.setFieldValue("endTime", edit.event.endTime);
+    formik.setFieldValue("location", edit.event.location);
+    formik.setFieldValue("description", edit.event.description);
+    formik.setFieldValue("summary", edit.event.summary);
+    formik.setFieldValue("registrationLink", edit.event.registrationLink);
+    formik.setFieldValue("prizeDetails[0]", edit.event.prizeDetails[0]);
+    formik.setFieldValue("prizeDetails[1]", edit.event.prizeDetails[1]);
+    formik.setFieldValue("prizeDetails[2]", edit.event.prizeDetails[2]);
+    formik.setFieldValue("winners[0]", edit.event.winners[0]);
+    formik.setFieldValue("winners[1]", edit.event.winners[1]);
+    formik.setFieldValue("winners[2]", edit.event.winners[2]);
+    formik.setFieldValue("coordinators", edit.event.coordinators);
+    formik.setFieldValue("isUpcoming", edit.event.isUpcoming);
+    setCoordinators(edit.event.coordinators);
+    console.log(formik.values);
+    setVisible(true);
+    handleCClose();
+    setExpanded(false);
+  };
+  const checkTime = () => {
+    const dateFormat = "DD MMM YYYY";
+    const timeFormat = "hh:mm A";
+    const startDate = dayjs(formik.values.fromDate, dateFormat, true);
+    const endDate = dayjs(formik.values.toDate, dateFormat, true);
+    const startTime = dayjs(formik.values.startTime, timeFormat, true);
+    const endTime = dayjs(formik.values.endTime, timeFormat, true);
 
-  const [domains, setDomains] = useState(null);
-  const [update, setUpdate] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [carItem, setCarItem] = React.useState({});
-  const nameRef = useRef("");
-  const descRef = useRef("");
+    if (startDate.isAfter(endDate)) {
+      dispacth(
+        setSnackBar({
+          message: "Start date must be before end date",
+          variant: "error",
+        })
+      );
+      return false;
+    }
+    if (startDate.isSame(endDate) && startTime.isAfter(endTime)) {
+      dispacth(
+        setSnackBar({
+          message:
+            "Start time must be before end time when the dates are the same",
+          variant: "error",
+        })
+      );
+      return false;
+    }
+    return true;
+  };
+  const handleUpdateEvent = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+    console.log(formik.values);
+    if (checkTime()) {
+      try {
+        const formData = new FormData();
+
+        Object.keys(formik.values).forEach((key) => {
+          if (Array.isArray(formik.values[key])) {
+            formik.values[key].forEach((item, index) => {
+              Object.keys(item).forEach((subKey) => {
+                formData.append(`${key}[${index}][${subKey}]`, item[subKey]);
+              });
+            });
+          } else {
+            formData.append(key, formik.values[key]);
+          }
+        });
+        formik.values.images.forEach((file) => {
+          formData.append("images", file);
+        });
+        const res = await axios.put(
+          updateEvent + edit.event._id,
+          formData
+        );
+        if (formik.values.isUpcoming) {
+          dispacth(
+            setSnackBar({
+              message:
+                "Event updated successfully and Add other details in Upcoming Event page",
+              variant: "success",
+            })
+          );
+        } else {
+          dispacth(
+            setSnackBar({
+              message: "Event updated successfully",
+              variant: "success",
+            })
+          );
+        }
+        setEdit({ check: false, event: "" });
+        formik.resetForm();
+        setCoordinators([]);
+        getAllEvents();
+        setLoader(false);
+        setCancel(false);
+        setVisible(false);
+      } catch (e) {
+        setVisible(false);
+        setLoader(false);
+        setCancel(false);
+        dispacth(
+          setSnackBar({
+            message: "Failed to updated event",
+            variant: "error",
+          })
+        );
+      }
+      console.log(e);
+    }
+    console.log(formik.values);
+  };
 
   const formik = useFormik({
     initialValues: {
       name: "",
       description: "",
+      summary: "",
+      fromDate: "",
+      toDate: "",
+      startTime: "",
+      endTime: "",
+      isUpcoming: false,
+      location: "",
+      registrationLink: "",
+      domain: "",
+      prizeDetails: ["", "", ""],
+      winners: ["", "", ""],
+      coordinators: [],
+      images: [],
     },
     validateOnMount: true,
 
@@ -105,251 +239,397 @@ export default function CompletedEventForum() {
       return errors;
     },
   });
-
-  //  Functions for CRUD
-
-  // Function to get All Domains
-
-  const getAllDomains = () => {
+  const handleDomain = async () => {
     try {
-      axios.get(getDomainApi).then((res) => {
-        setDomains(res.data);
-        console.log(res.data);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  // Function for Handling Form
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formik.errors);
-
-    if (formik.errors.name) {
-      document.getElementById("domain-name").style.border = "1px solid red";
-    }
-    if (formik.errors.description) {
-      document.getElementById("domain-desc").style.border = "1px solid red";
-    }
-    if (!formik.errors.name && !formik.errors.description) {
-      document.getElementById("domain-name").style.border = "none";
-      document.getElementById("domain-desc").style.border = "none";
-
-      addDomain(formik.values);
-    }
-  };
-
-  // Function for Adding Domain
-
-  const addDomain = async (e) => {
-    console.log(e);
-    try {
-      const res = await axios.post(addDomainApi, e, {
+      const res = await axios.get(getDomains, {
         headers: {
-          key: "Authorization",
-          value: JSON.stringify(localStorage.getItem("authToken")),
-          type: "text",
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      showToast("Domain Created Successfully", "success");
-      clearInputFields();
-
-      formik.resetForm();
-      getAllDomains();
+      setDomain(res.data);
     } catch (e) {
       console.log(e);
-      showToast("Error in creating Domain", "warn");
     }
   };
-
-  // Function for Updating Domain
-
-  const updateDomain = async (e) => {
-    e.preventDefault();
-    console.log(carItem);
-    if (
-      nameRef.current.value !== "" &&
-      nameRef.current.value !== "undefined" &&
-      descRef.current.value !== "" &&
-      descRef.current.value !== "undefined"
-    ) {
-      try {
-        const update = {
-          description: descRef.current.value,
-        };
-        console.log(update);
-        const res = await axios.put(updateDomainApi + carItem._id, update, {
-          headers: {
-            key: "Authorization",
-            value: JSON.stringify(localStorage.getItem("authToken")),
-            type: "text",
-          },
-        });
-        getAllDomains();
-        setUpdate(false);
-        clearInputFields();
-      } catch (e) {
-        console.log(e);
+  const handleWinners = (index, event) => {
+    const newWinners = [...formik.values.winners];
+    newWinners[index] = {
+      position: index + 1,
+      name: event.target.value,
+    };
+    formik.setFieldValue("winners", newWinners);
+  };
+  const checkCoordiantor = (id) => {
+    for (let i = 0; i < coordinators.length; i++) {
+      if (coordinators[i].id === id) {
+        dispacth(
+          setSnackBar({
+            message: "Coordinator already added",
+            variant: "info",
+          })
+        );
+        return false;
       }
-    } else {
-      showToast("Requried fields", "warn");
     }
+    return true;
   };
-
-  // Function for Deleting Domains
-
-  const deleteDomain = async (e) => {
-    console.log(e);
+  const removeCoordinator = (id) => {
+    setCoordinators((prevCoordinators) => {
+      const updatedCoordinators = prevCoordinators.filter(
+        (coordinator) => coordinator.id !== id
+      );
+      formik.setFieldValue("coordinators", updatedCoordinators);
+      return updatedCoordinators;
+    });
+    dispacth(
+      setSnackBar({
+        message: "Coordinator removed ",
+        variant: "success",
+      })
+    );
+  };
+  const addCoordinator = async () => {
     try {
-      const res = await axios.delete(deleteDomainApi + e._id, {
+      const email = inputRef.current.value;
+      const res = await axios.get(getUserByEmail + email, {
         headers: {
-          key: "Authorization",
-          value: JSON.stringify(localStorage.getItem("authToken")),
-          type: "text",
+          Authorization: `Bearer ${localStorage
+            .getItem("authToken")
+            .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      showToast("Domain Deleted Successfully", "success");
-      getAllDomains();
+      const check = checkCoordiantor(res.data._id);
+      if (
+        (res.data.role === "Coordinator" || res.data.role === "admin") &&
+        check
+      ) {
+        const newCoordinator = { id: res.data._id, email: res.data.email };
+        setCoordinators((prevCoordinators) => {
+          const updatedCoordinators = [...prevCoordinators, newCoordinator];
+          formik.setFieldValue("coordinators", updatedCoordinators);
+          return updatedCoordinators;
+        });
+        dispacth(
+          setSnackBar({
+            message: "Coordinator added Successfully",
+            variant: "success",
+          })
+        );
+      } else if (res.data.role === "user") {
+        dispacth(
+          setSnackBar({
+            message: "Given user is not Coordinator",
+            variant: "info",
+          })
+        );
+      }
+      inputRef.current.value = "";
     } catch (e) {
       console.log(e);
-      showToast("Error in Deleting Domain", "warn");
+      dispacth(
+        setSnackBar({
+          message: "Error in adding Coordinator",
+          variant: "error",
+        })
+      );
     }
   };
-
-  // Function for setting text in input fields
-
-  const setInputFields = () => {
-    nameRef.current.value = carItem.name;
-    descRef.current.value = carItem.description;
+  const getAllEvents = async () => {
+    try {
+      const res = await axios.get(getEvents);
+      setEvent(res.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
-
-  // Function to clear Input Fields
-
-  const clearInputFields = () => {
-    nameRef.current.value = "";
-    descRef.current.value = "";
-  };
-
-  // Function for Handlnig Modal
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  // Custom Styles
-
-  const Demo = styled("div")(({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
-  }));
-
-  const editCarousal = (item) => {
-    setCarItem(item);
-    handleOpen();
-  };
-  const carousalDetails = {
-    0: {
-      //   image: CarousalImg1,
-      title: "Title of Image 1",
-      description:
-        "Main Page Component, sit amet consectetur adipisicing elit. Quasi reiciendis veritatis iure, aperiam vitae obcaecati consequatur at.Praesentium, asperiores facere ad repellendus voluptatibusconsequatur nisi commodi a? Incidunt odio magnam veritatis! Temporaconsectetur excepturi ipsam in! Nisi exercitationem, vel autemratione iusto fugiat esse labore! Enim earum vel accusamus hic ipsumdebitis aperiam praesentium eos necessitatibus facilis laudantiumquasi odit, deserunt cumque quas quae exercitationem soluta, cumdoloremque id! Dignissimos animi, id maxime autem provident quo consequatur rerum fugiat qui repellendus quam aliquid sequi doloressed placeat ea distinctio quasi?......",
-    },
-    1: {
-      //   image: CarousalImg1,
-      title: "Title of Image 2",
-      description:
-        "Main Page Component, sit amet consectetur adipisicing elit. Quasi reiciendis veritatis iure, aperiam vitae obcaecati consequatur at.Praesentium, asperiores facere ad repellendus voluptatibusconsequatur nisi commodi a? Incidunt odio magnam veritatis! Temporaconsectetur excepturi ipsam in! Nisi exercitationem, vel autemratione iusto fugiat esse labore! Enim earum vel accusamus hic ipsumdebitis aperiam praesentium eos necessitatibus facilis laudantiumquasi odit, deserunt cumque quas quae exercitationem soluta, cumdoloremque id! Dignissimos animi, id maxime autem provident quo consequatur rerum fugiat qui repellendus quam aliquid sequi doloressed placeat ea distinctio quasi?......",
-    },
-    2: {
-      //   image: CarousalImg2,
-      title: "Title of Image 3",
-      description:
-        "Main Page Component, sit amet consectetur adipisicing elit. Quasi reiciendis veritatis iure, aperiam vitae obcaecati consequatur at.Praesentium, asperiores facere ad repellendus voluptatibusconsequatur nisi commodi a? Incidunt odio magnam veritatis! Temporaconsectetur excepturi ipsam in! Nisi exercitationem, vel autemratione iusto fugiat esse labore! Enim earum vel accusamus hic ipsumdebitis aperiam praesentium eos necessitatibus facilis laudantiumquasi odit, deserunt cumque quas quae exercitationem soluta, cumdoloremque id! Dignissimos animi, id maxime autem provident quo consequatur rerum fugiat qui repellendus quam aliquid sequi doloressed placeat ea distinctio quasi?......",
-    },
-  };
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "80%",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-  };
-
+  useEffect(() => {
+    getAllEvents();
+    handleDomain();
+  }, []);
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Grid>
-          <Typography
-            sx={{ color: "white", mx: 3 }}
-            variant="h5"
-            component="div"
+      <div>
+        <React.Fragment>
+          <Dialog
+            open={copen}
+            onClose={handleCClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
           >
-            Current Carousel Items
-          </Typography>
-          <Demo sx={{ borderRadius: "0.5rem", margin: "10px" }}>
-            <List sx={{ padding: "0px" }}>
-              {Object.entries(carousalDetails).map((item) => {
-                return (
-                  <ListItem
-                    key={item[1].title}
-                    sx={{ borderBottom: "1px solid grey", padding: "14px" }}
-                    secondaryAction={
-                      <>
-                        <IconButton
-                          edge="end"
-                          aria-label="edit"
-                          sx={{ marginRight: "0.5rem" }}
-                        >
-                          <EditNoteRoundedIcon
-                            onClick={() => {
-                              editCarousal(item[1]);
-                            }}
-                          />
-                        </IconButton>
-                        <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                        </IconButton>
-                      </>
-                    }
+            <DialogTitle id="alert-dialog-title">
+              {edit.check ? "Edit Event" : "Delete Event"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                {edit.check
+                  ? "You are about to edit this event.Modify the details in following form"
+                  : "You are about to delete this event. This action is irreversible. Do you wish to proceed?"}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={() => {
+                  setEdit({ check: false, event: "" });
+                  setCOpen(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button onClick={edit.check ? handleEdit : handleDeleteEvent}>
+                {edit.check ? "Edit" : "Delete"}
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </React.Fragment>
+      </div>
+
+      <div style={{ margin: ".9rem" }}>
+        <Typography
+          sx={{ color: "white", marginBottom: "1rem" }}
+          variant="h5"
+          component="div"
+        >
+          Completed Events
+        </Typography>
+
+        {event &&
+          event.map((ele) => {
+            if (!ele.isUpcoming) {
+              return (
+                <Accordion
+                  expanded={expanded === ele._id}
+                  style={{ borderRadius: "0.5rem", marginTop: "0.5rem" }}
+                  onChange={handleChange(ele._id)}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls={`${ele._id}`}
+                    id={`${ele._id}`}
                   >
-                    <ListItemAvatar>
-                      <Avatar
-                        sx={{ width: 75, height: 75, marginRight: "10px" }}
-                      >
-                        <img
-                          src={"" + item[1].image}
-                          alt=""
-                          height={"75px"}
-                          width={"75px"}
-                          srcSet=""
-                        />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={item[1].title} />
-                  </ListItem>
-                );
-              })}
-            </List>
-          </Demo>
-        </Grid>
-        <div className="sub-contact-container" style={{ margin: ".5rem" }}>
+                    <Typography>
+                      <span style={{ fontSize: "20px", fontWeight: "600" }}>
+                        {ele.name}
+                      </span>
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <ListItem>
+                      <div style={{ color: "black" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "1rem",
+                          }}
+                        >
+                          <div style={{ textAlign: "justify" }}>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                              }}
+                            >
+                              Description :{" "}
+                            </span>
+                            <span>{ele.description}</span>
+                          </div>
+                          <div style={{ textAlign: "justify" }}>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                              }}
+                            >
+                              Summary :{" "}
+                            </span>
+                            <span>{ele.summary}</span>
+                          </div>
+                          <div>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                              }}
+                            >
+                              Domain :{" "}
+                            </span>
+                            <span>{ele.domain}</span>
+                          </div>
+                          <div>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                              }}
+                            >
+                              {" "}
+                              Location :{" "}
+                            </span>
+                            <span style={{ textAlign: "justify" }}>
+                              <a href={ele.githubLink}>{ele.location}</a>
+                            </span>
+                          </div>
+                          <div>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                              }}
+                            >
+                              Date and Time :{" "}
+                            </span>
+                            <span style={{ textAlign: "justify" }}>
+                              {ele.fromDate.slice(0, 10) +
+                                " To " +
+                                ele.toDate.slice(0, 10)}
+                              {" -" + ele.startTime + " - " + ele.endTime}
+                            </span>
+                          </div>
+                          <div>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                              }}
+                            >
+                              Registration Link:{" "}
+                            </span>
+                            <span style={{ textAlign: "justify" }}>
+                              <a href={ele.registrationLink}>
+                                {ele.registrationLink}
+                              </a>
+                            </span>
+                          </div>
+                          <div>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                                display: "block",
+                              }}
+                            >
+                              Coordiantors :{" "}
+                            </span>
+                            {ele.coordinators.map((i) => {
+                              return (
+                                <span
+                                  style={{
+                                    textAlign: "justify",
+                                    display: "block",
+                                    margin: "0px 20px",
+                                  }}
+                                >
+                                  {i.email}
+                                </span>
+                              );
+                            })}
+                          </div>
+                          <div>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                                display: "block",
+                              }}
+                            >
+                              Prize Details:{" "}
+                            </span>
+                            {ele.prizeDetails.map((i) => {
+                              return (
+                                <span
+                                  style={{
+                                    textAlign: "justify",
+                                    display: "block",
+                                    margin: "0px 20px",
+                                  }}
+                                >
+                                  {i.position} : {i.description}
+                                </span>
+                              );
+                            })}
+                          </div>
+                          <div>
+                            <span
+                              style={{
+                                fontSize: "18px",
+                                fontWeight: "bold",
+                                margin: "0px 5px",
+                                display: "block",
+                              }}
+                            >
+                              Winners :{" "}
+                            </span>
+                            {ele.winners.map((i) => {
+                              return (
+                                <span
+                                  style={{
+                                    textAlign: "justify",
+                                    display: "block",
+                                    margin: "0px 20px",
+                                  }}
+                                >
+                                  {i.name}
+                                </span>
+                              );
+                            })}
+                          </div>
+                          <div>
+                            <IconButton
+                              edge="end"
+                              aria-label="edit"
+                              sx={{ marginRight: "0.5rem" }}
+                              onClick={() => {
+                                setEdit({ check: true, event: ele });
+                                setCOpen(true);
+                              }}
+                            >
+                              <EditNoteRoundedIcon />
+                            </IconButton>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() => {
+                                setEdit({ check: false, event: ele });
+                                setCOpen(true);
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </div>
+                        </div>
+                      </div>
+                    </ListItem>
+                  </AccordionDetails>
+                </Accordion>
+              );
+            } else {
+              return null;
+            }
+          })}
+      </div>
+      {visible && (
+        <div className="sub-contact-container" style={{ margin: ".9rem" }}>
           <div className="contact-head">
             <div>
-              <h3>{update ? "Update Domain" : "Add Domain"}</h3>
-              {update && (
+              <h2>{edit.check ? "Edit Event" : "Add Event"}</h2>
+              {cancel && (
                 <button
                   onClick={() => {
-                    setUpdate(false);
-                    clearInputFields();
+                    setEdit({ check: false, event: "" });
+                    setCancel(false);
+                    setCoordinators(null);
+                    setVisible(false);
+                    formik.resetForm();
                   }}
                 >
                   Cancel
@@ -357,14 +637,14 @@ export default function CompletedEventForum() {
               )}
             </div>
           </div>
-          <div className="contact-fields">
-            <form onSubmit={update ? updateDomain : handleSubmit}>
+          <div className="contact-fields  add-carousel-item ">
+            <form onSubmit={handleUpdateEvent}>
               <input
                 type="text"
-                id="event-name"
+                id="domain-name"
                 required
-                ref={nameRef}
                 name="name"
+                value={formik.values.name}
                 placeholder="Event Name"
                 onChange={formik.handleChange}
               />
@@ -372,21 +652,235 @@ export default function CompletedEventForum() {
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Description about Event"
-                ref={descRef}
                 name="description"
                 id="domain-desc"
+                value={formik.values.description}
                 required
                 cols={30}
                 rows={7}
                 onChange={formik.handleChange}
               ></textarea>
-              <button className="submit-message">
-                {update ? "Update Domain" : "Add Domain"}
+              <textarea
+                style={{ resize: "none" }}
+                placeholder="Summary about Event"
+                name="summary"
+                id="domain-desc"
+                value={formik.values.summary}
+                required
+                cols={30}
+                rows={7}
+                onChange={formik.handleChange}
+              ></textarea>
+              <input
+                type="text"
+                id="domain-name"
+                required
+                value={formik.values.location}
+                name="location"
+                placeholder="Location "
+                onChange={formik.handleChange}
+              />
+              <select
+                name="domain"
+                id="domain"
+                value={formik.values.domain}
+                style={{
+                  height: "3rem",
+                  border: "0.5px solid rgb(222,222,222)",
+                  outline: "none",
+                }}
+                onChange={formik.handleChange}
+                required
+              >
+                <option hidden value="">
+                  Select Domain
+                </option>
+                {domain &&
+                  domain.map((item) => {
+                    return <option value={item.name}> {item.name}</option>;
+                  })}
+              </select>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <div className="upcoming-event-time">
+                  <DemoItem label="Starts">
+                    <TimePicker
+                      name="start"
+                      value={
+                        formik.values.startTime
+                          ? dayjs(formik.values.startTime, "hh:mm A")
+                          : null
+                      }
+                      // value={formik.values.start}
+                      onChange={(time) => {
+                        formik.setFieldValue(
+                          "startTime",
+                          time.format("hh:mm A")
+                        );
+                      }}
+                    />
+                  </DemoItem>
+                  <DemoItem label="Ends">
+                    <TimePicker
+                      name="end"
+                      value={
+                        formik.values.endTime
+                          ? dayjs(formik.values.endTime, "hh:mm A")
+                          : null
+                      }
+                      // value={formik.values.end}
+                      onChange={(time) =>
+                        formik.setFieldValue("endTime", time.format("hh:mm A"))
+                      }
+                    />
+                  </DemoItem>
+                </div>
+                <div className="upcoming-event-date">
+                  <DemoItem label="From">
+                    <DatePicker
+                      name="from"
+                      value={
+                        formik.values.fromDate
+                          ? dayjs(formik.values.fromDate, "DD MMM YYYY")
+                          : null
+                      }
+                      onChange={(date) =>
+                        formik.setFieldValue(
+                          "fromDate",
+                          date.format("DD MMM YYYY")
+                        )
+                      }
+                    />
+                  </DemoItem>
+                  <DemoItem label="To">
+                    <DatePicker
+                      name="to"
+                      value={
+                        formik.values.toDate
+                          ? dayjs(formik.values.toDate, "DD MMM YYYY")
+                          : null
+                      }
+                      onChange={(date) =>
+                        formik.setFieldValue(
+                          "toDate",
+                          date.format("DD MMM YYYY")
+                        )
+                      }
+                    />
+                  </DemoItem>
+                </div>
+              </LocalizationProvider>
+              <div
+                id="coordianator-details"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                  border: "1px solid rgb(222,222,222)",
+                  padding: "1rem",
+                }}
+              >
+                <div id="coordinator-list">
+                  {coordinators &&
+                    coordinators.map((item) => {
+                      return (
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-evenly",
+                            gap: "1rem",
+                            margin: "10px 0px",
+                          }}
+                        >
+                          <span>{item.email}</span>
+                          <span
+                            style={{
+                              fontWeight: "bold",
+                              color: "grey",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              removeCoordinator(item.id);
+                            }}
+                          >
+                            X
+                          </span>
+                        </div>
+                      );
+                    })}
+                </div>
+                <input
+                  type="email"
+                  id="domain-name"
+                  name="coordiantor"
+                  ref={inputRef}
+                  placeholder="Enter the Coordinator Email "
+                />
+                <div
+                  className="submit-message"
+                  style={{ textAlign: "center" }}
+                  onClick={addCoordinator}
+                >
+                  Add Coordianator
+                </div>
+              </div>
+              <input
+                type="file"
+                name="images"
+                accept="image/*"
+                value={formik.values.file}
+                onChange={handleFileChange}
+                multiple
+              />
+              <input
+                type="text"
+                id="domain-name"
+                required
+                name="winners"
+                placeholder="1st prize winner name "
+                onChange={(event) => handleWinners(0, event)}
+                value={formik.values.winners[0]?.name || ""}
+              />
+              <input
+                type="text"
+                id="domain-name"
+                required
+                name="winners"
+                placeholder="2nd prize winner name "
+                onChange={(event) => handleWinners(1, event)}
+                value={formik.values.winners[1]?.name || ""}
+              />
+              <input
+                type="text"
+                id="domain-name"
+                required
+                name="winners"
+                placeholder="3rd prize  winner name "
+                onChange={(event) => handleWinners(2, event)}
+                value={formik.values.winners[2]?.name || ""}
+              />
+              <FormControlLabel
+                name="isUpcoming"
+                onChange={formik.handleChange}
+                control={<Checkbox />}
+                label="Mark Event as Upcoming"
+              />
+
+              <button
+                className="submit-message"
+                type="submit"
+                disabled={loader}
+              >
+                {loader ? (
+                  <CircularProgress size={27} sx={{ color: "#022368" }} />
+                ) : (
+                  "Update Event"
+                )}
               </button>
             </form>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

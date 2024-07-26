@@ -271,13 +271,13 @@ export default function DomainForm() {
           </div>
           <Grid>
             <Typography
-              sx={{ color: "white", mx: 3 }}
+              sx={{ color: "white", mx: 1, my: 1 }}
               variant="h5"
               component="div"
             >
               Current Domains
             </Typography>
-            <Demo sx={{ borderRadius: "0.5rem", margin: "10px" }}>
+            <Demo sx={{ borderRadius: "0.5rem", marginTop: "1.5rem" }}>
               <List sx={{ padding: "0px" }}>
                 {domains &&
                   domains.map((item) => {
@@ -336,7 +336,7 @@ export default function DomainForm() {
           </Grid>
         </div>
 
-        <div className="sub-contact-container" style={{ margin: ".5rem" }}>
+        <div className="sub-contact-container" style={{ marginTop: "1.5rem" }}>
           <div className="contact-head">
             <div>
               <h3>{update.check ? "Update Domain" : "Add Domain"}</h3>

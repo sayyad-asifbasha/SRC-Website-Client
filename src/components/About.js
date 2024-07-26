@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -7,121 +7,139 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Badge } from "@mui/material";
 import "../styles/About.css";
+import axios from "axios";
 export default function About() {
-  const Team_Members = {
-    members: [
-      {
-        name: "Name 1",
-        title: "Role",
-        photo:
-          "https://thumbs.dreamstime.com/b/profile-picture-caucasian-male-employee-posing-office-happy-young-worker-look-camera-workplace-headshot-portrait-smiling-190186649.jpg",
-        email: "lorem@gmail.com",
-        qualifications:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut consectetur officia amet cumque fugit. Officiis, sunt minus. Vitae commodi maiores consectetur magnam porro rem repudiandae assumenda. Ducimus, impedit laudantium? Magnam?",
-        linkedIn: "company/src-rgukt-rkvalley",
-        github: "Student-Recreation-Center-CSE-RKV/SRC-Website-Client",
-      },
-      {
-        name: "Name 2",
-        title: "Role",
-        photo:
-          "https://thumbs.dreamstime.com/b/profile-picture-caucasian-male-employee-posing-office-happy-young-worker-look-camera-workplace-headshot-portrait-smiling-190186649.jpg",
-        email: "lorem@gmail.com",
-        qualifications:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut consectetur officia amet cumque fugit. Officiis, sunt minus. Vitae commodi maiores consectetur magnam porro rem repudiandae assumenda. Ducimus, impedit laudantium? Magnam?",
-        linkedIn: "company/src-rgukt-rkvalley",
-        github: "Student-Recreation-Center-CSE-RKV/SRC-Website-Client",
-      },
-      {
-        name: "Name 3",
-        title: "Role",
-        photo:
-          "https://thumbs.dreamstime.com/b/profile-picture-caucasian-male-employee-posing-office-happy-young-worker-look-camera-workplace-headshot-portrait-smiling-190186649.jpg",
-        email: "lorem@gmail.com",
-        qualifications:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut consectetur officia amet cumque fugit. Officiis, sunt minus. Vitae commodi maiores consectetur magnam porro rem repudiandae assumenda. Ducimus, impedit laudantium? Magnam?",
-        linkedIn: "company/src-rgukt-rkvalley",
-        github: "Student-Recreation-Center-CSE-RKV/SRC-Website-Client",
-      },
-    ],
+  const getAllOfficialsApi = process.env.REACT_APP_GET_ALL_oFFICIALS;
+
+  useEffect(() => {
+    getAllOfficials();
+  }, []);
+  const [officials, setOfficials] = useState(null);
+
+  const getAllOfficials = async () => {
+    try {
+      const res = await axios.get(getAllOfficialsApi);
+      console.log(res.data.data);
+      setOfficials(res.data.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
   return (
     <>
-      <div className="Members-container">
-        {Team_Members.members.map((member) => {
-          return (
-            <Card sx={{ maxWidth: 345, margin: "0px 10px" }}>
-              <Badge
-                color="primary"
-                badgeContent={member.title}
-                sx={{
-                  position: "absolute",
-                  zIndex: "0",
-                  padding: "5px",
-                  "& span": {
-                    fontSize: "14px",
-                    padding: "12px",
-                    paddingLeft: "8px",
-                    paddingRight: "8px",
-                    letterSpacing: "1px",
-                    fontWeight: "600",
-                    textAlign: "right",
-                    width: "max-content",
-                  },
-                }}
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              ></Badge>
-              <CardMedia sx={{ height: 200 }} image={member.photo} />
-              <CardContent sx={{ paddingBottom: "0px" }}>
-                <Typography gutterBottom variant="h5" component="div">
-                  {member.name}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color="text.primary"
-                  sx={{ fontWeight: 500 }}
-                >
-                  {member.qualifications}
-                  <h4 className="Member-mail">
-                    <span>{member.email}</span>
-                  </h4>
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ margin: "0px" }} className="Member-link">
-                {/* // eslint-disable-next-line */}
-                <a
-                  href={`https://in.linkedin.com/${member.linkedIn}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                    >
-                      <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
-                    </svg>
-                  </Button>
-                </a>
-                {/* // eslint-disable-next-line */}
-                <a
-                  href={`https://github.com/${member.github}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                    >
-                      <path d="M448 96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96zM265.8 407.7c0-1.8 0-6 .1-11.6c.1-11.4 .1-28.8 .1-43.7c0-15.6-5.2-25.5-11.3-30.7c37-4.1 76-9.2 76-73.1c0-18.2-6.5-27.3-17.1-39c1.7-4.3 7.4-22-1.7-45c-13.9-4.3-45.7 17.9-45.7 17.9c-13.2-3.7-27.5-5.6-41.6-5.6s-28.4 1.9-41.6 5.6c0 0-31.8-22.2-45.7-17.9c-9.1 22.9-3.5 40.6-1.7 45c-10.6 11.7-15.6 20.8-15.6 39c0 63.6 37.3 69 74.3 73.1c-4.8 4.3-9.1 11.7-10.6 22.3c-9.5 4.3-33.8 11.7-48.3-13.9c-9.1-15.8-25.5-17.1-25.5-17.1c-16.2-.2-1.1 10.2-1.1 10.2c10.8 5 18.4 24.2 18.4 24.2c9.7 29.7 56.1 19.7 56.1 19.7c0 9 .1 21.7 .1 30.6c0 4.8 .1 8.6 .1 10c0 4.3-3 9.5-11.5 8C106 393.6 59.8 330.8 59.8 257.4c0-91.8 70.2-161.5 162-161.5s166.2 69.7 166.2 161.5c.1 73.4-44.7 136.3-110.7 158.3c-8.4 1.5-11.5-3.7-11.5-8zm-90.5-54.8c-.2-1.5 1.1-2.8 3-3.2c1.9-.2 3.7 .6 3.9 1.9c.3 1.3-1 2.6-3 3c-1.9 .4-3.7-.4-3.9-1.7zm-9.1 3.2c-2.2 .2-3.7-.9-3.7-2.4c0-1.3 1.5-2.4 3.5-2.4c1.9-.2 3.7 .9 3.7 2.4c0 1.3-1.5 2.4-3.5 2.4zm-14.3-2.2c-1.9-.4-3.2-1.9-2.8-3.2s2.4-1.9 4.1-1.5c2 .6 3.3 2.1 2.8 3.4c-.4 1.3-2.4 1.9-4.1 1.3zm-12.5-7.3c-1.5-1.3-1.9-3.2-.9-4.1c.9-1.1 2.8-.9 4.3 .6c1.3 1.3 1.8 3.3 .9 4.1c-.9 1.1-2.8 .9-4.3-.6zm-8.5-10c-1.1-1.5-1.1-3.2 0-3.9c1.1-.9 2.8-.2 3.7 1.3c1.1 1.5 1.1 3.3 0 4.1c-.9 .6-2.6 0-3.7-1.5zm-6.3-8.8c-1.1-1.3-1.3-2.8-.4-3.5c.9-.9 2.4-.4 3.5 .6c1.1 1.3 1.3 2.8 .4 3.5c-.9 .9-2.4 .4-3.5-.6zm-6-6.4c-1.3-.6-1.9-1.7-1.5-2.6c.4-.6 1.5-.9 2.8-.4c1.3 .7 1.9 1.8 1.5 2.6c-.4 .9-1.7 1.1-2.8 .4z" />
-                    </svg>
-                  </Button>
-                </a>
-              </CardActions>
-            </Card>
-          );
-        })}
+      <div>
+        <section className="about-us">
+          <h1>About SRC (Student Recreation Center)</h1>
+          <p>
+            Welcome to the SRC (Student Recreation Center), a dynamic club
+            initiated by the Computer Science department of RGUKT RK Valley in
+            2024. Our mission is to foster increased interaction between seniors
+            and juniors, promoting a culture of mutual learning, collaboration,
+            and support within our college community.
+          </p>
+          <h3 style={{ color: "white", marginBottom: "0.5rem" }}>
+            Our Mission
+          </h3>
+          <p>
+            Our Mission At SRC, we believe in the power of community and the
+            importance of shared experiences. Our primary goal is to bridge the
+            gap between different batches of students, enabling them to learn
+            from each other, grow together, and create lasting bonds.
+          </p>
+          <p>
+            <b>Regular Activities Weekly Coding Contests:</b> Every week, we
+            organize coding contests that challenge our members to hone their
+            programming skills. These contests are designed to be both fun and
+            educational, providing a competitive yet friendly environment for
+            all participants.
+          </p>
+          <p>
+            <b>Share and Grow Sessions:</b> Held every Saturday, these sessions
+            are a cornerstone of our club. Seniors share their valuable
+            internship experiences, offer career advice, and discuss the latest
+            trends in technology. We also invite knowledgeable speakers to share
+            their professional journeys, providing diverse perspectives and
+            insights.
+          </p>
+          <p>
+            Community and Collaboration SRC is more than just a club; it’s a
+            community. We pride ourselves on our inclusive and supportive
+            environment, where every member is encouraged to participate,
+            contribute, and grow. We believe that collaboration is key to
+            success, and we strive to create opportunities for students to work
+            together on projects, share knowledge, and support each other’s
+            endeavors.
+          </p>
+          <p>
+            Achievements Since our inception, SRC has made significant strides
+            in fostering a vibrant community of learners and innovators. Our
+            members have successfully participated in various coding
+            competitions, hackathons, and have secured prestigious internships
+            at leading companies. Our alumni network is growing, and their
+            success stories continue to inspire and guide our current members.
+          </p>
+          <p>
+            Future Goals Looking ahead, we aim to expand our activities and
+            reach even more students. We plan to introduce new programs and
+            initiatives, such as: Mentorship Programs: Pairing juniors with
+            seniors for one-on-one guidance and support. Workshops and Seminars:
+            Covering a wide range of topics from technical skills to soft skills
+            development. Collaborations with Other Clubs: Partnering with other
+            student clubs and organizations to host joint events and activities.
+            Get Involved We invite all students to join SRC and be part of a
+            thriving community dedicated to growth, learning, and collaboration.
+            Whether you are a seasoned coder or just starting, there’s a place
+            for you at SRC. Get involved, participate in our events, and take
+            advantage of the numerous opportunities to learn, grow, and succeed.
+          </p>
+        </section>
+
+        <section className="team">
+          <h2>Our Team</h2>
+
+          <div className="officail-container">
+            {officials &&
+              officials.map((ele) => {
+                return (
+                  <div className="official-element">
+                    <img
+                      src={"data:image/jpeg;base64," + ele.photo}
+                      alt=""
+                      className="official-image"
+                    />
+                    <div className="official-details">
+                      <span className="official-name">
+                        {ele.name}
+                        <sub>
+                          {" "}
+                          <span className="official-designation">
+                            {ele.designation}
+                          </span>
+                        </sub>
+                      </span>
+                      <span className="offiacl-qualification">
+                        {ele.qualifications}{" "}
+                      </span>
+                      <span className="officail-bio">{ele.bio}</span>
+                      <span className="official-mail">{ele.email}</span>
+                      <div className="media-links">
+                        <a href={ele.linkedin} target="_blank" rel="noreferrer">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 448 512"
+                            className="linkedIn"
+                          >
+                            <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </section>
       </div>
     </>
   );

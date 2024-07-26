@@ -1,27 +1,152 @@
-/* Profile.css */
+.officail-container {
+  margin: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  row-gap: 2rem;
+  place-items: center;
+}
+
+.official-element {
+  background-color: whitesmoke;
+  border-radius: 1rem;
+  width: 500px;
+  height: 250px;
+  display: grid;
+  grid-template-columns: 35% 65%;
+  place-items: center;
+}
+
+.official-image {
+  width: 70%;
+  height: 50%;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+.official-details {
+  width: 100%;
+  height: 100%;
+  padding: 0rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.official-name {
+  font-size: 2rem;
+}
+
+.official-mail {
+  color: rgb(3, 3, 128);
+}
+
+.official-mail:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.media-links > a > svg {
+  height: 1.8rem;
+  fill: grey;
+  margin: 1rem;
+  transition: all 0.3s ease-in;
+}
+
+.linkedIn:hover {
+  fill: blue !important;
+  cursor: pointer;
+}
+
+.github:hover {
+  fill: black !important;
+  cursor: pointer;
+}
+.leetcode,
+.gfg,
+.hackerrank {
+  font-size: 1.4rem;
+  color: grey;
+}
+
+.leetcode:hover {
+  color: rgb(228, 162, 40) !important;
+  cursor: pointer;
+}
+.gfg:hover {
+  color: green !important;
+  cursor: pointer;
+}
+.hackerrank:hover {
+  color: black !important;
+  cursor: pointer;
+}
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 700px) {
+  .officail-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .official-element {
+    background-color: whitesmoke;
+    border-radius: 1rem;
+    width: 300px;
+    height: 300px;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .official-image {
+    width: 40%;
+    height: 70%;
+    border-radius: 100%;
+    object-fit: cover;
+  }
+  .official-name {
+    font-size: 1.5rem;
+  }
+  .official-designation {
+    font-size: 0.8rem;
+    color: rgb(82, 82, 82);
+  }
+  .official-details {
+    width: 100%;
+    height: 100%;
+    padding: 0rem 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .media-links > a > svg {
+    height: 1.8rem;
+    fill: grey;
+    margin: 0.5rem;
+    transition: all 0.3s ease-in;
+  }
+}
+
+/* Alternate.css */
 
 .card {
   display: flex;
   align-items: center;
-  width: 450px;
-  height: 230px;
-  position: relative;
   color: white;
   background-color: var(--background-color);
-  letter-spacing: 1px;
   border: 0.1rem solid white;
-  border-radius: 25px;
+  border-radius: 0.5rem;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  padding-right: 5px;
+  padding-right: 0.3rem;
 }
 
 .card-description {
   display: flex;
   flex-direction: column;
-  padding: 30px;
-  width: 70%;
-  height: 100%;
+  padding: 1.5rem;
+  gap: 2.5rem;
+}
+
+.card-description > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .card-description-profession {
@@ -32,14 +157,7 @@
   -webkit-box-orient: vertical;
 }
 
-.card-description-social {
-  position: absolute;
-  bottom: 8px;
-}
-
 .card-description-social-follow {
-  position: relative;
-  top: 4%;
   color: white;
   font-size: 16px;
 }
@@ -47,7 +165,7 @@
 .social_Links {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 1rem;
 }
 
 .social_icon {
@@ -58,7 +176,6 @@
   height: 40px;
   border-radius: 50%;
   background-color: white;
-  /* box-shadow: 6px 6px 12px white, -6px -6px 12px var(); */
   transition: all 0.4s;
   text-align: center;
 }
@@ -84,10 +201,10 @@
 }
 
 .card-image {
-  width: 250px;
-  height: 96%;
-  object-fit: cover;
-  border-radius: 10px;
+  width: 100%;
+  height: 50%;
+  border-radius: 0.3rem;
+  display: block;
 }
 
 .card:hover {
@@ -97,21 +214,20 @@
 
 .teamMembers:hover > :not(:hover) {
   opacity: 0.5;
-  /* transform: scale(0.95); */
+
   transition: all 0.5s ease-in;
 }
 
 .teamCarousel {
-  overflow: hidden;
+  overflow: scroll;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 1.7rem;
 }
 
 .teamCarousel > h1 {
   text-align: center;
-  /* color: aliceblue; */
   color: white;
 }
 
@@ -122,11 +238,6 @@
   gap: 40px;
   padding: 20px;
   justify-items: stretch;
-  animation: slide 40s linear infinite;
-
-  &:hover {
-    animation-play-state: paused;
-  }
 }
 
 .team-heading {
@@ -138,42 +249,31 @@
   display: none;
 }
 
-@keyframes slide {
-  to {
-    transform: translateX(-150%);
-  }
-}
-
 @media (max-width: 767px) {
   .card {
     display: flex;
     flex-direction: column-reverse;
-    width: 225px;
-    height: 380px;
-    padding: 0px;
-    padding-top: 10px;
+    width: fit-content;
+    height: fit-content;
   }
 
   .card-description {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    height: 100%;
-    padding: 15px;
+    padding: 1.5rem;
+    gap: 1.5rem;
   }
 
   .card-image {
-    width: 150px;
-    height: 150px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 30%;
+    border-radius: 0.7rem;
   }
 
   .card-description-title {
     line-height: 15px;
     font-size: 23px;
   }
+
   .teamMembers {
     display: grid;
     grid-auto-flow: column;
@@ -181,17 +281,8 @@
     gap: 40px;
     padding: 20px;
     justify-items: stretch;
-    animation: slide 20s linear infinite;
+  }
 
-    &:hover {
-      animation-play-state: paused;
-    }
-  }
-  @keyframes slide {
-    to {
-      transform: translateX(-510%);
-    }
-  }
   .teamMembers::-webkit-scrollbar {
     display: block;
   }

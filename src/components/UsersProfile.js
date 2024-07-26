@@ -1,8 +1,44 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/Userprofile.css";
+import axios from "axios";
 export default function UsersProfile() {
+  // Hooks
+
   const { email } = useParams();
+  const [profile, setProfile] = useState();
+
+  // env variables
+
+  const getUserProfileApi = process.env.REACT_APP_GET_USER_PROFILE_BY_EMAIL;
+
+  // local varaibles
+
+  const excludeKeys = [
+    "_id",
+    "createdAt",
+    "updatedAt",
+    "userId",
+    "eventsParticipated",
+    "contributions",
+    "role",
+    "__v",
+    "projects",
+  ];
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+
+  const getUserProfile = async () => {
+    try {
+      const res = await axios.get(getUserProfileApi + email);
+      console.log(res.data);
+      setProfile(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const [image, setImage] = useState(null);
 
@@ -21,51 +57,25 @@ export default function UsersProfile() {
           >
             <img src={image} alt="" srcset="" />
 
-            <div className="profile-name">{email}</div>
+            <div className="profile-name">{profile && profile.name}</div>
           </div>
         </div>
         <form>
           <div className="profile-details-container">
             <div className="profile-details">
-              <div className="profile-details-item">
-                <div className="profile-input-field">
-                  <label htmlFor="Name">Name</label>
-                  <div className="edit-inputs">Nagarjuna</div>
-                </div>
-              </div>
-              <div className="profile-details-item">
-                <div className="profile-input-field">
-                  <label htmlFor="ID">ID</label>
-                  <div className="edit-inputs">Nagarjuna</div>
-                </div>
-              </div>
-
-              <div className="profile-details-item">
-                <div className="profile-input-field">
-                  <label htmlFor="Leetcode">Leetcode</label>
-                  <div className="edit-inputs">Nagarjuna</div>
-                </div>
-              </div>
-
-              <div className="profile-details-item">
-                <div className="profile-input-field">
-                  <label htmlFor="Github">Github</label>
-                  <div className="edit-inputs">Nagarjuna</div>
-                </div>
-              </div>
-
-              <div className="profile-details-item">
-                <div className="profile-input-field">
-                  <label htmlFor="Geeks for geeks">Geeks for Geeks</label>
-                  <div className="edit-inputs">Nagarjuna</div>
-                </div>
-              </div>
-              <div className="profile-details-item">
-                <div className="profile-input-field">
-                  <label htmlFor="Geeks for geeks">Score</label>
-                  <div className="edit-inputs">Nagarjuna</div>
-                </div>
-              </div>
+              {profile &&
+                Object.entries(profile)
+                  .filter(([key]) => !excludeKeys.includes(key))
+                  .map(([key, value]) => {
+                    return (
+                      <div className="profile-details-item">
+                        <div className="profile-input-field">
+                          <label htmlFor="Name">{key}</label>
+                          <div className="edit-inputs">{value}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
             </div>
           </div>
         </form>

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import "../styles/Userprofile.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,13 +30,10 @@ export default function UserProfile() {
   const fileInputRef = useRef(null);
   const [image, setImage] = useState(null);
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    const file = event.currentTarget.files[0];
+    profileFormik.setFieldValue("image", file);
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setImage(URL.createObjectURL(file));
     }
   };
   const upload = () => {
@@ -56,7 +52,6 @@ export default function UserProfile() {
   const authToken = useSelector((state) => state.logStatus.authToken);
   const name = useSelector((state) => state.logStatus.name);
   const logged = useSelector((state) => state.logStatus.logged);
-  console.log(email);
   useEffect(() => {
     getUser();
   }, []);
@@ -75,8 +70,8 @@ export default function UserProfile() {
           email: email,
         })
       );
-      console.log(res.data);
       setUserInfo(res.data);
+      console.log(res.data);
       formik.setFieldValue("_id", res.data._id);
       formik.setFieldValue("name", res.data.name);
       formik.setFieldValue("gfg", res.data.gfg ? res.data.gfg : "");
@@ -97,6 +92,11 @@ export default function UserProfile() {
 
   // Formik init
 
+  const profileFormik = useFormik({
+    initialValues: {
+      image: "",
+    },
+  });
   const formik = useFormik({
     initialValues: {
       _id: userInfo && userInfo._id,
@@ -106,7 +106,6 @@ export default function UserProfile() {
       github: "",
       id: "",
       linkedin: "",
-      img: "",
     },
     validateOnMount: true,
 
@@ -116,7 +115,42 @@ export default function UserProfile() {
     },
   });
   // Handling form submit
-
+  const handleProfilePic = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", profileFormik.values.image);
+    try {
+      console.log(formik.values._id);
+      console.log(profileFormik.values);
+      const res = await axios.put(
+        `${updateUserInfoApi}${formik.values._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      getUser();
+      dispatch(
+        setSnackBar({
+          message: "Successfully updated Profile Pic",
+          variant: "success",
+        })
+      );
+      console.log(res);
+      profileFormik.resetForm();
+    } catch (e) {
+      dispatch(
+        setSnackBar({
+          message: "Error in updating Profile Pic",
+          variant: "error",
+        })
+      );
+      profileFormik.resetForm();
+      console.log(e);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!icon) {
@@ -127,7 +161,6 @@ export default function UserProfile() {
         );
         setEdit(!edit);
         setIcon(!icon);
-        console.log(res);
         dispatch(
           setSnackBar({
             message: "Successfully updated details",
@@ -148,41 +181,38 @@ export default function UserProfile() {
       setIcon(!icon);
     }
   };
+
   return (
     <>
       <div className="profile-container">
         <div className="profile-name-img">
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "3rem",
-            }}
-          >
-            <img src={image} alt="" srcset="" />
-            <div className="edit-profile-pic" onClick={upload}>
-              <svg
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                className="profile-edit-camera"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M15.586 3a2 2 0 0 1 2.828 0L21 5.586a2 2 0 0 1 0 2.828L19.414 10 14 4.586 15.586 3zm-3 3-9 9A2 2 0 0 0 3 16.414V19a2 2 0 0 0 2 2h2.586A2 2 0 0 0 9 20.414l9-9L12.586 6z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+          <div className="profile-wrapper">
+            <img
+              src={userInfo && "data:image/jpeg;base64," + userInfo.image}
+              alt=""
+              srcset=""
+            />
+            <div className="edit-profile-pic">
+              {!profileFormik.values.image ? (
+                <svg
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="profile-edit-camera"
+                  onClick={upload}
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M15.586 3a2 2 0 0 1 2.828 0L21 5.586a2 2 0 0 1 0 2.828L19.414 10 14 4.586 15.586 3zm-3 3-9 9A2 2 0 0 0 3 16.414V19a2 2 0 0 0 2 2h2.586A2 2 0 0 0 9 20.414l9-9L12.586 6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              ) : (
+                <button onClick={handleProfilePic}>Save</button>
+              )}
             </div>
             <div className="profile-name">{name}</div>
           </div>
-
-          <div className="profile-score">
-            <div>Score</div>
-            <div>992</div>
-          </div>
-          <div>
+          <div id="reset-btn">
             <button
               className="reset-password-btn"
               onClick={() => {
@@ -192,19 +222,26 @@ export default function UserProfile() {
               Reset Password
             </button>
           </div>
+
+          {/* <div className="profile-score">
+            <div>Score</div>
+            <div>992</div>
+          </div> */}
         </div>
         <form>
           <div className="profile-details-container">
             <div className="profile-details">
               <div className="edit-icon">
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  name="img"
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                  accept="image/*"
-                />
+                <form onSubmit={handleProfilePic}>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    name="image"
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                    accept="image/*"
+                  />
+                </form>
                 <button onClick={handleSubmit} id="edit-btn">
                   {icon ? (
                     <svg

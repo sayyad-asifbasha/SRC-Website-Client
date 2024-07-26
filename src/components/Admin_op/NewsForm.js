@@ -14,7 +14,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import {  useFormik } from "formik";
+import { useFormik } from "formik";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import "../../styles/Login.css";
@@ -39,9 +39,9 @@ export default function NewsForm() {
   const [news, setNews] = useState([]);
   const [copen, setCOpen] = React.useState(false);
   const [carItem, setCarItem] = React.useState({});
-  const [cancel,setCancel]=useState(false);
-  const [update, setUpdate] = useState({check:false,news:""});
-  const [loader,setLoader]=useState(false);
+  const [cancel, setCancel] = useState(false);
+  const [update, setUpdate] = useState({ check: false, news: "" });
+  const [loader, setLoader] = useState(false);
   const handleCClose = () => setCOpen(false);
 
   const dispatch = useDispatch();
@@ -49,7 +49,6 @@ export default function NewsForm() {
   // Function to clear input fields
 
   // Function for setting input fields
-
 
   //  Function for CRUD operations
 
@@ -67,15 +66,19 @@ export default function NewsForm() {
     e.preventDefault();
     try {
       setLoader(true);
-      const res = await axios.put(updateNewsApi + update.news._id, formik.values, {
-        headers: {
-          Authorization: `Bearer ${localStorage
-            .getItem("authToken")
-            .slice(1, localStorage.getItem("authToken").length - 1)}`,
-        },
-      });
+      const res = await axios.put(
+        updateNewsApi + update.news._id,
+        formik.values,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage
+              .getItem("authToken")
+              .slice(1, localStorage.getItem("authToken").length - 1)}`,
+          },
+        }
+      );
       getNews();
-      setUpdate({check:false,news:""});
+      setUpdate({ check: false, news: "" });
       setCancel(false);
       formik.resetForm();
       dispatch(
@@ -152,16 +155,13 @@ export default function NewsForm() {
     backgroundColor: theme.palette.background.paper,
   }));
 
-  const editNews=()=>
-  {
+  const editNews = () => {
     setCancel(true);
-    formik.setFieldValue("title",update.news.title);
-    formik.setFieldValue("image",update.news.image);
-    formik.setFieldValue("content",update.news.content);
+    formik.setFieldValue("title", update.news.title);
+    formik.setFieldValue("image", update.news.image);
+    formik.setFieldValue("content", update.news.content);
     handleCClose();
-  }
-
-  
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -250,13 +250,13 @@ export default function NewsForm() {
           </div>
           <Grid>
             <Typography
-              sx={{ color: "white", mx: 3 }}
+              sx={{ color: "white", mx: 1, my: 1 }}
               variant="h5"
               component="div"
             >
               Current News Items
             </Typography>
-            <Demo sx={{ borderRadius: "0.5rem", margin: "10px" }}>
+            <Demo sx={{ borderRadius: "0.5rem", marginTop: "1.5rem" }}>
               <List sx={{ padding: "0px" }}>
                 {Object.entries(news).map((item) => {
                   return (
@@ -287,7 +287,7 @@ export default function NewsForm() {
                               sx={{ marginRight: "0.5rem" }}
                               onClick={() => {
                                 setCOpen(true);
-                                setUpdate({check:true,news:item[1]})
+                                setUpdate({ check: true, news: item[1] });
                               }}
                             >
                               <EditNoteRoundedIcon />
@@ -297,7 +297,7 @@ export default function NewsForm() {
                               aria-label="delete"
                               onClick={() => {
                                 setCOpen(true);
-                                setUpdate({check:false,news:item[1]})
+                                setUpdate({ check: false, news: item[1] });
                               }}
                             >
                               <DeleteIcon />
@@ -318,21 +318,23 @@ export default function NewsForm() {
           </Grid>
         </div>
 
-        <div className="sub-contact-container" style={{ margin: ".5rem" }}>
+        <div className="sub-contact-container" style={{ marginTop: "1.5rem" }}>
           <div className="contact-head">
             <div>
               <h3>{update ? "Update News" : "Add News"}</h3>
               {cancel ? (
                 <button
                   onClick={() => {
-                    setUpdate({check:"false",news:""});
+                    setUpdate({ check: "false", news: "" });
                     setCancel(false);
                     formik.resetForm();
                   }}
                 >
                   Cancel
                 </button>
-              ):""}
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <div className="contact-fields">

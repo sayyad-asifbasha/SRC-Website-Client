@@ -24,13 +24,13 @@ export default function ControlledAccordions(props) {
   };
 
   return (
-    <div style={{ marginRight: "0.3rem", padding: "0rem" }}>
+    <div style={{ padding: "0rem" }}>
       {list &&
         list.map((ele) => {
           return (
             <Accordion
               expanded={expanded === ele._id}
-              style={{borderRadius:"0.5rem",marginTop:"0.5rem"}}
+              style={{ borderRadius: "0.5rem", marginTop: "0.5rem" }}
               onChange={handleChange(ele._id)}
             >
               <AccordionSummary
@@ -43,14 +43,8 @@ export default function ControlledAccordions(props) {
                     {ele.email}
                   </span>
                 </Typography>
-                {/* <Typography
-                  sx={{ color: "text.secondary", marginLeft: "1rem" }}
-                >
-                  {ele.name}
-                </Typography> */}
               </AccordionSummary>
               <AccordionDetails>
-                {/* <Typography>{ele.message}</Typography> */}
                 <ListItem>
                   <div style={{ color: "black" }}>
                     <div
@@ -63,7 +57,7 @@ export default function ControlledAccordions(props) {
                       <div style={{ textAlign: "left" }}>
                         <span
                           style={{
-                            fontSize: "18px",
+                            fontSize: "1.1rem",
                             fontWeight: "bold",
                             margin: "0px 5px",
                           }}
@@ -72,10 +66,10 @@ export default function ControlledAccordions(props) {
                         </span>
                         <span>{ele.name}</span>
                       </div>
-                      <div style={{textAlign:"justify"}}>
+                      <div style={{ textAlign: "justify" }}>
                         <span
                           style={{
-                            fontSize: "18px",
+                            fontSize: "1.1rem",
                             fontWeight: "bold",
                             margin: "0px 5px",
                           }}

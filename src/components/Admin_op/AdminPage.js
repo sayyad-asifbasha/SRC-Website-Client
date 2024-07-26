@@ -12,11 +12,14 @@ import DomainForm from "./DomainForm";
 import "../../styles/AdminPage.css";
 import NewsForm from "./NewsForm";
 import UpcomingEventForm from "./UpcomingEventForm";
-import Officials from "./Officials";
+import Coordinators from "./Coordinators";
 import ContactForum from "./ContactForum";
 import CompletedEventForum from "./CompletedEventForum";
 import ProjectForm from "./ProjectForm";
 import ResourceForm from "./ResourceForm";
+import Testimonals from "./Testimonals";
+import Officials from "./Officials";
+import Cr from "./Cr";
 export default function NestedList() {
   const [expanded, setExpanded] = React.useState("panel1");
 
@@ -60,10 +63,8 @@ export default function NestedList() {
           <List
             sx={{
               width: "100%",
-              maxWidth: 400,
               bgcolor: "back.paper",
-
-              borderRadius: "0.5rem",
+              borderRadius: "0.3rem",
             }}
             className="dashboard-list"
           >
@@ -71,7 +72,7 @@ export default function NestedList() {
             <Accordion
               expanded={expanded === "panel1"}
               onChange={handleChange("panel1")}
-              sx={{ borderRadius: "0.5rem !important", marginBottom: "4px" }}
+              sx={{ borderRadius: "0.3rem !important", marginBottom: "4px" }}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -108,7 +109,7 @@ export default function NestedList() {
             <Accordion
               expanded={expanded === "panel2"}
               onChange={handleChange("panel2")}
-              sx={{ borderRadius: "0.5rem !important", marginBottom: "4px" }}
+              sx={{ borderRadius: "0.3rem !important", marginBottom: "4px" }}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -119,10 +120,28 @@ export default function NestedList() {
               </AccordionSummary>
               <AccordionDetails>
                 <ListItemButton
+                  selected={selectedIndex === 12}
+                  onClick={(event) => handleListItemClick(event, 12)}
+                >
+                  <ListItemText primary="Official Details" />
+                </ListItemButton>
+                <ListItemButton
                   selected={selectedIndex === 4}
                   onClick={(event) => handleListItemClick(event, 4)}
                 >
-                  <ListItemText primary="Officals Details" />
+                  <ListItemText primary="Coordinator Details" />
+                </ListItemButton>
+                <ListItemButton
+                  selected={selectedIndex === 11}
+                  onClick={(event) => handleListItemClick(event, 11)}
+                >
+                  <ListItemText primary="Testimonals" />
+                </ListItemButton>
+                <ListItemButton
+                  selected={selectedIndex === 13}
+                  onClick={(event) => handleListItemClick(event, 13)}
+                >
+                  <ListItemText primary="Make CR" />
                 </ListItemButton>
               </AccordionDetails>
             </Accordion>
@@ -132,7 +151,7 @@ export default function NestedList() {
             <Accordion
               expanded={expanded === "panel3"}
               onChange={handleChange("panel3")}
-              sx={{ borderRadius: "0.5rem !important", marginBottom: "4px" }}
+              sx={{ borderRadius: "0.3rem !important", marginBottom: "4px" }}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -162,7 +181,7 @@ export default function NestedList() {
             <Accordion
               expanded={expanded === "panel4"}
               onChange={handleChange("panel4")}
-              sx={{ borderRadius: "0.5rem !important", marginBottom: "4px" }}
+              sx={{ borderRadius: "0.3rem !important", marginBottom: "4px" }}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -191,7 +210,7 @@ export default function NestedList() {
             <Accordion
               expanded={expanded === "panel5"}
               onChange={handleChange("panel5")}
-              sx={{ borderRadius: "0.5rem !important", marginBottom: "4px" }}
+              sx={{ borderRadius: "0.3rem !important", marginBottom: "4px" }}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -219,7 +238,9 @@ export default function NestedList() {
           ) : selectedIndex === 3 ? (
             <NewsForm />
           ) : selectedIndex === 4 ? (
-            <Officials />
+            <Coordinators />
+          ) : selectedIndex === 5 ? (
+            <CompletedEventForum />
           ) : selectedIndex === 6 ? (
             <UpcomingEventForm />
           ) : selectedIndex === 7 ? (
@@ -228,6 +249,12 @@ export default function NestedList() {
             <ResourceForm />
           ) : selectedIndex === 9 ? (
             <ContactForum />
+          ) : selectedIndex === 11 ? (
+            <Testimonals />
+          ) : selectedIndex === 12 ? (
+            <Officials />
+          ) : selectedIndex === 13 ? (
+            <Cr />
           ) : (
             <NewsForm />
           )}
