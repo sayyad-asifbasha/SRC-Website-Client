@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Formik, useFormik } from "formik";
 import { useRef } from "react";
+import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
@@ -28,6 +30,13 @@ import { useDispatch } from "react-redux";
 import { setSnackBar } from "../../features/snackbar/snackbar";
 
 export default function Testimonals() {
+  // env variables
+
+  const getAllTestimonialsApi = process.env.REACT_APP_GET_ALL_TESTIMONIALS;
+  const addTestimonialApi = process.env.REACT_APP_ADD_TESTIMONIAL;
+  const updateTestimonialApi = process.env.REACT_APP_UPDATE_TESTIMONIAL;
+  const deleteTestimonialApi = process.env.REACT_APP_DELETE_TESTIMONIAL;
+
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
   }));
@@ -52,9 +61,8 @@ export default function Testimonals() {
   const [expanded, setExpanded] = React.useState(false);
   const [testimonals, setTestimonals] = useState(null);
   const [visible, setVisible] = useState(false);
-  const[cancel,setCancel]=useState(false);
-  const [loader,setLoader]=useState(false);
-
+  const [cancel, setCancel] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const fileRef = useRef(null);
   const handleFileChange = (event) => {
@@ -65,7 +73,6 @@ export default function Testimonals() {
   const handleEdit = () => {
     handleCClose();
     setCancel(true);
-    // testimonalFormik.setValues(edit.testimonal);
     testimonalFormik.setFieldValue("name", edit.testimonal.name);
     testimonalFormik.setFieldValue("email", edit.testimonal.email);
     testimonalFormik.setFieldValue("message", edit.testimonal.message);
@@ -76,8 +83,7 @@ export default function Testimonals() {
   const handleDelete = async () => {
     try {
       const res = await axios.delete(
-        "https://src-website-api.onrender.com/api/v1/testimonials/delete/" +
-        edit.testimonal._id
+        deleteTestimonialApi + edit.testimonal._id
       );
       console.log(res);
       getAllTestimonals();
@@ -110,9 +116,7 @@ export default function Testimonals() {
 
   const getAllTestimonals = async () => {
     try {
-      const res = await axios.get(
-        "https://src-website-api.onrender.com/api/v1/testimonials"
-      );
+      const res = await axios.get(getAllTestimonialsApi);
       console.log(res.data);
       setTestimonals(res.data);
     } catch (e) {
@@ -127,8 +131,7 @@ export default function Testimonals() {
     try {
       setLoader(true);
       const res = await axios.put(
-        "https://src-website-api.onrender.com/api/v1/testimonials/update/" +
-        edit.testimonal._id,
+        updateTestimonialApi + edit.testimonal._id,
         testimonalFormik.values,
         {
           headers: {
@@ -149,7 +152,7 @@ export default function Testimonals() {
       setVisible(false);
       setCancel(false);
       setLoader(false);
-      console.log(testimonalFormik.values)
+      console.log(testimonalFormik.values);
     } catch (e) {
       setCancel(false);
       setLoader(false);
@@ -168,15 +171,11 @@ export default function Testimonals() {
   const postTestimoanls = async (e) => {
     try {
       setLoader(true);
-      const res = await axios.post(
-        "https://src-website-api.onrender.com/api/v1/testimonials/create",
-        e,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.post(addTestimonialApi, e, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       testimonalFormik.resetForm();
       getAllTestimonals();
       dispatch(
@@ -236,7 +235,7 @@ export default function Testimonals() {
         </React.Fragment>
       </div>
 
-      <div style={{ margin: ".9rem" }}>
+      <div style={{ marginTop: "1.1rem" }}>
         <Typography
           sx={{ color: "white", marginBottom: "1rem" }}
           variant="h5"
@@ -352,7 +351,7 @@ export default function Testimonals() {
             );
           })}
       </div>
-      <div className="sub-contact-container" style={{ margin: ".9rem" }}>
+      <div className="sub-contact-container" style={{ marginTop: "1.1rem" }}>
         <div className="contact-head">
           <div>
             <h2>{visible ? "Edit Tesitmonal" : "Add Testimonal"}</h2>
@@ -361,7 +360,7 @@ export default function Testimonals() {
                 onClick={() => {
                   setEdit({ check: false, testimonal: "" });
                   setCancel(false);
-                  setVisible(false)
+                  setVisible(false);
                   testimonalFormik.resetForm();
                 }}
               >

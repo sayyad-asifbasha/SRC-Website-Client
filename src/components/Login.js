@@ -177,7 +177,7 @@ export default function Login() {
             )}
           </div>
           <Link to="/forgot/password">Forgot password?</Link>
-          <button type="submit" className="submit-btn" disabled={loader}>
+          <button type="submit" className="submit-message" disabled={loader}>
             {loader ? (
               <CircularProgress size={27} sx={{ color: "#022368" }} />
             ) : (

@@ -54,6 +54,7 @@ export default function CompletedEventForm() {
   };
   const handleFileChange = async (event) => {
     const file = Array.from(event.currentTarget.files);
+    console.log("hello", formik.values.images);
     formik.setFieldValue("images", file);
   };
 
@@ -106,6 +107,7 @@ export default function CompletedEventForm() {
     formik.setFieldValue("coordinators", edit.event.coordinators);
     formik.setFieldValue("isUpcoming", edit.event.isUpcoming);
     setCoordinators(edit.event.coordinators);
+    console.log(formik.values);
     setVisible(true);
     handleCClose();
     setExpanded(false);
@@ -142,6 +144,7 @@ export default function CompletedEventForm() {
   const handleUpdateEvent = async (e) => {
     e.preventDefault();
     setLoader(true);
+    console.log(formik.values);
     if (checkTime()) {
       try {
         const formData = new FormData();
@@ -200,6 +203,7 @@ export default function CompletedEventForm() {
       }
       console.log(e);
     }
+    console.log(formik.values);
   };
 
   const formik = useFormik({

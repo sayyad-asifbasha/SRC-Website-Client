@@ -58,6 +58,7 @@ function TeamCollapse(props) {
     </React.Fragment>
   );
 }
+
 function WinnersList(props) {
   const { winnersList } = props;
 
@@ -69,11 +70,16 @@ function WinnersList(props) {
             <Table size="small" aria-label="purchases">
               <TableBody>
                 <TableRow key={winnersList.name}>
-                  <TableCell align="left" component="th" scope="row">
+                  <TableCell
+                    align="left"
+                    component="th"
+                    scope="row"
+                    style={{ borderBottom: "none" }}
+                  >
                     {winnersList.name}
                   </TableCell>
 
-                  <TableCell align="left">
+                  <TableCell align="left" style={{ borderBottom: "none" }}>
                     {
                       <SvgIcon
                         component={LinkedInIcon}
@@ -81,7 +87,7 @@ function WinnersList(props) {
                       />
                     }
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell align="left" style={{ borderBottom: "none" }}>
                     {
                       <SvgIcon
                         component={GitHubIcon}
@@ -110,24 +116,26 @@ export default function TableData(props) {
     >
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableRow>
+          <TableRow style={{ borderBottom: "none !important" }}>
             <TableCell />
             <TableCell
               align="left"
               style={{ fontWeight: "bold", fontSize: "1.3rem" }}
             >
-              Domains
+              Winners
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {event.name !== "Hackathon"
-            ? event.winners.map((winner) => (
+          {event && event.name !== "Hackathon"
+            ? event &&
+              event.winners.map((winner) => (
                 <React.Fragment key={winner.rank}>
                   {<WinnersList key={winner.name} winnersList={winner} />}
                 </React.Fragment>
               ))
-            : event.winners.map((winner, index) => (
+            : event &&
+              event.winners.map((winner, index) => (
                 <React.Fragment key={index}>
                   <TeamCollapse winnersList={winner} />
                 </React.Fragment>

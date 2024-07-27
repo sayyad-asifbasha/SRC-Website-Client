@@ -2,11 +2,11 @@ import { React, useState } from "react";
 // import "../../styles/Login.css";
 import "../../styles/Login.css";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSnackBar } from "../../features/snackbar/snackbar";
 export default function ResetPassword() {
   const navigate = useNavigate();

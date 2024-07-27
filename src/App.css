@@ -141,7 +141,10 @@ body {
   transition: 0.3s;
   cursor: pointer;
 }
-
+.submit-message:disabled:hover {
+  background-color: white !important;
+  cursor: not-allowed !important;
+}
 .submit-message:hover {
   background-color: var(--hover-color);
   color: white;
@@ -172,11 +175,11 @@ body {
 /* Carousal styles */
 
 .thumbs {
-  display: none;
+  display: none !important;
 }
 .control-arrow,
 .control-next {
-  display: none;
+  display: none !important;
 }
 
 .carousel .slide-holder {
@@ -201,7 +204,6 @@ div .images {
 }
 
 .carousel .slide-holder:hover {
-  /* filter: grayscale(0.4) brightness(0.8); */
   border-image: fill 0.01 linear-gradient(rgba(255, 255, 255, 0.067), black);
   filter: grayscale(0);
 }
@@ -234,12 +236,12 @@ div .images {
 .carousel .slide-holder:hover .text-container {
   opacity: 1;
 }
-
-.control-dots {
-  z-index: -500;
+.dot {
+  display: none !important;
 }
+
 .control-dots .dot {
-  z-index: -500;
+  z-index: -500 !important;
 }
 .control-arrow {
   z-index: -999 !important;
@@ -265,7 +267,6 @@ div .images {
 .domain-container {
   margin: 1.5rem;
   border-radius: 0.5rem;
-  box-shadow: var(--shadow-elevation-high);
 }
 
 .domain-container #scroll {
@@ -311,6 +312,7 @@ div .images {
     padding: 1.5rem;
     flex-direction: column-reverse;
   }
+
   .logout-icon {
     display: block;
   }
@@ -330,6 +332,8 @@ div .images {
 
   .carousal-content {
     width: 100%;
+    margin: 0rem;
+    padding: 1rem;
   }
 
   .events-notice {
@@ -364,12 +368,23 @@ div .images {
     display: grid;
     place-items: center;
   }
-  .control-dots .dot {
-    z-index: -999 !important;
+
+  .dot {
+    display: none !important;
   }
 
   .control-arrow {
     z-index: -999 !important;
+  }
+  .thumbs {
+    display: none !important;
+  }
+  .control-arrow,
+  .control-next {
+    display: none !important;
+  }
+  .domain-container {
+    margin: 0.3rem;
   }
 }
 
@@ -395,6 +410,8 @@ div .images {
 
   .carousal-content {
     width: 100%;
+    margin: 0rem;
+    padding: 1rem;
   }
 
   .events-notice {

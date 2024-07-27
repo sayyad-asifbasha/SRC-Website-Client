@@ -4,24 +4,16 @@ const initialState = {
   domainId: "",
 };
 
-export const carousel = createSlice({
+export const carouselSlice = createSlice({
   name: "introText",
   initialState,
   reducers: {
-    changeIntroText: (state, action) => {
-      const text = {
-        introText: action.payload,
-      };
-      state.introText = text.introText;
-    },
-    changeDomainId: (state, action) => {
-      const dmoain = {
-        domainId: action.payload,
-      };
-      state.domainId = dmoain.domainId;
+    changeDomainData: (state, action) => {
+      state.introText = action.payload.introText;
+      state.domainId = action.payload.domainId;
     },
   },
 });
 
-export const { changeIntroText, changeDomainId } = carousel.actions;
-export default carousel.reducer;
+export const { changeDomainData } = carouselSlice.actions;
+export default carouselSlice.reducer;

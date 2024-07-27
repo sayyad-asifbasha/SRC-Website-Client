@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import app from "../assets/images/ui-ux.avif";
 import { Link } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 import axios from "axios";
 export default function Domains() {
   // init of variables
@@ -103,25 +104,52 @@ export default function Domains() {
           Domains
         </div>
         <div id="scroll" onWheel={move} ref={containerRef}>
-          {domains &&
-            domains.map((ele) => {
-              return (
-                <Link
-                  to={`Domain/${ele.name}`}
-                  onClick={enableScroll}
-                  key={ele._id}
-                >
-                  <div className="domain-element">
-                    <div className="domain-image">
-                      <img src={app} alt="Domain" />
+          {domains
+            ? domains.map((ele) => {
+                return (
+                  <Link
+                    to={`Domain/${ele.name}`}
+                    onClick={enableScroll}
+                    key={ele._id}
+                  >
+                    <div className="domain-element">
+                      <div className="domain-image">
+                        <img src={app} alt="Domain" />
+                      </div>
+                      <div className="domain-name">
+                        <h3>{ele.name}</h3>
+                      </div>
                     </div>
-                    <div className="domain-name">
-                      <h3>{ele.name}</h3>
+                  </Link>
+                );
+              })
+            : Array.from({ length: 5 }).map((_, index) => {
+                return (
+                  <Link key={index}>
+                    <div className="domain-element">
+                      <div className="domain-image">
+                        <Skeleton
+                          variant="rectangular"
+                          width={"13rem"}
+                          height={"13rem"}
+                          sx={{
+                            backgroundColor: "gray",
+                            borderRadius: "0.3rem",
+                          }}
+                        />
+                      </div>
+                      <div className="domain-name">
+                        <h1>
+                          <Skeleton
+                            variant="text"
+                            sx={{ backgroundColor: "gray" }}
+                          />
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              })}
         </div>
       </div>
     </>

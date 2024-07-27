@@ -103,6 +103,7 @@ export default function UpcomingEventForm() {
     formik.setFieldValue("coordinators", edit.event.coordinators);
     formik.setFieldValue("isUpcoming", edit.event.isUpcoming);
     setCoordinators(edit.event.coordinators);
+    console.log(formik.values);
     handleCClose();
     setExpanded(false);
   };
@@ -138,6 +139,7 @@ export default function UpcomingEventForm() {
   const handleUpdateEvent = async (e) => {
     e.preventDefault();
     setLoader(true);
+    console.log(formik.values);
     if (checkTime()) {
       try {
         const formData = new FormData();
@@ -200,6 +202,7 @@ export default function UpcomingEventForm() {
   };
   const handleAddEvent = async (e) => {
     e.preventDefault();
+    console.log(formik.values);
     if (checkTime()) {
       setLoader(true);
       try {
@@ -224,6 +227,7 @@ export default function UpcomingEventForm() {
             "Content-Type": "multipart/form-data",
           },
         });
+        console.log(res.response);
         dispacth(
           setSnackBar({
             message: "Event created successfully",
@@ -281,10 +285,13 @@ export default function UpcomingEventForm() {
     },
   });
 
-
+  useEffect(() => {
+    console.log("Formik images changed:", formik.values.images);
+  }, [formik.values.images]);
 
   const handleFileChange = async (event) => {
     const file = Array.from(event.currentTarget.files);
+    console.log("hello", formik.values.images);
     formik.setFieldValue("images", file);
   };
   const handleDomain = async () => {
@@ -870,6 +877,7 @@ export default function UpcomingEventForm() {
               <FormControlLabel
                 name="isUpcoming"
                 onChange={(val) => formik.setFieldValue("isUpcoming", !val)}
+                onClick={() => console.log(formik.values.isUpcoming)}
                 control={<Checkbox />}
                 label="Mark Event as Completed"
               />
