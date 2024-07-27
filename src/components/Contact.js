@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { useFormik } from "formik";
-import { toast, Bounce, warn, success, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setSnackBar } from "../features/snackbar/snackbar";
@@ -98,7 +97,6 @@ export default function Contact() {
 
   return (
     <>
-      <ToastContainer />
       <section id="contact">
         <div className="contact-container">
           <div className="contact-visit-info">

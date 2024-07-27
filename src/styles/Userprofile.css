@@ -22,8 +22,8 @@
   padding-left: 17rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 3.9rem;
-  cursor: pointer;
 }
 .profile-name-img:hover > div > img:hover + div {
   display: block;

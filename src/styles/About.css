@@ -1,10 +1,10 @@
 .Members-container {
     display: grid;
     width: 100%;
-    grid-template-columns:repeat(auto-fit,minmax(345px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(345px, 1fr));
     column-gap: 20px;
     row-gap: 50px;
-    padding:0px 20px;
+    padding: 0px 20px;
     place-items: center;
     justify-content: center;
     text-align: left;
@@ -23,17 +23,147 @@
     cursor: pointer;
 }
 
-.Member-link>a>button>svg{
-    fill:grey;
+.Member-link>a>button>svg {
+    fill: grey;
     height: 2rem;
     margin: 0px;
     transition: all 0.3s ease-in;
 }
-.Member-link>a:nth-child(1)>button>svg:hover
-{
+
+.Member-link>a:nth-child(1)>button>svg:hover {
     fill: blue !important;
 }
-.Member-link>a:nth-child(2)>button>svg:hover
-{
+
+.Member-link>a:nth-child(2)>button>svg:hover {
     fill: black !important;
+}
+
+/*officals css*/
+.officail-container {
+    margin: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    row-gap: 2rem;
+    place-items: center;
+}
+
+.official-element {
+    background-color: whitesmoke;
+    border-radius: 1rem;
+    width:500px;
+    height: 250px;
+    display: grid;
+    grid-template-columns: 35% 65%;
+    place-items: center;
+}
+
+.official-image {
+    width: 70%;
+    height: 50%;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.official-details {
+    width: 100%;
+    height: 100%;
+    padding: 0rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.official-name {
+    font-size: 2rem;
+}
+
+
+
+
+.official-mail {
+    color: rgb(3, 3, 128);
+}
+
+.official-mail:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.media-links>a>svg {
+    height: 1.8rem;
+    fill: grey;
+    margin: 1rem;
+    transition: all 0.3s ease-in;
+}
+
+.linkedIn:hover {
+    fill: blue !important;
+    cursor: pointer;
+}
+
+.github:hover {
+    fill: black !important;
+    cursor: pointer;
+}
+.leetcode,.gfg,.hackerrank{
+    font-size: 1.4rem;
+    color: grey;
+}
+
+
+.leetcode:hover {
+    color: rgb(228, 162, 40) !important;
+    cursor: pointer;
+}
+.gfg:hover {
+    color:green !important;
+    cursor: pointer;
+}
+.hackerrank:hover {
+    color: black !important;
+    cursor: pointer;
+}
+
+
+@media only screen and (min-device-width: 300px) and (max-device-width: 700px) {
+    .officail-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .official-element {
+        background-color: whitesmoke;
+        border-radius: 1rem;
+        width: 300px;
+        height: 300px;
+        padding-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    
+.official-image {
+    width: 40%;
+    height: 70%;
+    border-radius: 100%;
+    object-fit: cover;
+}
+    .official-name {
+        font-size: 1.5rem;
+    }
+    .official-designation {
+        font-size: 0.8rem;
+        color: rgb(82, 82, 82);
+    }
+    .official-details {
+        width: 100%;
+        height: 100%;
+        padding: 0rem 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .media-links>a>svg {
+        height: 1.8rem;
+        fill: grey;
+        margin: 0.5rem;
+        transition: all 0.3s ease-in;
+    }
+    
 }

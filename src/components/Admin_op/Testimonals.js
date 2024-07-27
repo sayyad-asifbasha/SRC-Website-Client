@@ -6,8 +6,12 @@ import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Avatar from "@mui/material/Avatar";
+import CarousalImg1 from "../../assets/images/carousal-1.jpg";
 import IconButton from "@mui/material/IconButton";
 import { Accordion } from "@mui/material";
 import { AccordionSummary, AccordionDetails } from "@mui/material";
@@ -24,12 +28,17 @@ import { useDispatch } from "react-redux";
 import { setSnackBar } from "../../features/snackbar/snackbar";
 
 export default function Testimonals() {
-  const carousalFormik = useFormik({
+  const Demo = styled("div")(({ theme }) => ({
+    backgroundColor: theme.palette.background.paper,
+  }));
+  const testimonalFormik = useFormik({
     initialValues: {
-      title: "",
-      description: "",
-      domainId: "",
-      image: null,
+      name: "",
+      designation: "",
+      message: "",
+      email: "",
+      photo: null,
+      approved: false,
     },
   });
 
@@ -37,59 +46,45 @@ export default function Testimonals() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const [edit, setEdit] = useState({ check: false, carousal: "" });
+  const [edit, setEdit] = useState({ check: false, testimonal: "" });
   const [copen, setCOpen] = React.useState(false);
   const handleCClose = () => setCOpen(false);
   const [expanded, setExpanded] = React.useState(false);
-  const [carousal, setCarousal] = useState(null);
+  const [testimonals, setTestimonals] = useState(null);
   const [visible, setVisible] = useState(false);
-  const [cancel, setCancel] = useState(false);
-  const [loader, setLoader] = useState(false);
-  const [domain, setDomain] = useState();
+  const[cancel,setCancel]=useState(false);
+  const [loader,setLoader]=useState(false);
 
-  const getDomainsApi = process.env.REACT_APP_GET_DOMAINS;
-  const getCarouselsApi = process.env.REACT_APP_GET_ALL_CAROUSEL;
-  const addCarouselApi = process.env.REACT_APP_ADD_CAROUSEL;
-  const updateCarouselApi = process.env.REACT_APP_UPDATE_CAROUSEL;
-  const deleteCarouselApi = process.env.REACT_APP_DELETE_CAROUSEL;
 
   const fileRef = useRef(null);
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
-    carousalFormik.setFieldValue("image", file);
+    testimonalFormik.setFieldValue("photo", file);
   };
   const dispatch = useDispatch();
   const handleEdit = () => {
     handleCClose();
     setCancel(true);
-    carousalFormik.setFieldValue("title", edit.carousal.title);
-    carousalFormik.setFieldValue("description", edit.carousal.description);
-    carousalFormik.setFieldValue("domainId", edit.carousal.domainId);
+    // testimonalFormik.setValues(edit.testimonal);
+    testimonalFormik.setFieldValue("name", edit.testimonal.name);
+    testimonalFormik.setFieldValue("email", edit.testimonal.email);
+    testimonalFormik.setFieldValue("message", edit.testimonal.message);
+    testimonalFormik.setFieldValue("designation", edit.testimonal.designation);
+    testimonalFormik.setFieldValue("approved", edit.testimonal.approved);
     setVisible(true);
-  };
-  const handleDomain = async () => {
-    try {
-      const res = await axios.get(getDomainsApi, {
-        headers: {
-          Authorization: `Bearer ${localStorage
-            .getItem("authToken")
-            .slice(1, localStorage.getItem("authToken").length - 1)}`,
-        },
-      });
-      setDomain(res.data);
-    } catch (e) {
-      console.log(e);
-    }
   };
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(deleteCarouselApi + edit.carousal._id);
+      const res = await axios.delete(
+        "https://src-website-api.onrender.com/api/v1/testimonials/delete/" +
+        edit.testimonal._id
+      );
       console.log(res);
-      getAllCarousals();
+      getAllTestimonals();
       handleCClose();
       dispatch(
         setSnackBar({
-          message: "Deleted Carousel Successfully",
+          message: "Deleted Testimonal Successfully",
           variant: "success",
         })
       );
@@ -97,70 +92,44 @@ export default function Testimonals() {
       console.log(e);
       dispatch(
         setSnackBar({
-          message: "Error in deleting Carousel",
+          message: "Error in deleting Testimonal",
           variant: "error",
         })
       );
     }
   };
-  const handleAddCarousal = (e) => {
+  const handleAddTestimonal = (e) => {
     e.preventDefault();
-    console.log(carousalFormik.values);
-    postCarousal(carousalFormik.values);
+    console.log(testimonalFormik.values);
+    postTestimoanls(testimonalFormik.values);
   };
 
   useEffect(() => {
-    getAllCarousals();
-    handleDomain();
+    getAllTestimonals();
   }, []);
 
-  const getAllCarousals = async () => {
+  const getAllTestimonals = async () => {
     try {
-      const res = await axios.get(getCarouselsApi);
+      const res = await axios.get(
+        "https://src-website-api.onrender.com/api/v1/testimonials"
+      );
       console.log(res.data);
-      setCarousal(res.data);
+      setTestimonals(res.data);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const editCarousal = async (e) => {
+  const editTestimonal = async (e) => {
     e.preventDefault();
-    console.log(carousalFormik.values);
-    console.log(edit.carousal._id);
-    let carouselData = {
-      title:"",
-      description:"",
-      domainId:"",
-      image:null
-    };
-
-
-    // Conditionally append domainId
-    if (carousalFormik.values.domainId === "home") {
-      carouselData = {
-        $unset: {
-          domainId: "",
-        },
-        title: carousalFormik.values.title,
-        description: carousalFormik.values.description,
-
-        image: carousalFormik.values.image ? carousalFormik.values.image : edit.carousal.image,
-      };
-  } else {
-    carouselData = {
-      title: carousalFormik.values.title,
-      description: carousalFormik.values.description,
-      domainId:carousalFormik.values.domainId,
-      image: carousalFormik.values.image ? carousalFormik.values.image : edit.carousal.image,
-    };
-  }
-
+    console.log(testimonalFormik.values);
+    console.log(edit.testimonal._id);
     try {
       setLoader(true);
       const res = await axios.put(
-        updateCarouselApi + edit.carousal._id,
-        carouselData,
+        "https://src-website-api.onrender.com/api/v1/testimonials/update/" +
+        edit.testimonal._id,
+        testimonalFormik.values,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -170,66 +139,49 @@ export default function Testimonals() {
       console.log(res);
       dispatch(
         setSnackBar({
-          message: "successfully updated Carousel",
+          message: "successfully updated Testimonal",
           variant: "success",
         })
       );
-      carousalFormik.resetForm();
-      setEdit({ check: false, carousal: "" });
-      getAllCarousals();
+      testimonalFormik.resetForm();
+      setEdit({ check: false, testimonal: "" });
+      getAllTestimonals();
       setVisible(false);
       setCancel(false);
       setLoader(false);
-      console.log(carousalFormik.values);
+      console.log(testimonalFormik.values)
     } catch (e) {
       setCancel(false);
       setLoader(false);
       dispatch(
         setSnackBar({
-          message: "Error in deleting Carousel",
+          message: "Error in deleting Testimonal",
           variant: "error",
         })
       );
       setVisible(false);
       setCancel(false);
-      setEdit({ check: false, carousal: "" });
+      setEdit({ check: false, testimonal: "" });
     }
   };
 
-  const postCarousal = async (e) => {
-    let carouselData = {
-      title: "",
-      description: "",
-      domainId: "",
-      image: null,
-    };
-    if (carousalFormik.values.domainId === "home") {
-      carouselData = {
-        $unset: {
-          domainId: "",
-        },
-        title: carousalFormik.values.title,
-        description: carousalFormik.values.description,
-
-        image: carousalFormik.values.image,
-      };
-    }
+  const postTestimoanls = async (e) => {
     try {
       setLoader(true);
       const res = await axios.post(
-        addCarouselApi,
-        carousalFormik.values.domainId === "home" ? carouselData : e,
+        "https://src-website-api.onrender.com/api/v1/testimonials/create",
+        e,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         }
       );
-      carousalFormik.resetForm();
-      getAllCarousals();
+      testimonalFormik.resetForm();
+      getAllTestimonals();
       dispatch(
         setSnackBar({
-          message: "Successfully added Carousel",
+          message: "Successfully added Testimonal",
           variant: "success",
         })
       );
@@ -240,7 +192,7 @@ export default function Testimonals() {
       console.log(e);
       dispatch(
         setSnackBar({
-          message: "Error in adding Carousel",
+          message: "Error in adding Testimonal",
           variant: "error",
         })
       );
@@ -258,19 +210,19 @@ export default function Testimonals() {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {edit.check ? "Edit Carousel" : "Delete Carousel"}
+              {edit.check ? "Edit Event" : "Delete Event"}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 {edit.check
-                  ? "You are about to edit this Carousel.Modify the details in following form"
-                  : "You are about to delete this Carousel. This action is irreversible. Do you wish to proceed?"}
+                  ? "You are about to edit this event.Modify the details in following form"
+                  : "You are about to delete this event. This action is irreversible. Do you wish to proceed?"}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button
                 onClick={() => {
-                  setEdit({ check: false, carousal: "" });
+                  setEdit({ check: false, event: "" });
                   setCOpen(false);
                 }}
               >
@@ -290,10 +242,10 @@ export default function Testimonals() {
           variant="h5"
           component="div"
         >
-          Carousels
+          Testimonals
         </Typography>
-        {carousal &&
-          carousal.map((ele) => {
+        {testimonals &&
+          testimonals.map((ele) => {
             return (
               <Accordion
                 expanded={expanded === ele._id}
@@ -308,7 +260,7 @@ export default function Testimonals() {
                   <ListItemAvatar>
                     <Avatar sx={{ width: 75, height: 75, marginRight: "10px" }}>
                       <img
-                        src={"data:image/jpeg;base64," + ele.image}
+                        src={"data:image/jpeg;base64," + ele.photo}
                         alt=""
                         height={"75px"}
                         width={"75px"}
@@ -319,7 +271,7 @@ export default function Testimonals() {
 
                   <Typography>
                     <span style={{ fontSize: "20px", fontWeight: "600" }}>
-                      {ele.title}
+                      {ele.name}
                     </span>
                   </Typography>
                 </AccordionSummary>
@@ -341,9 +293,9 @@ export default function Testimonals() {
                               margin: "0px 5px",
                             }}
                           >
-                            Description :{" "}
+                            Designation :{" "}
                           </span>
-                          <span>{ele.description}</span>
+                          <span>{ele.designation}</span>
                         </div>
                         <div style={{ textAlign: "justify" }}>
                           <span
@@ -353,25 +305,29 @@ export default function Testimonals() {
                               margin: "0px 5px",
                             }}
                           >
-                            Place :{" "}
+                            Message :{" "}
                           </span>
-                          <span>
-                            {domain &&
-                              domain.map((item) => {
-                                if (item._id === ele.domainId) {
-                                  return item.name;
-                                }
-                              })}
-                              {!ele.domainId?"Home":""}
-                          </span>
+                          <span>{ele.message}</span>
                         </div>
+                        <div style={{ textAlign: "justify" }}>
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            Email :{" "}
+                          </span>
+                          <span>{ele.email}</span>
+                        </div>{" "}
                         <div>
                           <IconButton
                             edge="end"
                             aria-label="edit"
                             sx={{ marginRight: "0.5rem" }}
                             onClick={() => {
-                              setEdit({ check: true, carousal: ele });
+                              setEdit({ check: true, testimonal: ele });
                               setCOpen(true);
                             }}
                           >
@@ -381,7 +337,7 @@ export default function Testimonals() {
                             edge="end"
                             aria-label="delete"
                             onClick={() => {
-                              setEdit({ check: false, carousal: ele });
+                              setEdit({ check: false, testimonal: ele });
                               setCOpen(true);
                             }}
                           >
@@ -399,14 +355,14 @@ export default function Testimonals() {
       <div className="sub-contact-container" style={{ margin: ".9rem" }}>
         <div className="contact-head">
           <div>
-            <h2>{visible ? "Edit Carousel" : "Add Carousel"}</h2>
+            <h2>{visible ? "Edit Tesitmonal" : "Add Testimonal"}</h2>
             {cancel && (
               <button
                 onClick={() => {
-                  setEdit({ check: false, carousal: "" });
+                  setEdit({ check: false, testimonal: "" });
                   setCancel(false);
-                  setVisible(false);
-                  carousalFormik.resetForm();
+                  setVisible(false)
+                  testimonalFormik.resetForm();
                 }}
               >
                 Cancel
@@ -415,54 +371,64 @@ export default function Testimonals() {
           </div>
         </div>
         <div className="contact-fields add-carousel-item">
-          <form onSubmit={visible ? editCarousal : handleAddCarousal}>
+          <form onSubmit={visible ? editTestimonal : handleAddTestimonal}>
             <input
               type="text"
               id="domain-name"
               required
-              name="title"
-              onChange={carousalFormik.handleChange}
-              value={carousalFormik.values.title}
+              name="name"
+              onChange={testimonalFormik.handleChange}
+              value={testimonalFormik.values.name}
               placeholder="Name"
+            />
+            <input
+              type="text"
+              id="domain-name"
+              required
+              name="designation"
+              onChange={testimonalFormik.handleChange}
+              value={testimonalFormik.values.designation}
+              placeholder="Designation"
+            />
+            <input
+              type="email"
+              id="domain-name"
+              required
+              name="email"
+              onChange={testimonalFormik.handleChange}
+              value={testimonalFormik.values.email}
+              placeholder="Email"
             />
             <textarea
               style={{ resize: "none" }}
-              placeholder="Description "
-              name="description"
+              placeholder="Message "
+              name="message"
               id="domain-desc"
               required
-              onChange={carousalFormik.handleChange}
+              onChange={testimonalFormik.handleChange}
               cols={30}
               rows={7}
-              value={carousalFormik.values.description}
+              value={testimonalFormik.values.message}
             ></textarea>
-            <select
-              name="domainId"
-              id=""
-              style={{
-                height: "3rem",
-                border: "0.5px solid rgb(222,222,222)",
-                outline: "none",
-              }}
-              onChange={carousalFormik.handleChange}
-              value={carousalFormik.values.domainId}
-            >
-              <option hidden value="">
-                Select Domain
-              </option>
-              <option value="home"> {"Home"}</option>
-              {domain &&
-                domain.map((item) => {
-                  return <option value={item._id}> {item.name}</option>;
-                })}
-            </select>
             <input
               type="file"
-              name="image"
+              name="photo"
               accept="image/*"
-              value={carousalFormik.values.file}
+              value={testimonalFormik.values.file}
               onChange={handleFileChange}
               ref={fileRef}
+            />
+            <FormControlLabel
+              name="approved"
+              onChange={testimonalFormik.handleChange}
+              control={<Checkbox />}
+              // onClick={() => console.log(testimonalFormik.values.approved)}
+              value={testimonalFormik.values.approved}
+              label={
+                testimonalFormik.values.approved
+                  ? "Label it as not approved"
+                  : "Label it as approved"
+              }
             />
             {edit.check ? (
               <button
@@ -473,7 +439,7 @@ export default function Testimonals() {
                 {loader ? (
                   <CircularProgress size={27} sx={{ color: "#022368" }} />
                 ) : (
-                  "Edit Carousel"
+                  "Edit Testimonal"
                 )}
               </button>
             ) : (
@@ -485,7 +451,7 @@ export default function Testimonals() {
                 {loader ? (
                   <CircularProgress size={27} sx={{ color: "#022368" }} />
                 ) : (
-                  "Add Carousel"
+                  "Add Testimonal"
                 )}
               </button>
             )}

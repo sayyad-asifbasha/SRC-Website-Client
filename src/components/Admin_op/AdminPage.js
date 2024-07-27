@@ -7,7 +7,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-
 import CarouselForm from "./CarouselForm";
 import DomainForm from "./DomainForm";
 import "../../styles/AdminPage.css";
@@ -18,6 +17,8 @@ import ContactForum from "./ContactForum";
 import CompletedEventForum from "./CompletedEventForum";
 import ProjectForm from "./ProjectForm";
 import ResourceForm from "./ResourceForm";
+import Testimonals from "./Testimonals";
+import { Carousel } from "react-responsive-carousel";
 export default function NestedList() {
   const [expanded, setExpanded] = React.useState("panel1");
 
@@ -131,6 +132,12 @@ export default function NestedList() {
                 >
                   <ListItemText primary="Coordinators" />
                 </ListItemButton>
+                <ListItemButton
+                  selected={selectedIndex === 11}
+                  onClick={(event) => handleListItemClick(event, 11)}
+                >
+                  <ListItemText primary="Testimonals" />
+                </ListItemButton>
               </AccordionDetails>
             </Accordion>
 
@@ -225,17 +232,21 @@ export default function NestedList() {
             <DomainForm />
           ) : selectedIndex === 3 ? (
             <NewsForm />
-          ): selectedIndex === 5 ? (
-            < CompletedEventForum/>
-          ): selectedIndex === 10 ? (
+          ) : selectedIndex === 4 ? (
             <Officials />
-          ) : selectedIndex === 6 ? (
+          ): selectedIndex === 5 ? (
+            <CompletedEventForum />
+          )
+           : selectedIndex === 6 ? (
             <UpcomingEventForm />
-          ): selectedIndex === 7 ? (
+          ) : selectedIndex === 7 ? (
             <ProjectForm />
-          ): selectedIndex === 8 ? (
+          ) : selectedIndex === 8 ? (
             <ResourceForm />
-          ): selectedIndex === 9 ? (
+          ): selectedIndex === 11 ? (
+            <Testimonals />
+          )
+           : selectedIndex === 9 ? (
             <ContactForum />
           ) : (
             <NewsForm />

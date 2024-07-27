@@ -300,7 +300,15 @@ export default function ResouceForm() {
                         </div>
                         <div>
                           <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>Domain : </span>
-                          <span >{ele.domainId}</span>
+                          {
+                              domain&&domain.map((item)=>
+                              {
+                                if(item._id===ele.domainId)
+                                {
+                                  return item.name;
+                                }
+                              })
+                            }
                         </div>
                         <div>
                           <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>URL : </span>

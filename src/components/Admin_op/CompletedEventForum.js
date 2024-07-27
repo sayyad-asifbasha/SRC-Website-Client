@@ -30,15 +30,12 @@ import "../../styles/AdminPage.css";
 import { useRef } from "react";
 import axios from "axios";
 
-export default function UpcomingEventForm() {
+export default function CompletedEventForm() {
   const getUserByEmail = process.env.REACT_APP_GET_USER_BY_EMAIL;
-  const getDomains=process.env.REACT_APP_GET_DOMAINS;
-  const getEvents=process.env.REACT_APP_GET_EVENTS;
-  const deleteEvent=process.env.REACT_APP_GET_DELETE_BY_ID;
-  const updateEvent=process.env.REACT_APP_GET_UPDATE_BY_ID;
-
-
-
+  const getDomains = process.env.REACT_APP_GET_DOMAINS;
+  const getEvents = process.env.REACT_APP_GET_EVENTS;
+  const deleteEvent = process.env.REACT_APP_GET_DELETE_BY_ID;
+  const updateEvent = process.env.REACT_APP_GET_UPDATE_BY_ID;
 
   const dispacth = useDispatch();
   const handleCClose = () => setCOpen(false);
@@ -51,16 +48,18 @@ export default function UpcomingEventForm() {
   const [expanded, setExpanded] = React.useState(false);
   const [loader, setLoader] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [domain,setDomain]=useState([]);
+  const [domain, setDomain] = useState([]);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+  const handleFileChange = async (event) => {
+    const file = Array.from(event.currentTarget.files);
+    formik.setFieldValue("images", file);
   };
 
   const handleDeleteEvent = async () => {
     try {
-      const res = await axios.delete(
-        deleteEvent + edit.event._id
-      );
+      const res = await axios.delete(deleteEvent + edit.event._id);
       dispacth(
         setSnackBar({
           message: "Delete Event Successfully",
@@ -107,7 +106,6 @@ export default function UpcomingEventForm() {
     formik.setFieldValue("coordinators", edit.event.coordinators);
     formik.setFieldValue("isUpcoming", edit.event.isUpcoming);
     setCoordinators(edit.event.coordinators);
-    console.log(formik.values);
     setVisible(true);
     handleCClose();
     setExpanded(false);
@@ -144,13 +142,27 @@ export default function UpcomingEventForm() {
   const handleUpdateEvent = async (e) => {
     e.preventDefault();
     setLoader(true);
-    console.log(formik.values);
     if (checkTime()) {
       try {
+        const formData = new FormData();
+
+        Object.keys(formik.values).forEach((key) => {
+          if (Array.isArray(formik.values[key])) {
+            formik.values[key].forEach((item, index) => {
+              Object.keys(item).forEach((subKey) => {
+                formData.append(`${key}[${index}][${subKey}]`, item[subKey]);
+              });
+            });
+          } else {
+            formData.append(key, formik.values[key]);
+          }
+        });
+        formik.values.images.forEach((file) => {
+          formData.append("images", file);
+        });
         const res = await axios.put(
-          updateEvent+
-            edit.event._id,
-          formik.values
+          updateEvent + edit.event._id,
+          formData
         );
         if (formik.values.isUpcoming) {
           dispacth(
@@ -170,7 +182,7 @@ export default function UpcomingEventForm() {
         }
         setEdit({ check: false, event: "" });
         formik.resetForm();
-        setCoordinators(null);
+        setCoordinators([]);
         getAllEvents();
         setLoader(false);
         setCancel(false);
@@ -188,7 +200,6 @@ export default function UpcomingEventForm() {
       }
       console.log(e);
     }
-    console.log(formik.values);
   };
 
   const formik = useFormik({
@@ -207,6 +218,7 @@ export default function UpcomingEventForm() {
       prizeDetails: ["", "", ""],
       winners: ["", "", ""],
       coordinators: [],
+      images: [],
     },
     validateOnMount: true,
 
@@ -223,27 +235,20 @@ export default function UpcomingEventForm() {
       return errors;
     },
   });
-  const handleDomain=async()=>
-  {
-    try
-    {
-      const res=await axios.get(getDomains,
-        {
-          headers:
-          {
-            Authorization:`Bearer ${localStorage
+  const handleDomain = async () => {
+    try {
+      const res = await axios.get(getDomains, {
+        headers: {
+          Authorization: `Bearer ${localStorage
             .getItem("authToken")
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
-          }
-        }
-      );
+        },
+      });
       setDomain(res.data);
-    }
-    catch(e)
-    {
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
   const handleWinners = (index, event) => {
     const newWinners = [...formik.values.winners];
     newWinners[index] = {
@@ -619,6 +624,7 @@ export default function UpcomingEventForm() {
                     setEdit({ check: false, event: "" });
                     setCancel(false);
                     setCoordinators(null);
+                    setVisible(false);
                     formik.resetForm();
                   }}
                 >
@@ -685,12 +691,10 @@ export default function UpcomingEventForm() {
                 <option hidden value="">
                   Select Domain
                 </option>
-                {
-                  domain&&domain.map((item)=>
-                  {
-                    return(<option value={item.name}> {item.name}</option>)
-                  })
-                }
+                {domain &&
+                  domain.map((item) => {
+                    return <option value={item.name}> {item.name}</option>;
+                  })}
               </select>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <div className="upcoming-event-time">
@@ -817,6 +821,14 @@ export default function UpcomingEventForm() {
                 </div>
               </div>
               <input
+                type="file"
+                name="images"
+                accept="image/*"
+                value={formik.values.file}
+                onChange={handleFileChange}
+                multiple
+              />
+              <input
                 type="text"
                 id="domain-name"
                 required
@@ -846,7 +858,6 @@ export default function UpcomingEventForm() {
               <FormControlLabel
                 name="isUpcoming"
                 onChange={formik.handleChange}
-                onClick={() => console.log(formik.values.isUpcoming)}
                 control={<Checkbox />}
                 label="Mark Event as Upcoming"
               />

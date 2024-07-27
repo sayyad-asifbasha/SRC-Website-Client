@@ -39,7 +39,7 @@ export default function DomainForm() {
   const [domains, setDomains] = useState(null);
   const [update, setUpdate] = useState(false);
   const [loader, setLoader] = React.useState(false);
-  const [cancel,setCancel]=useState(false);
+  const [cancel, setCancel] = useState(false);
   const [copen, setCOpen] = React.useState(false);
 
   const handleCClose = (type) => setCOpen(false);
@@ -379,9 +379,6 @@ export default function DomainForm() {
                 rows={7}
                 onChange={formik.handleChange}
               ></textarea>
-              {/* <button className="submit-message">
-                {update ? "Update Domain" : "Add Domain"}
-              </button> */}
               {loader ? (
                 <button className="submit-message" disabled={loader}>
                   <CircularProgress size={27} sx={{ color: "#022368" }} />

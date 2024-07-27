@@ -155,7 +155,6 @@ export default function ProjectForm() {
   };
   const editProject = () => {
     setCOpen(false);
-    console.log(edit.project);
     projectFormik.setFieldValue("name", edit.project.name);
     projectFormik.setFieldValue("description", edit.project.description);
     projectFormik.setFieldValue("domainId", edit.project.domainId);
@@ -315,7 +314,17 @@ export default function ProjectForm() {
                           >
                             Domain :{" "}
                           </span>
-                          <span>{ele.domainId}</span>
+                          <span>
+                            {
+                              domain&&domain.map((item)=>
+                              {
+                                if(item._id===ele.domainId)
+                                {
+                                  return item.name;
+                                }
+                              })
+                            }
+                          </span>
                         </div>
                         <div>
                           <span
