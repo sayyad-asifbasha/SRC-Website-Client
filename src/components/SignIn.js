@@ -60,17 +60,17 @@ export default function Signin() {
     if (formik.errors.username) {
       document.getElementById("username").style.border = "0.1px solid red";
 
-      dispacth(setSnackBar({ message: formik.errors.name, variant: "error" }));
+      dispatch(setSnackBar({ message: formik.errors.name, variant: "error" }));
     }
     if (formik.errors.email) {
       document.getElementById("email").style.border = "0.1px solid red";
 
-      dispacth(setSnackBar({ message: formik.errors.email, variant: "error" }));
+      dispatch(setSnackBar({ message: formik.errors.email, variant: "error" }));
     }
     if (formik.errors.password) {
       document.getElementById("password").style.border = "0.1px solid red";
 
-      dispacth(
+      dispatch(
         setSnackBar({ message: formik.errors.password, variant: "error" })
       );
     }
@@ -88,16 +88,15 @@ export default function Signin() {
       signInUser(formik.values);
     }
   };
-  const dispacth = useDispatch();
+  const dispatch = useDispatch();
   const [loader, setLoader] = useState(false);
 
   const signInUser = async (e) => {
-    console.log(e);
     setLoader(true);
     const signApi = process.env.REACT_APP_SIGN_UP;
     try {
       const res = await axios.post(signApi, e);
-      dispacth(
+      dispatch(
         setSnackBar({ message: res.data.data.message, variant: "success" })
       );
       setLoader(false);
@@ -105,8 +104,16 @@ export default function Signin() {
         navigate("/Login");
       }, 3000);
     } catch (e) {
-      console.log(e.response.data);
-      dispacth(setSnackBar({ message: e.response.data.err, variant: "error" }));
+      console.log(e.response);
+      if (e.response) {
+        dispatch(
+          setSnackBar({ message: e.response.data.err, variant: "error" })
+        );
+      } else {
+        dispatch(
+          setSnackBar({ message: "Something went wrong", variant: "error" })
+        );
+      }
       setLoader(false);
     }
   };

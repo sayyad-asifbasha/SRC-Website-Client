@@ -56,7 +56,6 @@ export default function NewsForm() {
     try {
       const res = await axios.get(getNewsApi);
       setNews(res.data);
-      console.log(res);
     } catch (e) {
       console.log(e);
     }
@@ -95,11 +94,6 @@ export default function NewsForm() {
   };
 
   const createNews = async (e) => {
-    console.log(
-      `Bearer ${localStorage
-        .getItem("authToken")
-        .slice(1, localStorage.getItem("authToken").length - 1)}`
-    );
     try {
       setLoader(true);
       const res = await axios.post(createNewsApi, e, {

@@ -2,7 +2,6 @@ import React from "react";
 import "../styles/Events.css";
 import { Link } from "react-router-dom";
 export default function Domaindetails({ domain }) {
-  console.log(domain);
   return (
     <>
       <div className="event-domain-container">

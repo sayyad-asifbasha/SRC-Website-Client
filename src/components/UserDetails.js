@@ -45,7 +45,6 @@ export default function UserDetails() {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formik.values);
   };
   return (
     <>

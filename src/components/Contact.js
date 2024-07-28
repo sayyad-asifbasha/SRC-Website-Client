@@ -55,8 +55,6 @@ export default function Contact() {
   });
   const handelSubmit = (e) => {
     e.preventDefault();
-    console.log(formik.values);
-    console.log(formik.errors);
     if (formik.errors.email) {
       dispatch(setSnackBar({ message: "Enter valid main", variant: "error" }));
     }
@@ -79,7 +77,6 @@ export default function Contact() {
   const postContactForum = async (e) => {
     try {
       const res = await axios.post(psotContactForum, formik.values);
-      console.log(res);
       dispatch(
         setSnackBar({
           message: "Successfully sent Message",
@@ -92,6 +89,7 @@ export default function Contact() {
       dispatch(
         setSnackBar({ message: "Error in sending message", variant: "error" })
       );
+      console.log(e);
     }
   };
 

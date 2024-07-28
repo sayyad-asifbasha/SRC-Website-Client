@@ -44,7 +44,7 @@ export default function UserProfile() {
   const getUserProfileApi = process.env.REACT_APP_GET_USER_PROFILE_BY_EMAIL;
   const updateUserInfoApi =
     process.env.REACT_APP_UPDATE_USER_DETAILS_BY_ID_DONE_BY_USER;
-
+  const updateUserModelApi = process.env.REACT_APP_UPDATE_USER_DETAILS;
   // getting email from store
 
   const email = useSelector((state) => state.logStatus.email);
@@ -52,6 +52,7 @@ export default function UserProfile() {
   const authToken = useSelector((state) => state.logStatus.authToken);
   const name = useSelector((state) => state.logStatus.name);
   const logged = useSelector((state) => state.logStatus.logged);
+  const isCr = useSelector((state) => state.logStatus.isCr);
   useEffect(() => {
     getUser();
   }, []);
@@ -68,10 +69,10 @@ export default function UserProfile() {
           name: res.data.name,
           role: role,
           email: email,
+          isCr: isCr,
         })
       );
       setUserInfo(res.data);
-      console.log(res.data);
       formik.setFieldValue("_id", res.data._id);
       formik.setFieldValue("name", res.data.name);
       formik.setFieldValue("gfg", res.data.gfg ? res.data.gfg : "");
@@ -106,6 +107,7 @@ export default function UserProfile() {
       github: "",
       id: "",
       linkedin: "",
+      role: userInfo && userInfo.role,
     },
     validateOnMount: true,
 
@@ -120,7 +122,6 @@ export default function UserProfile() {
     const formData = new FormData();
     formData.append("image", profileFormik.values.image);
     try {
-      console.log(formik.values._id);
       console.log(profileFormik.values);
       const res = await axios.put(
         `${updateUserInfoApi}${formik.values._id}`,
@@ -131,14 +132,15 @@ export default function UserProfile() {
           },
         }
       );
-      getUser();
+      if (formik.values)
+        // const res = await axios.put()
+        getUser();
       dispatch(
         setSnackBar({
           message: "Successfully updated Profile Pic",
           variant: "success",
         })
       );
-      console.log(res);
       profileFormik.resetForm();
     } catch (e) {
       dispatch(
@@ -159,6 +161,13 @@ export default function UserProfile() {
           updateUserInfoApi + formik.values._id,
           formik.values
         );
+
+        const data = { name: formik.values.name };
+        const res1 = await axios.put(
+          updateUserModelApi + userInfo.userId,
+          data
+        );
+
         setEdit(!edit);
         setIcon(!icon);
         dispatch(

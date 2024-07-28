@@ -65,6 +65,9 @@ body {
   justify-content: space-evenly;
 }
 
+.cr-feedback-container {
+  margin: 5rem !important;
+}
 .sub-contact-container {
   background-color: white;
   padding: 0.7rem;
@@ -307,7 +310,9 @@ div .images {
     padding: 1.5rem;
     flex-direction: column-reverse;
   }
-
+  .cr-feedback-container {
+    margin: 0.5rem !important;
+  }
   .logout-icon {
     display: block;
   }

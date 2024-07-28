@@ -53,7 +53,6 @@ export default function Login() {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formik.errors);
     if (formik.errors.email) {
       document.getElementById("email").style.border = "0.1px solid red";
 
@@ -76,7 +75,6 @@ export default function Login() {
   };
   const loginUser = async (e) => {
     setLoader(true);
-    console.log(e);
     const logInApi = process.env.REACT_APP_LOGIN_IN;
     try {
       const res = await axios.post(logInApi, e);
@@ -87,16 +85,24 @@ export default function Login() {
           name: res.data.data.user.name,
           role: res.data.data.user.role,
           email: res.data.data.user.email,
+          isCr: res.data.data.user.isCr,
         })
       );
       localStorage.setItem("authToken", JSON.stringify(res.data.data.token));
       localStorage.setItem("username", JSON.stringify(res.data.data.user.name));
       setSnackBar({ message: "logged in", variant: "success" });
-      console.log(res.data.data);
       navigate("/");
     } catch (e) {
-      console.log(e.response);
-      dispatch(setSnackBar({ message: e.response.data.err, variant: "error" }));
+      console.log(e);
+      if (e.response) {
+        dispatch(
+          setSnackBar({ message: e.response.data.err, variant: "error" })
+        );
+      } else {
+        dispatch(
+          setSnackBar({ message: "Something went wrong", variant: "error" })
+        );
+      }
       setLoader(false);
     }
   };

@@ -54,7 +54,6 @@ export default function CompletedEventForm() {
   };
   const handleFileChange = async (event) => {
     const file = Array.from(event.currentTarget.files);
-    console.log("hello", formik.values.images);
     formik.setFieldValue("images", file);
   };
 
@@ -107,7 +106,6 @@ export default function CompletedEventForm() {
     formik.setFieldValue("coordinators", edit.event.coordinators);
     formik.setFieldValue("isUpcoming", edit.event.isUpcoming);
     setCoordinators(edit.event.coordinators);
-    console.log(formik.values);
     setVisible(true);
     handleCClose();
     setExpanded(false);
@@ -144,7 +142,6 @@ export default function CompletedEventForm() {
   const handleUpdateEvent = async (e) => {
     e.preventDefault();
     setLoader(true);
-    console.log(formik.values);
     if (checkTime()) {
       try {
         const formData = new FormData();
@@ -163,10 +160,7 @@ export default function CompletedEventForm() {
         formik.values.images.forEach((file) => {
           formData.append("images", file);
         });
-        const res = await axios.put(
-          updateEvent + edit.event._id,
-          formData
-        );
+        const res = await axios.put(updateEvent + edit.event._id, formData);
         if (formik.values.isUpcoming) {
           dispacth(
             setSnackBar({
@@ -203,7 +197,6 @@ export default function CompletedEventForm() {
       }
       console.log(e);
     }
-    console.log(formik.values);
   };
 
   const formik = useFormik({
@@ -385,7 +378,7 @@ export default function CompletedEventForm() {
         </React.Fragment>
       </div>
 
-      <div style={{ margin: ".9rem" }}>
+      <div style={{ marginTop: "1.1rem" }}>
         <Typography
           sx={{ color: "white", marginBottom: "1rem" }}
           variant="h5"
@@ -618,7 +611,7 @@ export default function CompletedEventForm() {
           })}
       </div>
       {visible && (
-        <div className="sub-contact-container" style={{ margin: ".9rem" }}>
+        <div className="sub-contact-container" style={{ marginTop: "1.1rem" }}>
           <div className="contact-head">
             <div>
               <h2>{edit.check ? "Edit Event" : "Add Event"}</h2>

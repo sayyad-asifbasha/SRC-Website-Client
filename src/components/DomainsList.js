@@ -51,7 +51,6 @@ export default function Domains() {
   const getDomains = async () => {
     try {
       const res = await axios.get(getDomainsApi);
-      console.log(res.data);
       setDomains(res.data);
     } catch (e) {
       console.log(e);

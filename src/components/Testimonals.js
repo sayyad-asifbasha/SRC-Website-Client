@@ -19,7 +19,6 @@ export default function Testimonals() {
         "https://src-website-api.onrender.com/api/v1/testimonials"
       );
       setTestimonials(res.data);
-      // console.log(res.data);
     } catch (e) {
       console.log(e);
     }
@@ -33,7 +32,6 @@ export default function Testimonals() {
         ? 0
         : testimonials && prevItemLength + 1;
     });
-    console.log(itemLength);
   };
 
   const prev = () => {
@@ -42,7 +40,6 @@ export default function Testimonals() {
         ? testimonials && testimonials.length - 1
         : testimonials && prevItemLength - 1;
     });
-    console.log(itemLength);
   };
 
   return (

@@ -15,9 +15,9 @@ export default function Cr() {
   const udpateRole = process.env.REACT_APP_UPDATE_ROLE_BY_EMAIL;
   const updateUserProfile =
     process.env.REACT_APP_UPDATE_USER_DETAILS_BY_ID_DONE_BY_USER;
+
   const [user, setUser] = useState(null);
   const [cancel, setCancel] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [loader, setLoader] = useState(false);
 
   const userFormik = useFormik({
@@ -50,7 +50,6 @@ export default function Cr() {
         },
       });
       userFormik.setFieldValue("isCr", res.data.isCr);
-      console.log(res);
       setUser(res.data);
       setCancel(true);
       setLoader(false);
@@ -67,7 +66,6 @@ export default function Cr() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("getting details");
     if (userFormik.errors.email) {
       document.getElementById("user-email").style.border = "1px solid red";
     }
@@ -82,12 +80,10 @@ export default function Cr() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoader(true);
-    console.log("in update", userFormik.values);
     try {
       const role = {
         isCr: userFormik.values.isCr,
       };
-      console.log(role);
       const used = await axios.get(getUsers + userFormik.values.email, {
         headers: {
           Authorization: `Bearer ${localStorage
@@ -109,7 +105,6 @@ export default function Cr() {
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      console.log(res1);
 
       dispatch(
         setSnackBar({
@@ -143,7 +138,7 @@ export default function Cr() {
           flexDirection: "column",
         }}
       >
-        <div className="sub-contact-container" style={{ margin: ".5rem" }}>
+        <div className="sub-contact-container" style={{ marginTop: "1.1rem" }}>
           <div className="contact-head">
             <div>
               <h3>Users</h3>

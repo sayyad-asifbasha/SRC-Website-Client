@@ -27,10 +27,8 @@ export default function ContactForum() {
   };
 
   const deleteContactForum = async (e) => {
-    console.log(e);
     try {
       const res = await axios.delete(deleteContactForumApi + e);
-      console.log(res);
 
       dispatch(
         setSnackBar({

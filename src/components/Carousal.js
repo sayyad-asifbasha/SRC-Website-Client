@@ -19,8 +19,6 @@ export default function Carousal() {
   const location = useLocation();
   const { domainName } = useParams();
   const domainId = useSelector((state) => state.domainData.domainId);
-  console.log(domainId);
-  console.log(location.pathname);
   // useEffect for getting domains
 
   useEffect(() => {
@@ -41,7 +39,6 @@ export default function Carousal() {
       if (location.pathname === "/") {
         dispatch(changeDomainData({ introText: introText, domainId: "" }));
       } else {
-        console.log(domainName);
         res.data.map((item) => {
           if (item.name === domainName) {
             dispatch(
@@ -63,7 +60,6 @@ export default function Carousal() {
   const getAllCarousels = async () => {
     try {
       const res = await axios.get(getAllCarouselsApi);
-      console.log(res.data);
       setCarousels(res.data);
     } catch (e) {
       console.log(e);

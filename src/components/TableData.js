@@ -21,7 +21,6 @@ function TeamCollapse(props) {
   const [open, setOpen] = React.useState(false);
 
   const { winnersList } = props;
-  console.log(winnersList);
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
