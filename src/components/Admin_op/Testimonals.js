@@ -85,7 +85,6 @@ export default function Testimonals() {
       const res = await axios.delete(
         deleteTestimonialApi + edit.testimonal._id
       );
-      console.log(res);
       getAllTestimonals();
       handleCClose();
       dispatch(
@@ -106,7 +105,6 @@ export default function Testimonals() {
   };
   const handleAddTestimonal = (e) => {
     e.preventDefault();
-    console.log(testimonalFormik.values);
     postTestimoanls(testimonalFormik.values);
   };
 
@@ -117,7 +115,6 @@ export default function Testimonals() {
   const getAllTestimonals = async () => {
     try {
       const res = await axios.get(getAllTestimonialsApi);
-      console.log(res.data);
       setTestimonals(res.data);
     } catch (e) {
       console.log(e);
@@ -126,8 +123,6 @@ export default function Testimonals() {
 
   const editTestimonal = async (e) => {
     e.preventDefault();
-    console.log(testimonalFormik.values);
-    console.log(edit.testimonal._id);
     try {
       setLoader(true);
       const res = await axios.put(
@@ -139,7 +134,6 @@ export default function Testimonals() {
           },
         }
       );
-      console.log(res);
       dispatch(
         setSnackBar({
           message: "successfully updated Testimonal",
@@ -152,7 +146,6 @@ export default function Testimonals() {
       setVisible(false);
       setCancel(false);
       setLoader(false);
-      console.log(testimonalFormik.values);
     } catch (e) {
       setCancel(false);
       setLoader(false);
@@ -184,7 +177,6 @@ export default function Testimonals() {
           variant: "success",
         })
       );
-      console.log(res);
       setLoader(false);
     } catch (e) {
       setLoader(false);
@@ -421,7 +413,6 @@ export default function Testimonals() {
               name="approved"
               onChange={testimonalFormik.handleChange}
               control={<Checkbox />}
-              // onClick={() => console.log(testimonalFormik.values.approved)}
               value={testimonalFormik.values.approved}
               label={
                 testimonalFormik.values.approved

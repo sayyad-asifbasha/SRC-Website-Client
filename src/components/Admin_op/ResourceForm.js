@@ -22,14 +22,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 export default function ResouceForm() {
-
   // Getting Environment Variables
   const createResource = process.env.REACT_APP_CREATE_RESOURCE;
   const getAllResource = process.env.REACT_APP_GET_RESOURCES;
   const updateResources = process.env.REACT_APP_UPDATE_RESOURCE_BY_ID;
   const deleteResources = process.env.REACT_APP_DELETE_RESOURCE_BY_ID;
-  const getDomains=process.env.REACT_APP_GET_DOMAINS;
-
+  const getDomains = process.env.REACT_APP_GET_DOMAINS;
 
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -41,7 +39,7 @@ export default function ResouceForm() {
   const [resource, setresource] = React.useState();
   const [cancel, setCancel] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
-  const [domain,setDomain]=React.useState([]);
+  const [domain, setDomain] = React.useState([]);
 
   const handleCClose = (type) => setCOpen(false);
   const handleChange = (panel) => (event, isExpanded) => {
@@ -163,25 +161,20 @@ export default function ResouceForm() {
     resourceFormik.setFieldValue("type", edit.resource.type);
     setCancel(true);
   };
-  const handleDomain=async()=>
-  {
-    try{
-      const res=await axios.get(getDomains,
-        {
-          headers:
-          {
-            Authorization:`Bearer ${localStorage
+  const handleDomain = async () => {
+    try {
+      const res = await axios.get(getDomains, {
+        headers: {
+          Authorization: `Bearer ${localStorage
             .getItem("authToken")
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
-          }
-        }
-      );
+        },
+      });
       setDomain(res.data);
-    }catch(e)
-    {
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const resourceFormik = useFormik({
     initialValues: {
@@ -259,7 +252,7 @@ export default function ResouceForm() {
           </Dialog>
         </React.Fragment>
       </div>
-      <div style={{ margin: ".9rem" }}>
+      <div style={{ marginTop: "1.1rem" }}>
         <Typography
           sx={{ color: "white", marginBottom: "1rem" }}
           variant="h5"
@@ -273,63 +266,99 @@ export default function ResouceForm() {
             return (
               <Accordion
                 expanded={expanded === ele._id}
-                style={{ borderRadius: "0.5rem",marginTop:"0.5rem" }}
+                style={{ borderRadius: "0.5rem", marginTop: "0.5rem" }}
                 onChange={handleChange(ele._id)}
-
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
-
                   aria-controls={`${ele._id}`}
                   id={`${ele._id}`}
                 >
-
-                  <Typography  >
-
-                  <span style={{fontSize:'20px',fontWeight:"600"}}>{ele.title}</span>
+                  <Typography>
+                    <span style={{ fontSize: "20px", fontWeight: "600" }}>
+                      {ele.title}
+                    </span>
                   </Typography>
-
                 </AccordionSummary>
                 <AccordionDetails>
-                  <ListItem >
+                  <ListItem>
                     <div style={{ color: "black" }}>
-                      <div style={{ display: 'flex', flexDirection: "column", gap: "1rem" }}>
-                        <div style={{ textAlign: 'justify' }}>
-                          <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>Description : </span>
-                          <span >{ele.description}</span>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "1rem",
+                        }}
+                      >
+                        <div style={{ textAlign: "justify" }}>
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            Description :{" "}
+                          </span>
+                          <span>{ele.description}</span>
                         </div>
                         <div>
-                          <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>Domain : </span>
-                          {
-                              domain&&domain.map((item)=>
-                              {
-                                if(item._id===ele.domainId)
-                                {
-                                  return item.name;
-                                }
-                              })
-                            }
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            Domain :{" "}
+                          </span>
+                          {domain &&
+                            domain.map((item) => {
+                              if (item._id === ele.domainId) {
+                                return item.name;
+                              }
+                            })}
                         </div>
                         <div>
-                          <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>URL : </span>
-                          <span style={{ textAlign: 'justify' }}><a href={ele.url}>{ele.url}</a></span>
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            URL :{" "}
+                          </span>
+                          <span style={{ textAlign: "justify" }}>
+                            <a href={ele.url}>{ele.url}</a>
+                          </span>
                         </div>
                         <div>
-                          <span style={{ fontSize: "18px", fontWeight: "bold", margin: "0px 5px" }}>Type : </span>
-                          <span style={{ textAlign: 'justify' }}>{ele.type}</span>
+                          <span
+                            style={{
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              margin: "0px 5px",
+                            }}
+                          >
+                            Type :{" "}
+                          </span>
+                          <span style={{ textAlign: "justify" }}>
+                            {ele.type}
+                          </span>
                         </div>
                         <div>
-                           <IconButton
-                          edge="end"
-                          aria-label="edit"
-                          sx={{ marginRight: "0.5rem" }}
-                          onClick={() => {
-                            setEdit({ check: true, resource: ele });
-                            setCOpen(true);
-                          }}
-                        >
-                          <EditNoteRoundedIcon />
-                        </IconButton>
+                          <IconButton
+                            edge="end"
+                            aria-label="edit"
+                            sx={{ marginRight: "0.5rem" }}
+                            onClick={() => {
+                              setEdit({ check: true, resource: ele });
+                              setCOpen(true);
+                            }}
+                          >
+                            <EditNoteRoundedIcon />
+                          </IconButton>
                           <IconButton
                             edge="end"
                             aria-label="delete"
@@ -340,17 +369,16 @@ export default function ResouceForm() {
                           >
                             <DeleteIcon />
                           </IconButton>
-                          </div>
+                        </div>
                       </div>
                     </div>
-
                   </ListItem>
                 </AccordionDetails>
               </Accordion>
             );
           })}
-      </div >
-      <div className="sub-contact-container" style={{ margin: ".9rem" }}>
+      </div>
+      <div className="sub-contact-container" style={{ marginTop: "1.1rem" }}>
         <div className="contact-head">
           <div>
             <h2>{edit.check ? "Edit Resource" : "Add Resource"}</h2>
@@ -404,10 +432,10 @@ export default function ResouceForm() {
               <option hidden value="">
                 Select Domain
               </option>
-              {domain&&domain.map((item)=>
-              {
-                return(<option value={item._id}>{item.name}</option>)
-              })}
+              {domain &&
+                domain.map((item) => {
+                  return <option value={item._id}>{item.name}</option>;
+                })}
             </select>
             <input
               type="text"

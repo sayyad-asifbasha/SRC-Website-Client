@@ -103,7 +103,6 @@ export default function UpcomingEventForm() {
     formik.setFieldValue("coordinators", edit.event.coordinators);
     formik.setFieldValue("isUpcoming", edit.event.isUpcoming);
     setCoordinators(edit.event.coordinators);
-    console.log(formik.values);
     handleCClose();
     setExpanded(false);
   };
@@ -139,7 +138,6 @@ export default function UpcomingEventForm() {
   const handleUpdateEvent = async (e) => {
     e.preventDefault();
     setLoader(true);
-    console.log(formik.values);
     if (checkTime()) {
       try {
         const formData = new FormData();
@@ -158,10 +156,7 @@ export default function UpcomingEventForm() {
         formik.values.images.forEach((file) => {
           formData.append("images", file);
         });
-        const res = await axios.put(
-          updateEvent + edit.event._id,
-          formData
-        );
+        const res = await axios.put(updateEvent + edit.event._id, formData);
         if (!formik.values.isUpcoming) {
           dispacth(
             setSnackBar({
@@ -188,7 +183,7 @@ export default function UpcomingEventForm() {
       } catch (e) {
         setLoader(false);
         setVisible(false);
-        formik.resetForm(); 
+        formik.resetForm();
         setCancel(false);
         dispacth(
           setSnackBar({
@@ -202,7 +197,6 @@ export default function UpcomingEventForm() {
   };
   const handleAddEvent = async (e) => {
     e.preventDefault();
-    console.log(formik.values);
     if (checkTime()) {
       setLoader(true);
       try {
@@ -227,7 +221,6 @@ export default function UpcomingEventForm() {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(res.response);
         dispacth(
           setSnackBar({
             message: "Event created successfully",
@@ -285,13 +278,10 @@ export default function UpcomingEventForm() {
     },
   });
 
-  useEffect(() => {
-    console.log("Formik images changed:", formik.values.images);
-  }, [formik.values.images]);
+  useEffect(() => {}, [formik.values.images]);
 
   const handleFileChange = async (event) => {
     const file = Array.from(event.currentTarget.files);
-    console.log("hello", formik.values.images);
     formik.setFieldValue("images", file);
   };
   const handleDomain = async () => {
@@ -441,7 +431,7 @@ export default function UpcomingEventForm() {
         </React.Fragment>
       </div>
 
-      <div style={{ margin: ".9rem" }}>
+      <div style={{ marginTop: "1.1rem" }}>
         <Typography
           sx={{ color: "white", marginBottom: "1rem" }}
           variant="h5"
@@ -636,7 +626,7 @@ export default function UpcomingEventForm() {
             }
           })}
       </div>
-      <div className="sub-contact-container" style={{ margin: ".9rem" }}>
+      <div className="sub-contact-container" style={{ marginTop: "1.1rem" }}>
         <div className="contact-head">
           <div>
             <h2>{visible && edit.check ? "Edit Event" : "Add Event"}</h2>

@@ -11,6 +11,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const username = useSelector((state) => state.logStatus.name);
   const role = useSelector((state) => state.logStatus.role);
+  const isCr = useSelector((state) => state.logStatus.isCr);
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -182,6 +183,13 @@ export default function Navbar() {
                       {role === "admin" ? (
                         <li className="items">
                           <Link to="/Admin">Admin</Link>
+                        </li>
+                      ) : (
+                        ""
+                      )}
+                      {isCr ? (
+                        <li className="items">
+                          <Link to="/CR/feedback">CR feedback</Link>
                         </li>
                       ) : (
                         ""

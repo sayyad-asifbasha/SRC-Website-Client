@@ -29,7 +29,6 @@ export default function DomainMembers() {
     try {
       const res = await axios.get(getUserProfilesApi);
       setCoordinators(res.data);
-      console.log(res.data);
     } catch (e) {
       console.log(e);
     }

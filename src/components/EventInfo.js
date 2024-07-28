@@ -19,7 +19,6 @@ export default function Eventname(props) {
   const getEventDetails = async () => {
     try {
       const res = await axios.get(getEventApi + eventId);
-      console.log(res.data);
       setEvent(res.data);
     } catch (e) {
       console.log(e);

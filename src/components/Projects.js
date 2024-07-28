@@ -42,7 +42,6 @@ export default function Projects() {
   const getProjects = async () => {
     try {
       const res = await axios.get(getProjectsApi);
-      console.log(res.data);
       setProjects(res.data);
     } catch (e) {
       console.log(e);
@@ -90,7 +89,7 @@ export default function Projects() {
                   <CardMedia
                     component="img"
                     height="194"
-                    image={phone}
+                    image={"data:image/jpeg;base64," + e.image}
                     alt="image"
                   />
                   <CardContent

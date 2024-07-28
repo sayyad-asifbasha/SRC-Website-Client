@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useRef } from "react";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-
 import IconButton from "@mui/material/IconButton";
 import ListItem from "@mui/material/ListItem";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
+import Avatar from "@mui/material/Avatar";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -33,6 +35,7 @@ export default function ProjectForm() {
     backgroundColor: theme.palette.background.paper,
   }));
 
+  const fileRef = useRef(null);
   const [loader, setLoader] = React.useState(false);
   const [copen, setCOpen] = React.useState(false);
   const [edit, setEdit] = React.useState({ check: false, project: {} });
@@ -45,6 +48,10 @@ export default function ProjectForm() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  const handleFileChange = (event) => {
+    const file = event.currentTarget.files[0];
+    projectFormik.setFieldValue("image", file);
+  };
   const dispacth = useDispatch();
   useEffect(() => {
     getAllProjects();
@@ -55,7 +62,6 @@ export default function ProjectForm() {
     try {
       const data = await axios.get(getAllProject);
       setProjects(data.data);
-      console.log(data.data);
     } catch (e) {
       console.log(e);
     }
@@ -69,6 +75,7 @@ export default function ProjectForm() {
           Authorization: `Bearer ${localStorage
             .getItem("authToken")
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
+          "Content-Type": "multipart/form-data",
         },
       });
       dispacth(
@@ -181,9 +188,10 @@ export default function ProjectForm() {
     initialValues: {
       name: "",
       description: "",
-      domainId:"",
+      domainId: "",
       githubLink: "",
       demoLink: "",
+      image: "",
       contributors: [],
     },
     validateOnMount: true,
@@ -216,6 +224,7 @@ export default function ProjectForm() {
     setLoader(true);
     e.preventDefault();
     addProject(projectFormik.values);
+    // setLoader(false);
   };
 
   return (
@@ -276,6 +285,17 @@ export default function ProjectForm() {
                   aria-controls={`${ele._id}`}
                   id={`${ele._id}`}
                 >
+                  <ListItemAvatar>
+                    <Avatar sx={{ width: 75, height: 75, marginRight: "10px" }}>
+                      <img
+                        src={"data:image/jpeg;base64," + ele.image}
+                        alt=""
+                        height={"75px"}
+                        width={"75px"}
+                        srcSet=""
+                      />
+                    </Avatar>
+                  </ListItemAvatar>
                   <Typography>
                     <span style={{ fontSize: "20px", fontWeight: "600" }}>
                       {ele.name}
@@ -315,15 +335,12 @@ export default function ProjectForm() {
                             Domain :{" "}
                           </span>
                           <span>
-                            {
-                              domain&&domain.map((item)=>
-                              {
-                                if(item._id===ele.domainId)
-                                {
+                            {domain &&
+                              domain.map((item) => {
+                                if (item._id === ele.domainId) {
                                   return item.name;
                                 }
-                              })
-                            }
+                              })}
                           </span>
                         </div>
                         <div>
@@ -439,13 +456,19 @@ export default function ProjectForm() {
               <option hidden value="">
                 Select Domain
               </option>
-              {
-                  domain&&domain.map((item)=>
-                  {
-                    return(<option value={item._id}> {item.name}</option>)
-                  })
-                }
+              {domain &&
+                domain.map((item) => {
+                  return <option value={item._id}> {item.name}</option>;
+                })}
             </select>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              // value={projectFormik.values.image}
+              onChange={handleFileChange}
+              ref={fileRef}
+            />
             <input
               type="text"
               id="github-link"

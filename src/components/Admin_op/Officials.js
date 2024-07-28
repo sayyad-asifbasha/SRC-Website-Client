@@ -71,7 +71,6 @@ export default function Officials() {
   const handleEdit = () => {
     handleCClose();
     setCancel(true);
-    console.log(edit);
     officialFormik.setFieldValue("name", edit.official.name);
     officialFormik.setFieldValue("email", edit.official.email);
     officialFormik.setFieldValue("phoneNumber", edit.official.phoneNumber);
@@ -90,7 +89,6 @@ export default function Officials() {
   const handleDelete = async () => {
     try {
       const res = await axios.delete(deleteOfficialApi + edit.official._id);
-      console.log(res);
       getAllOfficials();
       handleCClose();
       dispatch(
@@ -111,14 +109,12 @@ export default function Officials() {
   };
   const handleAddOfficial = (e) => {
     e.preventDefault();
-    console.log(officialFormik.values);
     addOfficial(officialFormik.values);
   };
 
   const getAllOfficials = async () => {
     try {
       const res = await axios.get(getAllOfficialsApi);
-      console.log(res.data.data);
       setOfficials(res.data.data);
     } catch (e) {
       console.log(e);
@@ -127,8 +123,6 @@ export default function Officials() {
 
   const editOfficial = async (e) => {
     e.preventDefault();
-    console.log(officialFormik.values);
-    console.log(edit);
 
     officialFormik.setFieldValue(
       "photo",
@@ -147,7 +141,6 @@ export default function Officials() {
           },
         }
       );
-      console.log(res);
       dispatch(
         setSnackBar({
           message: "successfully updated Official",
@@ -160,7 +153,6 @@ export default function Officials() {
       setVisible(false);
       setCancel(false);
       setLoader(false);
-      console.log(officialFormik.values);
     } catch (e) {
       setCancel(false);
       setLoader(false);
@@ -192,7 +184,6 @@ export default function Officials() {
           variant: "success",
         })
       );
-      console.log(res);
       setLoader(false);
     } catch (e) {
       setLoader(false);

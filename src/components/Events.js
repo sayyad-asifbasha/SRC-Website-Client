@@ -15,7 +15,6 @@ export default function Events() {
   const getEvents = async () => {
     try {
       const res = await axios.get(getEventsApi);
-      console.log(res.data);
       setEvents(res.data);
     } catch (e) {
       console.log(e);

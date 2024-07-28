@@ -51,7 +51,6 @@ export default function Coordinators() {
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      console.log(res);
       setUser(res.data);
       setCancel(true);
       setLoader(false);
@@ -74,8 +73,6 @@ export default function Coordinators() {
         },
       });
       setDomain(res.data);
-      // console.log(res);
-      console.log(domain);
     } catch (e) {
       console.log(e);
     }
@@ -84,7 +81,6 @@ export default function Coordinators() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("getting details");
     if (userFormik.errors.email) {
       document.getElementById("user-email").style.border = "1px solid red";
     }
@@ -99,12 +95,10 @@ export default function Coordinators() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoader(true);
-    console.log("updating user");
     try {
       const role = {
         role: userFormik.values.role,
       };
-      console.log(role);
       const res = await axios.put(udpateRole + user._id, role, {
         headers: {
           Authorization: `Bearer ${localStorage
@@ -112,7 +106,6 @@ export default function Coordinators() {
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      console.log(res);
       if (res.data.data.role === "Coordinator") {
         setSuccess(res.data.data);
         dispatch(
@@ -122,7 +115,6 @@ export default function Coordinators() {
           })
         );
       } else {
-        console.log("user if not coordinator");
         setUser(null);
         setCancel(false);
         handleRmoveDomain();
@@ -142,7 +134,6 @@ export default function Coordinators() {
   };
   const handleRmoveDomain = async () => {
     try {
-      console.log(userFormik.values.email);
       const used = await axios.get(getUsers + userFormik.values.email, {
         headers: {
           Authorization: `Bearer ${localStorage
@@ -150,14 +141,11 @@ export default function Coordinators() {
             .slice(1, localStorage.getItem("authToken").length - 1)}`,
         },
       });
-      console.log(used);
       const domain = {
         $unset: { domain: "" },
         role: userFormik.values.role,
       };
       const res = await axios.put(updateUserProfile + used.data._id, domain);
-      console.log(res);
-      console.log("in domain");
     } catch (e) {
       console.log(e);
     }
@@ -178,14 +166,12 @@ export default function Coordinators() {
         role: userFormik.values.role,
       };
       const res = await axios.put(updateUserProfile + used.data._id, domain);
-      console.log(res);
       dispatch(
         setSnackBar({
           message: "Successfully assigned a coordinator",
           variant: "success",
         })
       );
-      console.log("in domain");
       setSuccess(null);
       setCancel(false);
       setUser(null);
@@ -204,7 +190,6 @@ export default function Coordinators() {
   };
   useEffect(() => {
     handleDomain();
-    // console.log(domain);
   }, []);
   return (
     <>
@@ -214,7 +199,7 @@ export default function Coordinators() {
           flexDirection: "column",
         }}
       >
-        <div className="sub-contact-container" style={{ margin: ".5rem" }}>
+        <div className="sub-contact-container" style={{ marginTop: "1.1rem" }}>
           <div className="contact-head">
             <div>
               <h3>Users</h3>
