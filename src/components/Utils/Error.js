@@ -12,7 +12,7 @@ export default function Erorr() {
           marginTop: "5rem",
         }}
       >
-        <h5>Authentication Required</h5>
+        <h5>Access Required</h5>
         <h6>Please login</h6>
       </div>
     </>

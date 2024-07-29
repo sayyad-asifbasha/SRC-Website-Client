@@ -6,6 +6,7 @@ const initialState = {
   name: "",
   role: "",
   email: "",
+  isCr: false,
 };
 
 export const logged = createSlice({
@@ -18,6 +19,7 @@ export const logged = createSlice({
       state.authToken = action.payload.token;
       state.role = action.payload.role;
       state.email = action.payload.email;
+      state.isCr = action.payload.isCr;
     },
   },
 });

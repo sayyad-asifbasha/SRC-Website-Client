@@ -24,6 +24,8 @@ export default function UsersProfile() {
     "role",
     "__v",
     "projects",
+    "image",
+    "isCr",
   ];
 
   useEffect(() => {
@@ -33,13 +35,26 @@ export default function UsersProfile() {
   const getUserProfile = async () => {
     try {
       const res = await axios.get(getUserProfileApi + email);
-      console.log(res.data);
       setProfile(res.data);
     } catch (e) {
       console.log(e);
     }
   };
-
+  const isValidUrl = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+  const getImageSrc = () => {
+    if (profile && profile.image) {
+      return isValidUrl(profile.image)
+        ? profile.image
+        : `data:image/jpeg;base64,${profile.image}`; // Assuming binary data is base64 encoded
+    }
+  };
   const [image, setImage] = useState(null);
 
   return (
@@ -55,7 +70,7 @@ export default function UsersProfile() {
               gap: "3rem",
             }}
           >
-            <img src={image} alt="" srcset="" />
+            <img src={getImageSrc()} alt="" srcset="" />
 
             <div className="profile-name">{profile && profile.name}</div>
           </div>

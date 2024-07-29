@@ -73,10 +73,9 @@ export default function DomainForm() {
     try {
       axios.get(getDomainApi).then((res) => {
         setDomains(res.data);
-        console.log(res.data);
       });
     } catch (e) {
-      // console.log(e);
+      console.log(e);
     }
   };
 
@@ -91,7 +90,6 @@ export default function DomainForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formik.errors);
 
     if (formik.errors.name) {
       document.getElementById("domain-name").style.border = "1px solid red";
@@ -110,12 +108,6 @@ export default function DomainForm() {
   // Function for Adding Domain
 
   const addDomain = async (e) => {
-    console.log(
-      `Bearer ${localStorage
-        .getItem("authToken")
-        .slice(1, localStorage.getItem("authToken").length - 1)}`
-    );
-    console.log(e);
     try {
       setLoader(true);
       const res = await axios.post(addDomainApi, e, {
@@ -155,7 +147,6 @@ export default function DomainForm() {
     try {
       setLoader(true);
 
-      console.log(update);
       const res = await axios.put(
         updateDomainApi + update.domain._id,
         formik.values,

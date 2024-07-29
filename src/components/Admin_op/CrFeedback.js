@@ -11,12 +11,10 @@ import {
   DialogActions,
 } from "@mui/material";
 import { Button } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 export default function CrFeedback() {
   // Getting Environment Variables
+  const postFeedbackApi = process.env.REACT_APP_ADD_FEEDBACK;
 
   // Creating Hooks
   const dispatch = useDispatch();
@@ -26,47 +24,51 @@ export default function CrFeedback() {
   const handleCClose = () => setCOpen(false);
 
   // Function to clear inputs
-
+  const date = new Date();
+  const options = { day: "2-digit", month: "short", year: "numeric" };
+  const formattedDate = date
+    .toLocaleDateString("en-GB", options)
+    .replace(/\s/g, "-");
   const formik = useFormik({
     initialValues: {
       id: "",
-      batch: "",
       section: "",
-      //   periodDetails: [
-      //     { subject: "", teacher: "", period: "", isTaken: "" },
-      //     { subject: "", teacher: "", period: "", isTaken: "" },
-      //     { subject: "", teacher: "", period: "", isTaken: "" },
-      //     { subject: "", teacher: "", period: "", isTaken: "" },
-      //     { subject: "", teacher: "", period: "", isTaken: "" },
-      //   ],
-      period: "",
-      subject: "",
-      faculty: "",
-      isTaken: false,
+      periodDetails: [{ subject: "", faculty: "", isTaken: false }],
       remarks: "",
-      date: dayjs(),
+      year: "",
+      date: formattedDate,
     },
     validateOnMount: true,
   });
-  const [periodDetails, setPeriodDetails] = useState([
-    { subject: "", teacher: "", period: "", isTaken: "" },
-  ]);
+
   const handlePeriodChange = (index, event) => {
-    const updatedPeriodDetails = [...periodDetails];
-    updatedPeriodDetails[index][event.target.name] = event.target.value;
-    formik.setFieldValue("periodDetails", updatedPeriodDetails);
+    const updatedSubjects = [...formik.values.periodDetails];
+    if (event.target.name === "isTaken") {
+      updatedSubjects[index][event.target.name] = event.target.checked;
+    } else {
+      updatedSubjects[index][event.target.name] = event.target.value;
+    }
+    formik.setFieldValue("periodDetails", updatedSubjects);
   };
-  const addPeriodDetail = () => {
-    setPeriodDetails([
-      ...periodDetails,
-      { subject: "", teacher: "", period: "", isTaken: "" },
+
+  const handleAddSubject = () => {
+    formik.setFieldValue("periodDetails", [
+      ...formik.values.periodDetails,
+      { subject: "", faculty: "", isTaken: false },
     ]);
   };
+
+  const handleRemoveSubject = (index) => {
+    const updatedSubjects = formik.values.periodDetails.filter(
+      (_, i) => i !== index
+    );
+    formik.setFieldValue("periodDetails", updatedSubjects);
+  };
+
   const handelSubmit = (e) => {
     e.preventDefault();
     setCOpen(true);
-    console.log(formik.values);
-    console.log(formik.errors);
+
     // postFeedback(formik.values);
   };
 
@@ -75,12 +77,16 @@ export default function CrFeedback() {
   const postFeedback = async (e) => {
     try {
       const feedbackData = {
-        ...formik.values,
-        date: formik.values.date.format("DD/MM/YYYY"), // Format the date
+        id: formik.values.id,
+        batch: formik.values.batch,
+        year: formik.values.year,
+        section: formik.values.section,
+        periodDetails: formik.values.periodDetails,
+        remarks: formik.values.remarks,
+        date: formik.values.date,
       };
-      const res = await axios.post("/feedback/", formik.values);
-      console.log(res);
-      //   console.log(feedbackData);
+      const res = await axios.post(postFeedbackApi, feedbackData);
+
       dispatch(
         setSnackBar({
           message: "Successfully sent Feedback",
@@ -93,6 +99,7 @@ export default function CrFeedback() {
       dispatch(
         setSnackBar({ message: "Error in sending Feedback", variant: "error" })
       );
+      console.log(e);
     }
   };
 
@@ -150,8 +157,8 @@ export default function CrFeedback() {
               />
 
               <select
-                name="batch"
-                value={formik.values.batch}
+                name="year"
+                value={formik.values.year}
                 style={{
                   height: "3rem",
                   border: "0.5px solid rgb(222,222,222)",
@@ -189,31 +196,7 @@ export default function CrFeedback() {
                 <option value="E">E</option>
               </select>
 
-              <input
-                type="text"
-                name="subject"
-                placeholder="Subject"
-                required
-                onChange={formik.handleChange}
-                value={formik.values.subject}
-              />
-              <input
-                type="text"
-                name="faculty"
-                placeholder="Faculty name"
-                required
-                onChange={formik.handleChange}
-                value={formik.values.faculty}
-              />
-              <input
-                type="text"
-                name="period"
-                placeholder="EG: p1,p2,p3"
-                required
-                onChange={formik.handleChange}
-                value={formik.values.period}
-              />
-              {/* {formik.values.periodDetails.map((detail, index) => (
+              {formik.values.periodDetails.map((detail, index) => (
                 <div key={index}>
                   <input
                     type="text"
@@ -225,40 +208,36 @@ export default function CrFeedback() {
                   />
                   <input
                     type="text"
-                    name="teacher"
+                    name="faculty"
                     placeholder="Teacher"
                     required
                     onChange={(e) => handlePeriodChange(index, e)}
-                    value={detail.teacher}
+                    value={detail.faculty}
                   />
-                  <input
-                    type="text"
-                    name="period"
-                    placeholder="Period"
-                    required
-                    onChange={(e) => handlePeriodChange(index, e)}
-                    value={detail.period}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="isTaken"
+                        onChange={(e) => handlePeriodChange(index, e)}
+                        checked={detail.isTaken}
+                      />
+                    }
+                    label="Class taken"
                   />
+                  <Button onClick={() => handleRemoveSubject(index)}>
+                    Remove
+                  </Button>
                 </div>
-              ))} */}
-
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  name="date"
-                  value={dayjs()}
-                  disabled
-                  renderInput={(params) => <input {...params} />}
-                  format="DD MM YYYY"
-                />
-              </LocalizationProvider>
-              <FormControlLabel
-                name="taken"
-                onChange={formik.handleChange}
-                control={<Checkbox />}
-                label="class taken"
-                required
-                checked={formik.values.taken}
+              ))}
+              <Button onClick={handleAddSubject}>Add Subject</Button>
+              <input
+                type="text"
+                name="date"
+                placeholder="Subject"
+                disabled
+                value={formik.values.date}
               />
+
               <textarea
                 style={{ resize: "none" }}
                 placeholder="Remarks"

@@ -4,18 +4,14 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Button, Grid, Icon, IconButton } from "@mui/material";
-import axios from "axios";
+import { IconButton } from "@mui/material";
+
 import ListItem from "@mui/material/ListItem";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from "react-redux";
-import { setSnackBar } from "../../features/snackbar/snackbar";
 
-export default function ControlledAccordions(props) {
-  const dispatch = useDispatch();
+export default function ForumList(props) {
   const { list, deleteContactForum } = props;
   const [expanded, setExpanded] = React.useState(false);
-  console.log(list);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };

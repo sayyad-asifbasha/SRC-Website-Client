@@ -51,12 +51,10 @@ export default function ForgotPassword() {
     }
   };
   const verifyUser = async (e) => {
-    console.log(e);
     setLoader(true);
     const forgotApi = process.env.REACT_APP_FORGOT_PASSWORD;
     try {
       const res = await axios.get(forgotApi + e.email);
-      console.log(res);
       setLoader(false);
       dispatch(
         setSnackBar({

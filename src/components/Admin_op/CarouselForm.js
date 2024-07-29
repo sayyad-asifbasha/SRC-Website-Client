@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import { useRef } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -84,7 +83,6 @@ export default function Testimonals() {
   const handleDelete = async () => {
     try {
       const res = await axios.delete(deleteCarouselApi + edit.carousal._id);
-      console.log(res);
       getAllCarousals();
       handleCClose();
       dispatch(
@@ -105,7 +103,6 @@ export default function Testimonals() {
   };
   const handleAddCarousal = (e) => {
     e.preventDefault();
-    console.log(carousalFormik.values);
     postCarousal(carousalFormik.values);
   };
 
@@ -117,7 +114,6 @@ export default function Testimonals() {
   const getAllCarousals = async () => {
     try {
       const res = await axios.get(getCarouselsApi);
-      console.log(res.data);
       setCarousal(res.data);
     } catch (e) {
       console.log(e);
@@ -126,15 +122,13 @@ export default function Testimonals() {
 
   const editCarousal = async (e) => {
     e.preventDefault();
-    console.log(carousalFormik.values);
-    console.log(edit.carousal._id);
-    let carouselData = {
-      title:"",
-      description:"",
-      domainId:"",
-      image:null
-    };
 
+    let carouselData = {
+      title: "",
+      description: "",
+      domainId: "",
+      image: null,
+    };
 
     // Conditionally append domainId
     if (carousalFormik.values.domainId === "home") {
@@ -145,16 +139,20 @@ export default function Testimonals() {
         title: carousalFormik.values.title,
         description: carousalFormik.values.description,
 
-        image: carousalFormik.values.image ? carousalFormik.values.image : edit.carousal.image,
+        image: carousalFormik.values.image
+          ? carousalFormik.values.image
+          : edit.carousal.image,
       };
-  } else {
-    carouselData = {
-      title: carousalFormik.values.title,
-      description: carousalFormik.values.description,
-      domainId:carousalFormik.values.domainId,
-      image: carousalFormik.values.image ? carousalFormik.values.image : edit.carousal.image,
-    };
-  }
+    } else {
+      carouselData = {
+        title: carousalFormik.values.title,
+        description: carousalFormik.values.description,
+        domainId: carousalFormik.values.domainId,
+        image: carousalFormik.values.image
+          ? carousalFormik.values.image
+          : edit.carousal.image,
+      };
+    }
 
     try {
       setLoader(true);
@@ -167,7 +165,6 @@ export default function Testimonals() {
           },
         }
       );
-      console.log(res);
       dispatch(
         setSnackBar({
           message: "successfully updated Carousel",
@@ -180,7 +177,6 @@ export default function Testimonals() {
       setVisible(false);
       setCancel(false);
       setLoader(false);
-      console.log(carousalFormik.values);
     } catch (e) {
       setCancel(false);
       setLoader(false);
@@ -233,7 +229,6 @@ export default function Testimonals() {
           variant: "success",
         })
       );
-      console.log(res);
       setLoader(false);
     } catch (e) {
       setLoader(false);
@@ -284,7 +279,7 @@ export default function Testimonals() {
         </React.Fragment>
       </div>
 
-      <div style={{ margin: ".9rem" }}>
+      <div style={{ marginTop: "1.1rem" }}>
         <Typography
           sx={{ color: "white", marginBottom: "1rem" }}
           variant="h5"
@@ -362,7 +357,7 @@ export default function Testimonals() {
                                   return item.name;
                                 }
                               })}
-                              {!ele.domainId?"Home":""}
+                            {!ele.domainId ? "Home" : ""}
                           </span>
                         </div>
                         <div>
@@ -396,7 +391,7 @@ export default function Testimonals() {
             );
           })}
       </div>
-      <div className="sub-contact-container" style={{ margin: ".9rem" }}>
+      <div className="sub-contact-container" style={{ marginTop: "1.1rem" }}>
         <div className="contact-head">
           <div>
             <h2>{visible ? "Edit Carousel" : "Add Carousel"}</h2>

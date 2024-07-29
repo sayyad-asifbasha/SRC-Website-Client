@@ -7,12 +7,7 @@ function SnackBarListener() {
   const dispatch = useDispatch();
   const { message, variant } = useSelector((state) => state.setSnackBar);
   useEffect(() => {
-    // if (message.length > 0 && variant.length > 0) {
-    //   enqueueSnackbar(message, { variant });
-    // }
-    // dispatch(resetSnackbar());
     if (message && variant) {
-      console.log(message, variant);
       enqueueSnackbar(message, { variant });
     }
     dispatch(resetSnackbar());

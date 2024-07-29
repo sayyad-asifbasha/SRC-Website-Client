@@ -11,7 +11,6 @@ export default function UserVerify() {
   const handleUserVerification = async () => {
     try {
       const res = await axios.get(`${userVerifyApi + authToken}`);
-      console.log(res);
       dispatch(
         setSnackBar({
           message: "Verification success. Please login",

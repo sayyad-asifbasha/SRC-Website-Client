@@ -19,7 +19,6 @@ export default function About() {
   const getAllOfficials = async () => {
     try {
       const res = await axios.get(getAllOfficialsApi);
-      console.log(res.data.data);
       setOfficials(res.data.data);
     } catch (e) {
       console.log(e);

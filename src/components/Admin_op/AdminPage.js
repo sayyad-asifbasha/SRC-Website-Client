@@ -6,21 +6,9 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-import CarouselForm from "./CarouselForm";
-import DomainForm from "./DomainForm";
 import "../../styles/AdminPage.css";
-import NewsForm from "./NewsForm";
-import UpcomingEventForm from "./UpcomingEventForm";
-import Coordinators from "./Coordinators";
-import ContactForum from "./ContactForum";
-import CompletedEventForum from "./CompletedEventForum";
-import ProjectForm from "./ProjectForm";
-import ResourceForm from "./ResourceForm";
-import Testimonals from "./Testimonals";
-import Officials from "./Officials";
-import Cr from "./Cr";
-export default function NestedList() {
+import { Link, Outlet } from "react-router-dom";
+export default function AdminPage() {
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -30,30 +18,6 @@ export default function NestedList() {
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
-  };
-
-  const [value, setValue] = React.useState(0);
-
-  const handleChangeNav = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const [homeAnchorEl, setHomeAnchorEl] = React.useState(null);
-  const [aboutAnchorEl, setAboutAnchorEl] = React.useState(null);
-  const [eventsAnchorEl, setEventsAnchorEl] = React.useState(null);
-  const [projectsAnchorEl, setProjectsAnchorEl] = React.useState(null);
-
-  const handleMenuClick = (setAnchorEl) => (event) => {
-    setAnchorEl(event.currentTarget);
-    // setSelectedIndex(event.target.id);
-    console.log(event.target.id);
-  };
-
-  const handleMenuClose = (setAnchorEl) => (e) => {
-    setAnchorEl(null);
-    // console.log(e.target.id);
-    setSelectedIndex(e.target.id);
-    console.log(selectedIndex);
   };
 
   return (
@@ -85,12 +49,16 @@ export default function NestedList() {
                 <ListItemButton
                   selected={selectedIndex === 1}
                   onClick={(event) => handleListItemClick(event, 1)}
+                  component={Link}
+                  to="carousel"
                 >
                   <ListItemText primary="Carousel" />
                 </ListItemButton>
                 <ListItemButton
                   selected={selectedIndex === 2}
                   onClick={(event) => handleListItemClick(event, 2)}
+                  component={Link}
+                  to="domain"
                 >
                   <ListItemText primary="Domain" />
                 </ListItemButton>
@@ -98,6 +66,8 @@ export default function NestedList() {
                 <ListItemButton
                   selected={selectedIndex === 3}
                   onClick={(event) => handleListItemClick(event, 3)}
+                  component={Link}
+                  to="news"
                 >
                   <ListItemText primary="News" />
                 </ListItemButton>
@@ -122,38 +92,34 @@ export default function NestedList() {
                 <ListItemButton
                   selected={selectedIndex === 12}
                   onClick={(event) => handleListItemClick(event, 12)}
+                  component={Link}
+                  to="officials"
                 >
                   <ListItemText primary="Official Details" />
                 </ListItemButton>
                 <ListItemButton
                   selected={selectedIndex === 4}
                   onClick={(event) => handleListItemClick(event, 4)}
+                  component={Link}
+                  to="coordinators"
                 >
                   <ListItemText primary="Coordinator Details" />
                 </ListItemButton>
                 <ListItemButton
                   selected={selectedIndex === 11}
                   onClick={(event) => handleListItemClick(event, 11)}
+                  component={Link}
+                  to="testimonials"
                 >
                   <ListItemText primary="Testimonals" />
                 </ListItemButton>
                 <ListItemButton
                   selected={selectedIndex === 13}
                   onClick={(event) => handleListItemClick(event, 13)}
+                  component={Link}
+                  to="cr"
                 >
                   <ListItemText primary="Make CR" />
-                </ListItemButton>
-                <ListItemButton
-                  selected={selectedIndex === 10}
-                  onClick={(event) => handleListItemClick(event, 10)}
-                >
-                  <ListItemText primary="Coordinators" />
-                </ListItemButton>
-                <ListItemButton
-                  selected={selectedIndex === 11}
-                  onClick={(event) => handleListItemClick(event, 11)}
-                >
-                  <ListItemText primary="Testimonals" />
                 </ListItemButton>
               </AccordionDetails>
             </Accordion>
@@ -176,12 +142,16 @@ export default function NestedList() {
                 <ListItemButton
                   selected={selectedIndex === 5}
                   onClick={(event) => handleListItemClick(event, 5)}
+                  component={Link}
+                  to="completed-events"
                 >
                   <ListItemText primary="Completed Events" />
                 </ListItemButton>
                 <ListItemButton
                   selected={selectedIndex === 6}
                   onClick={(event) => handleListItemClick(event, 6)}
+                  component={Link}
+                  to="upcoming-events"
                 >
                   <ListItemText primary="Upcoming Events" />
                 </ListItemButton>
@@ -206,12 +176,16 @@ export default function NestedList() {
                 <ListItemButton
                   selected={selectedIndex === 7}
                   onClick={(event) => handleListItemClick(event, 7)}
+                  component={Link}
+                  to="projects"
                 >
                   <ListItemText primary="Projects" />
                 </ListItemButton>
                 <ListItemButton
                   selected={selectedIndex === 8}
                   onClick={(event) => handleListItemClick(event, 8)}
+                  component={Link}
+                  to="resources"
                 >
                   <ListItemText primary="Resources" />
                 </ListItemButton>
@@ -235,44 +209,40 @@ export default function NestedList() {
                 <ListItemButton
                   selected={selectedIndex === 9}
                   onClick={(event) => handleListItemClick(event, 9)}
+                  component={Link}
+                  to="contact-forum"
                 >
                   <ListItemText primary="Contact Forum" />
+                </ListItemButton>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion
+              expanded={expanded === "panel6"}
+              onChange={handleChange("panel6")}
+              sx={{ borderRadius: "0.3rem !important", marginBottom: "4px" }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <ListItemText primary="Feedback" />
+              </AccordionSummary>
+              <AccordionDetails>
+                <ListItemButton
+                  selected={selectedIndex === 14}
+                  onClick={(event) => handleListItemClick(event, 14)}
+                  component={Link}
+                  to="feedback"
+                >
+                  <ListItemText primary="Feedback" />
                 </ListItemButton>
               </AccordionDetails>
             </Accordion>
           </List>
         </div>
         <div>
-          {selectedIndex === 1 ? (
-            <CarouselForm />
-          ) : selectedIndex === 2 ? (
-            <DomainForm />
-          ) : selectedIndex === 3 ? (
-            <NewsForm />
-          ) : selectedIndex === 4 ? (
-            <Coordinators />
-          ) : selectedIndex === 5 ? (
-            <CompletedEventForum />
-          ) : selectedIndex === 6 ? (
-            <UpcomingEventForm />
-          ) : selectedIndex === 7 ? (
-            <ProjectForm />
-          ) : selectedIndex === 8 ? (
-            <ResourceForm />
-          ): selectedIndex === 11 ? (
-            <Testimonals />
-          )
-           : selectedIndex === 9 ? (
-            <ContactForum />
-          ) : selectedIndex === 11 ? (
-            <Testimonals />
-          ) : selectedIndex === 12 ? (
-            <Officials />
-          ) : selectedIndex === 13 ? (
-            <Cr />
-          ) : (
-            <NewsForm />
-          )}
+          <Outlet />
         </div>
       </div>
     </>
